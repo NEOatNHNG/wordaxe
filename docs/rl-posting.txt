@@ -1,0 +1,185 @@
+Hyphenation / Silbentrennung
+
+Hi ReportLab users,
+
+I would like to start a survey on the demand for HYPHENATION
+support in the RLTK.
+
+This is addressed in particular to the non-english users of
+the toolkit using one of the ISO-8859-* char-sets.
+
+To put things short,
+I would like you to answer the following questions:
+
+Q1) How much do your RL applications need hyphenation support,
+    in a range 0-5:
+   0  never needed hyphenation and probably never will.
+   1  Hyphenation is a "nice-to-have", but I can do well without.
+   2  Hyphenation would be a welcome feature in my applications.
+   3  Hyphenation support would be a great benefit for my
+      RL applications and could turn the scale for RL.
+   4  The lack of hyphenation support kept me from taking RL into
+      consideration for some projects.
+   5  Most urgent! The lack of hyphenation support has been a
+      show-stopper for RL and forced me to use other tools than RL.
+
+Q2) What languages do you use in your applications (I mean natural
+    languages like English, German,..., not programming languages).
+   
+Q3) What kind of applications do you use RL for?
+   1 Simple Database Reporting (just output tabular data, perhaps with a
+     master-detail relationship)
+   2 High-quality database reporting - generate output for end-customers,
+     like certificates etc. (including company logo, some flow text and
+     perhaps some tabular data).
+   3 Presentations (i.e. with PythonPoint)
+   4 Documentation (i.e. with ReST), mainly flow text, 
+     perhaps with some images, charts, and tables.
+   5 Mainly simple flow text.
+   6 High-quality brochures, electronic newspapers etc, using complex 
+     layout, images, charts, tables, etc.
+   7 Generating invoices, labels etc. (writing some data into a pre-defined 
+     form - typically without using Platypus)
+   8 Only charts and graphics (you should have answered 0 to Q1, then)
+   9 Not listed here (you can give a short description, if you like)
+
+Q4) What are your requirements on correctness and speed of an automatic
+   hyphenation routine?
+   1  Wouldn't tolerate any wrong or missing hyphenation, regardless of
+      how long it takes -- (dream on, dreamer!)
+   2  The quality is most important for me, not the speed of the process,
+      even if this means 10 seconds overhead per page on a 2GHz machine.
+   3  High quality is important, but it shouldn't take longer than 2s/page.
+   4  At most 1s/page overhead is tolerable, but it should still produce 
+      reasonable quality hyphenations.
+   5  Speed is most important, hyphenation shouldn't take longer than
+      0.25s/page, even if that means low-quality hyphenation (still better
+      than no hyphenation at all).
+
+Some background information
+---------------------------
+
+I used the RLTK for a database report and found it wasn't usable without 
+some patching, because 
+- in germanic languages like German, Dutch, Swedish(?) and others,
+  quite frequently long words with 10 or more letters can occur.
+  That's because in these languages, simple words can be combined to
+  compound words without dashes or spaces in between.
+  Some german examples:
+  English                German
+  user manual            Benutzerhandbuch ("user-hand-book")
+  Prime minister         Premierminister 
+  vice president         Vizepraesident
+  installation manual    Installationsanleitung
+  user management        Benutzerverwaltung
+  (sorry, I don't know)  Bundesgesundheitsministerium
+- when defining the layout for database reports, you often have to find
+  a compromise for the width of columns. Most values in a column are quite
+  short, but the database fields allow storing longer values, and SOME
+  values will be longer (i.e. columns containing a descriptive text).
+
+So, for database reports in germanic languages, 
+you often have long words in narrow columns.
+
+When I tested my application, I found some words running over the edge
+of the column and into the next column, printing over the text there
+and thus making it more or less unreadable.
+| Die         | You can     |  
+| Installationsanleitung    | I
+| und das     | installation|
+| Benutzerhandbuchnual      |
+| finden Sie  | and the     |
+| ...         | user manual |
+|             | ...         |
+This is really unreadable.
+
+At least I saw the problem before rolling-out the software and I was able
+to write a quick'n'dirty work-around: I just wrote as many letters as 
+possible to the current line, leaving the rest for the next line, like this:
+| Die         | You can     |
+| Installatio | find the    | II
+| nsanleitung | installatio |
+| und das     | n manual    |
+| Benutzerhan | and the     |
+| dbuch       | user manual |
+| finden Sie  | ...         |
+| ...         |             |
+This is still ugly, but at least readable.
+
+Now, with automatic hyphenation support, the text would like this:
+| Die Instal- | You can     |
+| lationsan-  | find the    | III
+| leitung und | installa-   |
+| das Benut-  | tion manual |
+| zerhandbuch | and the     |
+| finden Sie  | user manual |
+| ...         | ...         |
+
+For normal flow text, hyphenation support provides a smoother right margin.
+
+Note:
+In the english column, hyphenation hardly makes a difference, 
+because long words are rarely used.
+In the german column, the average right margin (space wasted)
+is 19/7=2.7 characters wide in the non-hyphenated version (II),
+but only 3/6=0.5 characters wide for the hyphenated text (III).
+
+Currently I am working on a hyphenation library for germanic languages.
+It defines a common interface and will allow different hyphenation algorithms
+to be used in the background.
+
+I've also patched the line-breaking algorithm in paragraph.py
+to support hyphenation (by calling the library). However, the line-breaking
+algorithm is still using a word-by-word approach, it only looks at the first
+word that does not fit into the current line any more, finds and rates the 
+possible hyphenation points and then decices what to do with the word
+(squeeze, hyphenate, or put it on the next line), so this is a LOCAL
+optimization for the current line.
+Other, more sophisticated algorithms (Knuth) perform a GLOBAL optimization 
+of the whole paragraph - this should result in a very pretty layout (as known 
+from LaTeX).
+However, as far as I know about the Knuth algorithm (close to nothing),
+it performs hyphenation for the whole paragraph, thus it requires a 
+very fast hyphenation algorithm.
+
+There is currently only one fast hyphenation algorithm publicly available.
+That's libhnj (and it's Python wrapper pyHnj). It works based on PATTERNS
+(an idea from Knuth, again) and is used by TeX and Open Office.
+These patterns are available for a lot of languages.
+However, while it works well for English, the free patterns are of poor 
+quality for some languages - at least this is true for the german patterns.
+
+Anyway, any hyphenation library (including the one I'm developing) should 
+support the pyHnj implementation.
+
+As an alternative algorithm, one can try to decompose compound words
+into simple words:
+Installationsanleitung -> In-stal-la-ti-ons=an-lei-tung.
+The "=" is a main hyphenation point between the two simple words.
+Benutzerhandbuch -> Be-nut-zer=hand=buch
+This approach requires more knowledge about the language
+and a list of word stems, prefixes and suffixes.
+For my library, I've developed such an (experimental) algorithm in pure Python.
+Since it is very slow, it should be rewritten in C once it is mature.
+There are commercial libraries using the same approach as well - at least for
+german, from http://www.duden.de (called "SX Engine" or so),
+and the TU Wien (Technical University of Vienna) has developed a system called
+"SiSiSi" (but it's not open source).
+
+The goal of this survey is to find out what people need at all
+(regarding hyphenation) and if it's worth further spare-time work...
+
+The next steps could be:
+- define an interface for the hyphenation library that fits for
+  most european languages.
+- implement different hyphenation algorithms (PyHnj, etc.)
+- define test cases (e.g. documents with known hyphenation)
+- implement different line-breaking algorithms and compare them.
+
+The library I've written so far works quite well for me 
+and could serve as a base for further discussions.
+
+Are you still reading? Wow!
+OK, that's it. Apologies for my english...
+
+Henning

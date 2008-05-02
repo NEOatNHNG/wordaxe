@@ -1,0 +1,110 @@
+How to install
+--------------
+
+0. The sources have been developed and tested under Python 2.5
+   and ReportLab 2.1.
+   If you are using an older version of Python or ReportLab,
+   it will probably not work without some fiddling, since it uses
+   at least the boolean constants True and False.
+   For users of RL 1.19: Remember that you may have to change your
+   code for RL 2.1 (paragraph encoding should be UTF8).
+
+1. Download the file wordaxe-0.2.5.zip from the SourceForge web site
+   http://sourceforge.net/project/showfiles.php?group_id=105867
+
+2. Unzip the files in the ZIP archive to the root directory
+   (inside the archive, everything is in a directory "wordaxe-0.2.5".
+   This will create the following structure:
+   C:\
+     wordaxe-0.2.5
+       htdocs
+         css
+         examples
+         icons
+         images
+       wordaxe
+         dict
+         rl
+   
+   The files have been developed under MS Windows. Perhaps you need
+   to convert line-endings on other platforms.
+   
+3. Run setup.py install
+
+   Alternatively, make a backup of the file reportlab\pdfbase\rl_codecs.py
+   from your reportlab installation, then overwrite it with the version 
+   found in c:\wordaxe-0.2.5\wordaxe\rl\rl_codecs.py.
+   Note: This will change only 2 lines that effect the handling of
+   the "shy" character.
+   
+4. Add wordaxe to your python path, for example by creating a corresponding
+   file wordaxe.pth in your lib/site-packages directory, containing the text
+   c:\wordaxe-0.2.5
+   Make sure that "import wordaxe" does not produce an error message.
+   
+5. Unless you have used the "shy" character (0xAD) in your text,
+   ReportLab will work exactly like before.
+   
+6. To see the decomposition of compound words for german language in action,
+   navigate to the directory "test" and run the script "test_hyphenation.py".
+   It will create two PDF files, test_hyphenation-plain.pdf and test_hyphenation_styled.pdf.
+   
+7. To see how to add hyphenation support for german text to your own scripts,
+   take a look at test_hyphenation.py. 
+   Basically, you just add these 4 lines to your script
+     from wordaxe import hyphRegistry,DCWHyphenator
+     hyphRegistry['DE'] = DCWHyphenator('DE',5)
+     cellStyle.language = 'DE'
+     cellStyle.hyphenation = True
+   and you replace
+     from reportlab.platypus.paragraph import Paragraph
+     from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+   with
+     from wordaxe.rl.paragraph import Paragraph
+     from wordaxe.rl.styles import ParagraphStyle, getSampleStyleSheet
+     
+
+Remarks:
+
+The pyHnj hyphenation algorithm hung on my private computer (on XP)
+when using umlauts, whereas it worked on another computer (on Win2000).
+If you want to try it, just use
+hyphRegistry['DE'] = PyHnjHyphenator('de_DE')
+
+As a workaround, I added a pure Python version that does not hang on umlauts;
+you can use it by adding the keyword argument purePython=True in the constructor.
+
+The pattern files for the pyHnj hyphenation algorithm (*.dic) 
+are from Open Office (http://www.openoffice.org).
+As far as I know, they can be freely distributed.
+For details of the Open Office license please visit the Open Office web site.
+
+You can run DCWHyphenator.py -g -f testfile.txt
+This will create a file DCWLearn.html.
+Unknown words will be marked red in there.
+Take a look at this file in your browser and see how hyphenation works 
+when you resize your browser window.
+
+You can add your own word stems, prefixes and suffixes 
+to the file "DE_hyph.ini", it is far from perfect!
+The format of this file will probably change (rename the properties etc.)
+An entry can have additional attributes (see at the top of DCWHyphenator.py).
+
+Last-minute:
+A bug has crept in, words like "kennen" are marked as ambiguous.
+That's because the code for shortening "fff"->"ff" etc. is buggy.
+
+TODO:
+* Create a more detailed TODO-list!
+* Documentation
+* Allow "ae" for "ä" and so on (should be quite simple)
+* Code review (never worked with packages before: are the imports in __init__ necessary?)
+* Better performance
+* A BIG database of text with known hyphenation
+  to allow testing different algorithms.
+* Tools for testing 
+* Easy-to-use tools for "learning" (manually adding unknown words to the database)
+* Support for different languages
+* hyphenation in other Reportlab flowables (does it make sense? is it necessary?)
+...
+  

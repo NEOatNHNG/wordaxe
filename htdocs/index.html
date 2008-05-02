@@ -1,0 +1,120 @@
+<html>
+ <head>
+  <title>wordaxe : Hyphenation by decomposition of compound words</title>
+  <meta name="generator" content="TextPad 4.6">
+  <meta name="author" content="Henning von Bargen">
+  <meta name="keywords" content="deco-cow, decomposition of compound words, hyphenation">
+  <meta name="description" content="This is the main page of the deco-cow project.">
+  <link rel="SHORTCUT ICON" href="icons/deco-cow.gif" type="image/gif">
+  <link rel="STYLESHEET" href="css/main.css" type="text/css">
+ </head>
+ <body bgcolor="#ffffff" text="#000000" link="#ff0000" vlink="#800000" alink="#ff00ff" background="?">
+
+	</div>
+   <div align="center" class="titlepage">
+    <h1>wordaxe : Hyphenation by decomposition of compound words</h1>
+    <p>
+     <strong>Release 0.2.5</strong>
+	   <br>
+	   <strong>May 1st, 2008</strong>
+	   <br>
+	   <strong>For more up-to-date information, take a look at the <a href="deco-cow.wiki.sourceforge.net">wiki</a>
+	           or <a href="http://sourceforge.net/project/showfiles.php?group_id=105867">download</a> the package and look at doc directory.</strong>
+    </p>
+   </div>
+  </div>
+  <div>
+   <h2>Description</h2>
+   <p>
+    The <tt>wordaxe</tt> library (formerly known as <tt>deco-cow</tt>)
+    provides Python programs with the ability
+    to automatically hyphenate words using an algorithm
+    which is based on decomposition of compound words into base words,
+    and is named <tt>DCWHyphenator</tt> in the code.
+   </p>
+   <p>Currently, only German language is supported for the DCWHyphenator.
+    Other germanic languages like Nederlands, Dansk, etc.
+    that make heave use of compound words should profit from the
+    algorithm as well - as soon as someone provides a word base.
+   </p>
+   <p>Apart from the DCWHyphenator, the library supports other algorithms
+    as well:
+     <ul>
+      <li><tt>BaseHyphenator</tt> is language-independent and splits words
+          only after a few special characters (in particular, <tt>'-'</tt>).</li>
+      <li><tt>PyHnjHyphenator</tt> is a pure Python implementation of the
+          hyphenation algorithm used in TeX and <a href="http://www.openoffice.org">OpenOffice</a>.</li>
+     </ul>
+   </p>
+   <p>The library can be used as a simple add-on to the
+      <a href="http://www.reportlab.org">ReportLab</a> PDF library,
+      adding support for automatic hyphenation in the Paragraph
+      line-breaking method.
+   </p>
+   <p>The documentation is still far from complete.
+      For more information, look at the text document
+      install.txt in the distribution and the samples.
+   </p>
+   <h2>Facts</h2>
+    <ul>
+     <li><em>Pure Python:</em> The library can work in a pure Python environment,
+         it does not require any C libraries.</li>
+     <li><em>ReportLab support:</em> You can use the hyphenation library for automatic
+         hyphenation of <tt>Paragraph</tt>s in the
+         <a href="http://www.reportlab.org">ReportLab</a> PDF generation toolkit.</li>
+     <li><em>Extendable:</em> The word base is a simple ASCII text file (<tt>DE_hyph.ini</tt>),
+         containing base words, prefixes and suffixes.
+         If you encounter words the algorithm does not know,
+         you can just add the base words, prefixes and suffixes to the file as needed.</li>
+     <li><em>HNJ support:</em> Apart from the DCWHyphenator algorithm, the library
+         supports pyHNJ as well - using the libhnj C library or a pure Python routine.</li>
+     <li><em>Generic:</em> The library provides a generic interface for different
+         hyphenation algorithms. I.E. you could buy a commercial hyphenation library
+         and use wordaxe as a wrapper for it.
+         For possible hyphenation points, the interface (and the wordaxe implementation)
+         defines a quality (good: between base words, not so good: inside a base word)
+         and how to exactly substitute characters in the left and the right side:
+         for example the English word "eighteen" should be hyphenated as "eight-teen",
+         and the German word "Schiffahrt" as "Schiff-fahrt".</li>
+    </ul>
+  </div>
+  <div>
+   <h2>Examples</h2>
+    <p>Here are two PDF files conatining hyphenated german text,
+       created with the deco-cow library and the ReportLab toolkit:</p>
+    <ul>
+     <li><a href="examples/test_hyphenation-plain.pdf"><tt>test_hyphenation-plain.pdf</tt></a> Plain text paragraphs in a table.</li>
+     <li><a href="examples/test_hyphenation-styled.pdf"><tt>test_hyphenation-styled.pdf</tt></a> Styled text paragraphs in a table.</li>
+     <li><a href="examples/test_hyphenation.py"><tt>test_hyphenation.py</tt></a> This is the source script.</li>
+    </ul>
+  </div>
+  <div>
+   <h2>Requirements</h2>
+    <ul>
+     <li><em>Python 2.4:</em> The library was developed with Python 2.5 and should work with Python 2.4 or newer4.
+         It could be back-ported to 2.2 or 2.3, but that would certainly require some fiddling.</li>
+     <li><em>ReportLab 2.1:</em> If you want to use the hyphenation inside the
+         <a href="http://www.reportlab.org">ReportLab toolkit (http://www.reportlab.org)</a>,
+         then you need ReportLab 2.1.
+         Older versions of the library work with ReportLab 2.0 and 1.19 (not recommended).</li>
+     <li><em>PyHnj:</em> If you want to use the libhnj C library (not recommended for German language),
+         then you also need the <a href="http://hkn.eecs.berkeley.edu/~dyoo/python/pyHnj/">pyHnj library</a> from Danny Yoo.</li>
+    </ul>
+  </div>
+  <div>
+   <h2>Licensing</h2>
+    <p>The wordaxe library itself is released under the Apache 2.0 license.</p>
+    <p>If you want to use pyHnj or ReportLab, see the corresponding licenses.</p>
+    <p>The hyphenation dictionary files were taken from the OpenOffice distribution;
+       they are licensed under the GNU LGPL license.</p>
+  </div>
+  <div>
+   <h2>Download</h2>
+    <p>You can <a href="http://sourceforge.net/project/showfiles.php?group_id=105867">download the source</a> from the files section.</p>
+    <p>As usual on Sourceforge.net, you can also access files via anonymous CVS,
+       but note that <strong>the files available via CSV or subversion are outdated</strong>!
+  </div>
+  <hr>
+<a href="http://sourceforge.net"> <img src="http://sourceforge.net/sflogo.php?group_id=105867&amp;type=5" width="210" height="62" border="0" alt="SourceForge.net Logo" /></a>
+ </body>
+</html>

@@ -1,0 +1,15 @@
+include install.txt
+include license.txt
+include releasenotes.txt
+include rl-posting.txt
+include MANIFEST.in
+include docs/*
+include htdocs/*
+include htdocs/css/*
+include htdocs/examples/*
+include htdocs/icons/*
+include htdocs/images/*
+include wordaxe/dict/*.ini
+include wordaxe/dict/*.dic
+include test/*expected.pdf
+include test/*.py

@@ -1,0 +1,99 @@
+Release Notes for wordaxe 0.2.5
+
+H. von Bargen, May 1st, 2008
+
+Release 0.2.5
+
+Refactoring of the hyphenation classes.
+
+The hyphenate function now returns None if the algorithm used
+does not know the word. Otherwise it returns a HyphenatedWord
+instance (the word associated with 0 or more hyphenation points).
+The info attribute of HyphenatedWord instances
+is no longer used.
+
+Common suffix and prefix characters are handled automatically
+That is, "Fliegen!?" will be treated like "Fliegen".
+
+BaseHyphenator: This is the base class for hyphenation,
+words will only be hyphenated after "-" or SHY character.
+
+ExplicitHyphenator, based on BaseHyphenator: You can explicitly
+define the hyphenation for any word you like. If the base hyphenator
+cannot hyphenate a given word, then the explicitly defined words are
+checked.
+
+PyHnjHyphenator: A pattern-based hyphenation algorithm.
+
+DCWHyphenator: This hyphenator works a little bit better than before.
+First, a word is checked for "-" or SHY.
+The components are then processed individually and the results are
+concatenated afterwards.
+For each component,
+* it is first checked for SHY characters. If at least one occurs, 
+  then the component is pre-hyphenated and only the SHY characters
+  result in hyphenation points.
+* Otherwise, the ExplicitHyphenator will be tried. If it knows the
+  word - meaning an explicit hyphenation was defined for this word,
+  that hyphenation will be used.
+* Otherwise, the DCW algorithm is used to hyphenate the component.
+
+This modification has some advantages:
+
+* You can now use just ExplicitHyphenator if you don't want to use
+  the DCWHyphenator for some reason or another. This might be
+  faster in some cases. Note, however, that you then have to
+  explicitly define a hyphenation for each and every word you want
+  to hyphenate.
+  
+* The DCW-Hyphenator now works for words like "ABC-Schütze".
+
+* The code is looking cleaner (at least I think so).
+  
+Known Bugs:
+* RL: The layout for styled paragraphs is wrong if the paragraph
+  is splitted.
+* DCW: "Fremdwort" does not work, i.e. "Konstruktion" is unknown,
+  although the prefix "kon", base word "strukt" and suffix "ion"
+  are defined in the dictionary.
+
+Release 0.2.4 (special thx to Dinu for testing)
+
+* Added new tests
+* The self-test in PyHnjHyphenator now uses purePython.
+* Fixed a bug in PyHnjHyphenator that caused the last character
+  to be hyphenated (as in in-stink-t).
+* Fixed a bug "exception NameError: ... _do_link ..." while
+  rendering hyperlinks.
+
+* Dinu Gherman discovered a serious bug that causes the
+  second part of a splitted paragraph to be rendered
+  incorrectly, iff the paragraph contains inline formatting.
+  For production use, you should
+  - either not use inline formatting
+  - or avoid splitting paragraphs, for example by putting each
+    paragraph into a 1x1-table.
+
+Release 0.2.3:
+The library has been renamed from "deco-cow" to "wordaxe".
+The hyphenation library now supports ReportLab 2.1.
+The installation has become a lot easier, and except for a few 
+lines changed in rl_codec.py, you don't have to change your standard
+ReportLab installation anymore.
+Added documentation.
+
+Release 0.2.2:
+To prevent misunderstandings, throughout the
+software and documentation, the string
+"SiSiSi" has been replaced with "DCW".
+
+The Technical University of Vienna (TU Wien) has
+developed closed-source software called "SiSiSi".
+The deco-cow hyphenation library is not related
+to "SiSiSi".
+For more information about the "SiSiSi" software,
+please visit http://www.ads.tuwien.ac.at/research/SiSiSi/
+
+The trademark character in test_hyphenation.py
+has been escaped. Now the ReportLab test suite
+"runAll.py" should run without errors.

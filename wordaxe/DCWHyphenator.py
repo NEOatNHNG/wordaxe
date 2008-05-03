@@ -77,6 +77,9 @@ class PrefixWordFrag(WordFrag):
     """
     def __init__(self,tw,prefixChars="",prefix=[]):
         if tw is None: tw = WordFrag()
+        # Auch alle sonstigen Attribute der Vorlage mit übernehmen
+        # @TODO Dieser Code ist wirklich hässlich:
+        self.__dict__.update(tw.__dict__)
         WordFrag.__init__(self,konsonantenverkuerzung_3_2=tw.konsonantenverkuerzung_3_2)
         self.prefixChars = prefixChars or tw.prefixChars
         self.prefix = prefix or tw.prefix

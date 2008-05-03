@@ -20,7 +20,7 @@ __license__="""
 import logging
 logging.basicConfig()
 log = logging.getLogger("HyphRules")
-log.setLevel(logging.WARN)
+log.setLevel(logging.WARNING)
 
 from wordaxe.hyphen import SHY, HyphenationPoint
 
@@ -156,15 +156,18 @@ class ForeignWordRule(HyphRule):
         if args: raise ValueError
 
     def check(self,wfrag,when,nextPiece=None):
-        log.debug("check %r,%s,%s", wfrag, when, nextPiece)
+        log.debug("%s check %r,%s,%s", self.__class__, wfrag, when, nextPiece)
         if when==HyphRule.PRE_PIECE:
             if not wfrag.root: # called for a prefix or the root
                 log.debug("PRE_PIECE called for a prefix or the root")
                 if isinstance(nextPiece,Root):
                     setattr(wfrag,self.name,True)      # notify the suffixes
+                    log.debug("Attribut %s gesetzt bei Objekt %s %s", self.name, wfrag.__class__, id(wfrag))
                 return True
             else:               # called for a suffix
                 log.debug("PRE_PIECE called for a suffix")
+                log.debug("self.name=%s", self.name)
+                log.debug("wfrag.id=%s, wfrag.dir=%s", id(wfrag), dir(wfrag))
                 return hasattr(wfrag,self.name)
         elif when==HyphRule.PRE_NEXT_PIECE:
             if isinstance(nextPiece,Root):    # called for the last prefix
@@ -208,6 +211,7 @@ class ONLY_FIRST(HyphRule):
 
     def check(self,wfrag,when,nextPiece=None):
         if when==HyphRule.PRE_PIECE:
+            log.debug("ONLY_FIRST  PRE_PIECE chk, wfrag=%s, nextPiece=%s", wfrag, nextPiece)
             if isinstance(nextPiece,Prefix):
                 return (not wfrag.prefix)
             elif isinstance(nextPiece,Suffix):

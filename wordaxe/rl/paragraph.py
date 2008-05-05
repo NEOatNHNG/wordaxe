@@ -6,9 +6,9 @@
 #history http://www.reportlab.co.uk/cgi-bin/viewcvs.cgi/public/reportlab/trunk/platypus/paragraph.py
 #$Header: /cvsroot/deco-cow/hyphenation/reportlab/platypus/paragraph.py,v 1.1.1.1 2004/04/27 21:19:02 hvbargen Exp $
 #
-# Aenderungen: HVB, Triestram&Partner: Im Notfall Trennung von Woertern.
-#
-# @CHANGED Henning von Bargen
+# @CHANGED Henning von Bargen, added hyphenation support.
+
+# Stand: Wie reportlab.platypus.paragraph.py vom 04.Oktober 2007 (1. Version)
 
 __version__=''' paragraph.py, V 1.0,  Henning von Bargen, $Revision:  1.0 '''
 
@@ -22,6 +22,7 @@ from reportlab.platypus.paragraph import _getFragWords, _sameFrag, _putFragLine
 from reportlab.platypus.paragraph import _justifyDrawParaLineX, _doLink
 from reportlab.platypus.paragraph import _split_blParaSimple, _split_blParaHard
 from reportlab.platypus.paragraph import _drawBullet, _handleBulletWidth
+from reportlab.platypus.paragraph import _56, _16
 import traceback
 import copy
 from wordaxe import SHY, hyphRegistry, hyphen, HyphenatedWord, HyphenationPoint
@@ -143,11 +144,15 @@ def _getFragWords(frags):
     R = []
     W = []
     n = 0
+    hangingStrip = False
     for f in frags:
         text = f.text
         #del f.text # we can't do this until we sort out splitting
                     # of paragraphs
         if text!='':
+            if hangingStrip:
+                hangingStrip = False
+                text = text.lstrip()
             S = split(text)
             if S==[]: S = ['']
             if W!=[] and text[0] in whitespace:
@@ -167,13 +172,22 @@ def _getFragWords(frags):
             w = S[-1]
             W.append((f,w))
             n += stringWidth(w, f.fontName, f.fontSize)
-            if text[-1] in whitespace or text.endswith(hyphen.SHY.encode('utf8')):
+            if text and (text[-1] in whitespace or text.endswith(hyphen.SHY.encode('utf8'))):
                 W.insert(0,n)
                 R.append(W)
                 W = []
                 n = 0
         elif hasattr(f,'cbDefn'):
-            W.append((f,''))
+            w = getattr(f.cbDefn,'width',0)
+            if w:
+                if W!=[]:
+                    W.insert(0,n)
+                    R.append(W)
+                    W = []
+                    n = 0
+                R.append([w,(f,'')])
+            else:
+                W.append((f,''))
         elif hasattr(f, 'lineBreak'):
             #pass the frag through.  The line breaker will scan for it.
             if W!=[]:
@@ -182,6 +196,7 @@ def _getFragWords(frags):
                 W = []
                 n = 0
             R.append([0,(f,'')])
+            hangingStrip = True
 
     if W!=[]:
         W.insert(0,n)
@@ -198,21 +213,27 @@ def _split_blParaHard(blPara,start,stop):
             f.append(w)
         if l is not lines[-1]:
             i = len(f)-1
-            while hasattr(f[i],'cbDefn'): i = i-1
-            g = f[i]
-            #HVB, 2007-11-04 if g.text and g.text[-1]!=' ': g.text += ' '
-            if not g.text:
-                g.text = ' '
-            elif g.text.endswith(hyphen.SHY.encode('utf8')): # = hyphen.shy
-                pass
-                #f.insert(i+1, ParaFrag(text=""))
-            elif g.text[-1]!=' ': g.text += ' '
+            while i>=0 and hasattr(f[i],'cbDefn') and not getattr(f[i].cbDefn,'width',0): i -= 1
+            if i>=0:
+                g = f[i]
+                if not g.text: g.text = ' '
+                elif g.text.endswith(hyphen.SHY.encode('utf8')): pass # = hyphen.shy
+                elif g.text[-1]!=' ': g.text += ' '
     return f
 
 
 # Here, we are changing the breakLines-Routine etc.
 _orig_Paragraph = Paragraph
 class Paragraph(_orig_Paragraph):
+    """
+    This class is a modification of the reportlab.platypus.paragraph.Paragraph
+    class, adding support for automatic hyphenation.
+    For this to work, just define two additional for the paragraph style:
+    hyphenation (boolean): Set this to True to enable hyphenation.
+    language: a language string. It is used as a key for the 
+    wordaxe.hyphRegistry, which returns a Hyphenator instance.
+    It is recommended to use ISO 639 2 or 3 character codes for the language.
+    """
 
     def _setup(self, text, style, bulletText, frags, cleaner):
         if frags is None:
@@ -227,21 +248,60 @@ class Paragraph(_orig_Paragraph):
             self.wrap(availWidth,availHeight)
         blPara = self.blPara
         style = self.style
+        autoLeading = getattr(self,'autoLeading',getattr(style,'autoLeading',''))
         leading = style.leading
         lines = blPara.lines
+        if blPara.kind==1 and autoLeading not in ('','off'):
+            s = height = 0
+            if autoLeading=='max':
+                for i,l in enumerate(blPara.lines):
+                    h = max(1.2*l.fontSize,leading)
+                    n = height+h
+                    if n>availHeight+1e-8:
+                        break
+                    height = n
+                    s = i+1
+            elif autoLeading=='min':
+                for i,l in enumerate(blPara.lines):
+                    h = 1.2*l.fontSize
+                    n = height+1.2*l.fontSize
+                    if n>availHeight+1e-8:
+                        break
+                    height = n
+                    s = i+1
+            else:
+                raise ValueError('invalid autoLeading value %r' % autoLeading)
+        else:
+            l = leading
+            if autoLeading=='max':
+                l = max(leading,1.2*style.fontSize)
+            elif autoLeading=='min':
+                l = 1.2*style.fontSize
+            s = int(availHeight/l)
+            height = s*l
+
         n = len(lines)
-        s = int(availHeight/leading)
-        if s<=1:
-            del self.blPara
-            return []
+        allowWidows = getattr(self,'allowWidows',getattr(self,'allowWidows',1))
+        allowOrphans = getattr(self,'allowOrphans',getattr(self,'allowOrphans',0))
+        if not allowOrphans:
+            if s<=1:    #orphan?
+                del self.blPara
+                return []
         if n<=s: return [self]
+        if not allowWidows:
+            if n==s+1: #widow?
+                if (allowOrphans and n==3) or n>3:
+                    s -= 1  #give the widow some company
+                else:
+                    del self.blPara #no room for adjustment; force the whole para onwards
+                    return []
         func = self._get_split_blParaFunc()
         P1=self.__class__(None,style,bulletText=self.bulletText,frags=func(blPara,0,s))
         #this is a major hack
         P1.blPara = ParaLines(kind=1,lines=blPara.lines[0:s],aH=availHeight,aW=availWidth)
         P1._JustifyLast = 1
         P1._splitpara = 1
-        P1.height = s*leading
+        P1.height = height
         P1.width = availWidth
         if style.firstLineIndent != 0:
             style = deepcopy(style)
@@ -527,11 +587,11 @@ class Paragraph(_orig_Paragraph):
         lines = []
         lineno = 0
         style = self.style
+        fFontSize = float(style.fontSize)
         if style.hyphenation:
             hyphenator = hyphRegistry.get(style.language,None)
         else: # Keine Silbentrennung aktiv
             hyphenator = None
-        fFontSize = float(style.fontSize)
 
         #for bullets, work out width and ensure we wrap the right amount onto line one
         _handleBulletWidth(self.bulletText,style,maxWidths)
@@ -546,6 +606,8 @@ class Paragraph(_orig_Paragraph):
         #print "maxWidth",maxWidth
 
         self.height = 0
+        autoLeading = getattr(self,'autoLeading',getattr(style,'autoLeading',''))
+        calcBounds = autoLeading not in ('','off')
         frags = self.frags
         nFrags= len(frags)
         #HVB20070106 von RL 2.1
@@ -553,6 +615,7 @@ class Paragraph(_orig_Paragraph):
             f = frags[0]
             fontSize = f.fontSize
             fontName = f.fontName
+            ascent, descent = getAscentDescent(fontName,fontSize)
             words = hasattr(f,'text') and split(f.text, ' ') or f.words
             spaceWidth = stringWidth(' ', fontName, fontSize, self.encoding)
             cLine = []
@@ -602,7 +665,7 @@ class Paragraph(_orig_Paragraph):
                 if currentWidth > self.width: self.width = currentWidth
                 lines.append((maxWidth - currentWidth, cLine))
 
-            return f.clone(kind=0, lines=lines)
+            return f.clone(kind=0, lines=lines,ascent=ascent,descent=descent,fontSize=fontSize)
         elif nFrags<=0:
             return ParaLines(kind=0, fontSize=style.fontSize, fontName=style.fontName,
                             textColor=style.textColor, lines=[])
@@ -613,13 +676,14 @@ class Paragraph(_orig_Paragraph):
                 #preserving splitting algorithm
                 return self.blPara
             n = 0
-            #nSp = 0 # HVB20071006 von RL 2.1
             words = [] # HVB20071006 von RL 2.1
             for windx,w in enumerate(_getFragWords(frags)):
-              spaceWidth = stringWidth(' ',w[-1][0].fontName, w[-1][0].fontSize)
-              # HVB: is the above line correct?
-              # To me it seems that spaceWidth is set here to the size of the blank space
-              # to the RIGHT of the word w, while the space is added to the left of w.
+              f=w[-1][0]
+              fontName = f.fontName
+              fontSize = f.fontSize
+              spaceWidth = stringWidth(' ',fontName, fontSize)
+              
+              # TODO Wo gehört maxSize = f.fontSize hin?
               
               tryAgain = True
               while tryAgain:
@@ -637,10 +701,10 @@ class Paragraph(_orig_Paragraph):
                 # Caution: The last element of w can be a HyphenatedWord as well.
                 tryAgain = False
 
-                if n==0:
+                if not words:
                     currentWidth = -spaceWidth   # hack to get around extra space for word 1
-                    #words = [] # HVB20071006 von RL 2.1
-                    maxSize = 0
+                    maxSize = fontSize
+                    maxAscent, minDescent = getAscentDescent(fontName,fontSize)
 
                 wordWidth = w[0]
                 f = w[1][0]
@@ -658,9 +722,19 @@ class Paragraph(_orig_Paragraph):
                     if lineBreak: continue      #throw it away
                     nText = w[1][1]
                     if nText: n += 1
-                    maxSize = max(maxSize,f.fontSize)
-                    # HVB20071006 von RL 2.1 END
-                    if words==[]:
+                    fontSize = f.fontSize
+                    if calcBounds:
+                        cbDefn = getattr(f,'cbDefn',None)
+                        if getattr(cbDefn,'width',0):
+                            descent,ascent = imgVRange(cbDefn.height,cbDefn.valign,fontSize)
+                        else:
+                            ascent, descent = getAscentDescent(f.fontName,fontSize)
+                    else:
+                        ascent, descent = getAscentDescent(f.fontName,fontSize)
+                    maxSize = max(maxSize,fontSize)
+                    maxAscent = max(maxAscent,ascent)
+                    minDescent = min(minDescent,descent)
+                    if not words:
                         g = f.clone()
                         words = [g]
                         g.text = nText
@@ -668,11 +742,19 @@ class Paragraph(_orig_Paragraph):
                         if currentWidth>0 and ((nText!='' and nText[0]!=' ') or hasattr(f,'cbDefn')):
                             if hasattr(g,'cbDefn'):
                                 i = len(words)-1
-                                while hasattr(words[i],'cbDefn'): i -= 1
-                                words[i].text += ' '
+                                while i>=0:
+                                    wi = words[i]
+                                    cbDefn = getattr(wi,'cbDefn',None)
+                                    if cbDefn:
+                                        if not getattr(cbDefn,'width',0):
+                                            i -= 1
+                                            continue
+                                    if not wi.text.endswith(' '):
+                                        wi.text += ' '
+                                    break
                             else:
-                                g.text += ' '
-                            #nSp += 1 HVB20071006 von RL 2.1
+                                if not g.text.endswith(' '):
+                                    g.text += ' '
                         g = f.clone()
                         words.append(g)
                         g.text = nText
@@ -687,8 +769,18 @@ class Paragraph(_orig_Paragraph):
                         g = i[0].clone()
                         g.text=i[1]
                         words.append(g)
-                        maxSize = max(maxSize,g.fontSize)
-
+                        fontSize = g.fontSize
+                        if calcBounds:
+                            cbDefn = getattr(g,'cbDefn',None)
+                            if getattr(cbDefn,'width',0):
+                                descent,ascent = imgVRange(cbDefn.height,cbDefn.valign,fontSize)
+                            else:
+                                ascent, descent = getAscentDescent(g.fontName,fontSize)
+                        else:
+                            ascent, descent = getAscentDescent(g.fontName,fontSize)
+                        maxSize = max(maxSize,fontSize)
+                        maxAscent = max(maxAscent,ascent)
+                        minDescent = min(minDescent,descent)
                     currentWidth = newWidth
 
                 else:
@@ -801,7 +893,8 @@ class Paragraph(_orig_Paragraph):
                         currentWidth = maxWidth-spaceWasted
                     if currentWidth>self.width: self.width = currentWidth
                     #lines.append((spaceWasted, cLine))
-                    lines.append(FragLine(extraSpace=spaceWasted,wordCount=n,words=words, fontSize=maxSize))
+                    lines.append(FragLine(extraSpace=spaceWasted,wordCount=n,
+                                  lineBreak=lineBreak, words=words, fontSize=maxSize, ascent=maxAscent, descent=minDescent))
                     words = []
                     currentWidth = - spaceWidth
                     lineno += 1
@@ -823,7 +916,7 @@ class Paragraph(_orig_Paragraph):
             if words!=[]:
                 if currentWidth>self.width: self.width = currentWidth
                 lines.append(FragLine(extraSpace=(maxWidth - currentWidth),wordCount=n,
-                                    words=words, fontSize=maxSize))
+                                    words=words, fontSize=maxSize, ascent=maxAscent, descent=minDescent))
             return ParaLines(kind=1, lines=lines)
 
         return lines
@@ -837,7 +930,7 @@ class Paragraph(_orig_Paragraph):
         style = self.style
         #for now we only handle one fragment.  Need to generalize this quickly.
         if len(self.frags) > 1:
-            raise ValueError('CJK Wordwrap can only handle one fragment per paragraph for now')
+            raise ValueError('CJK Wordwrap can only handle one fragment per paragraph for now.  Tried to handle:\ntext:  %s\nfrags: %s' % (self.text, self.frags))
         elif len(self.frags) == 0:
             return ParaLines(kind=0, fontSize=style.fontSize, fontName=style.fontName,
                             textColor=style.textColor, lines=[])
@@ -858,7 +951,6 @@ class Paragraph(_orig_Paragraph):
         maxWidth = maxWidths[0]
 
         self.height = 0
-
 
         f = self.frags[0]
 
@@ -889,6 +981,8 @@ class Paragraph(_orig_Paragraph):
         style = self.style
         blPara = self.blPara
         lines = blPara.lines
+        leading = style.leading
+        autoLeading = getattr(self,'autoLeading',getattr(style,'autoLeading',''))
 
         #work out the origin for line 1
         leftIndent = style.leftIndent
@@ -949,17 +1043,21 @@ class Paragraph(_orig_Paragraph):
                 elif self.style.alignment == TA_JUSTIFY:
                     dpl = _justifyDrawParaLine
                 f = blPara
-                cur_y = self.height - f.fontSize
-                if bulletText <> None:
+                cur_y = self.height - getattr(f,'ascent',f.fontSize)    #TODO fix XPreformatted to remove this hack
+                if bulletText:
                     offset = _drawBullet(canvas,offset,cur_y,bulletText,style)
 
                 #set up the font etc.
                 canvas.setFillColor(f.textColor)
 
                 tx = self.beginText(cur_x, cur_y)
+                if autoLeading=='max':
+                    leading = max(leading,1.2*f.fontSize)
+                elif autoLeading=='min':
+                    leading = 1.2*f.fontSize
 
                 #now the font for the rest of the paragraph
-                tx.setFont(f.fontName, f.fontSize, style.leading)
+                tx.setFont(f.fontName, f.fontSize, leading)
                 ws = lines[0][0]
                 t_off = dpl( tx, offset, ws, lines[0][1], noJustifyLast and nLines==1)
                 if f.underline or f.link or f.strike:
@@ -977,27 +1075,31 @@ class Paragraph(_orig_Paragraph):
                     canvas.setStrokeColor(f.textColor)
                     dx = t_off+leftIndent
                     if dpl!=_justifyDrawParaLine: ws = 0
-                    if f.underline: _do_under_line(0, dx, ws, tx)
-                    if f.strike: _do_under_line(0, dx, ws, tx, lm=0.125)
-                    if f.link: _do_link_line(0, dx, ws, tx)
+                    underline = f.underline or (f.link and platypus_link_underline)
+                    strike = f.strike
+                    link = f.link
+                    if underline: _do_under_line(0, dx, ws, tx)
+                    if strike: _do_under_line(0, dx, ws, tx, lm=0.125)
+                    if link: _do_link_line(0, dx, ws, tx)
 
                     #now the middle of the paragraph, aligned with the left margin which is our origin.
                     for i in xrange(1, nLines):
                         ws = lines[i][0]
                         t_off = dpl( tx, _offsets[i], ws, lines[i][1], noJustifyLast and i==lim)
                         if dpl!=_justifyDrawParaLine: ws = 0
-                        if f.underline: _do_under_line(i, t_off+leftIndent, ws, tx)
-                        if f.strike: _do_under_line(i, t_off+leftIndent, tx, ws, lm=0.125)
-                        if f.link: _do_link_line(i, t_off+leftIndent, ws, tx)
+                        if underline: _do_under_line(i, t_off+leftIndent, ws, tx)
+                        if strike: _do_under_line(i, t_off+leftIndent, ws, tx, lm=0.125)
+                        if link: _do_link_line(i, t_off+leftIndent, ws, tx)
                 else:
                     for i in xrange(1, nLines):
                         dpl( tx, _offsets[i], lines[i][0], lines[i][1], noJustifyLast and i==lim)
             else:
                 f = lines[0]
-                cur_y = self.height - f.fontSize
+                cur_y = self.height - getattr(f,'ascent',f.fontSize)    #TODO fix XPreformatted to remove this hack
                 # default?
                 dpl = _leftDrawParaLineX
-                if bulletText <> None:
+                if bulletText:
+                    oo = offset
                     offset = _drawBullet(canvas,offset,cur_y,bulletText,style)
                 if alignment == TA_LEFT:
                     dpl = _leftDrawParaLineX
@@ -1008,7 +1110,7 @@ class Paragraph(_orig_Paragraph):
                 elif self.style.alignment == TA_JUSTIFY:
                     dpl = _justifyDrawParaLineX
                 else:
-                    raise ValueError, "bad align %s" % repr(alignment)
+                    raise ValueError("bad align %s" % repr(alignment))
 
                 #set up the font etc.
                 tx = self.beginText(cur_x, cur_y)
@@ -1023,20 +1125,24 @@ class Paragraph(_orig_Paragraph):
                 xs.strikeColor=None
                 xs.links=[]
                 xs.link=None
-                tx.setLeading(style.leading)
+                xs.leading = style.leading
+                xs.leftIndent = leftIndent
+                tx._leading = None
+                tx._olb = None
                 xs.cur_y = cur_y
                 xs.f = f
                 xs.style = style
+                xs.autoLeading = autoLeading
 
                 tx._fontname,tx._fontsize = None, None
-                t_off = dpl( tx, offset, lines[0], noJustifyLast and nLines==1)
-                _do_post_text(0, t_off+leftIndent, tx)
+                dpl( tx, offset, lines[0], noJustifyLast and nLines==1)
+                _do_post_text(tx)
 
                 #now the middle of the paragraph, aligned with the left margin which is our origin.
-                for i in range(1, nLines):
+                for i in xrange(1, nLines):
                     f = lines[i]
-                    t_off = dpl( tx, _offsets[i], f, noJustifyLast and i==lim)
-                    _do_post_text(i, t_off+leftIndent, tx)
+                    dpl( tx, _offsets[i], f, noJustifyLast and i==lim)
+                    _do_post_text(tx)
 
             canvas.drawText(tx)
             canvas.restoreState()

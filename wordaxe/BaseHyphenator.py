@@ -120,8 +120,8 @@ class BaseHyphenator(Hyphenator):
         return self.stripper.apply_stripped(aWord, self.hyph)
 
     def learn(self,wordlist,htmlFile=None,VERBOSE=False):
-        print sys.stdout.encoding
-        print "VERBOSE:", VERBOSE
+        #print sys.stdout.encoding
+        #print "VERBOSE:", VERBOSE
         cntWords = 0
         cntOK = 0
         unknownWords = []
@@ -218,7 +218,7 @@ class BaseHyphenator(Hyphenator):
                     if not spl: wortliste.append("\n")
             else:
                 wortliste.append(w.decode(encoding))
-                print "%r" % wortliste
+        print "%r" % wortliste
 
         #timer = timeit.Timer(stmt="result=h.learn(wortliste)")
         #timer.timeit(runs)

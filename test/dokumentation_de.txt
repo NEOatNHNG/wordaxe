@@ -18,14 +18,12 @@ Die Bibliothek besteht aber genau genommen aus drei verschiedenen Programmteilen
 
 == <a name="bezug" />Bezugsquelle ==
 
-Die wordaxe Bibliothek wird auf SourceForge verwaltet.
-Auf der SourceForge Projektseite
-<a href="http://deco-cow.sourceforge.net">http://deco-cow.sourceforge.net</a>
-steht allerdings eine veraltete Version der Webseite.
+Die wordaxe Bibliothek wird auf SourceForge verwaltet (<a href="http://deco-cow.sourceforge.net">http://deco-cow.sourceforge.net</a>).
 
-Die jeweils aktuelle Version der Software kann aber über die entsprechende
+Das jeweils aktuelle Release der Software kann aber über die entsprechende
 SourceForge <a href="http://sourceforge.net/project/showfiles.php?group_id=105867">Download-Seite</a>
-heruntergeladen werden.
+heruntergeladen werden. Die allerneueste in Entwicklung befindliche Version
+wird im Sourceforge Subversion-Repository verwaltet.
 
 == Lizenz ==
 

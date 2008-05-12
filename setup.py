@@ -47,5 +47,6 @@ if setupCommand == "install":
         print "backing up %s -> %s" % (src, bak)
         shutil.copy2(src, bak)
         print "copying %s -> %s" % (new, src)
+        shutil.copy2(new, src)
     else:
         print "no update of '%s' needed" % src

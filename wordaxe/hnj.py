@@ -107,7 +107,7 @@ class PyHnjHyphenator(BaseHyphenator):
         hword = HyphenatedWord(aWord)
         loesungen = self.zerlegeWort(aWord)
         if len(loesungen)>1:
-            hword.info = ("AMBIGUOUS", loesungen)
+            #hword.info = ("AMBIGUOUS", loesungen)
             # nimm nur solche Trennstellen, die in allen Lösungen vorkommen,
             # und für die Qualität nimm die schlechteste.
             loesung = []
@@ -129,11 +129,11 @@ class PyHnjHyphenator(BaseHyphenator):
                     loesung.append(HyphenationPoint(hp.indx,q,hp.nl,hp.sl,hp.nr,hp.sr))
         elif len(loesungen)==1:
             loesung = loesungen[0]
-            hword.info = ("HYPHEN_OK", loesung)
+            #hword.info = ("HYPHEN_OK", loesung)
             if not loesung:
-                hword.info = ("NOT_HYPHENATABLE", aWord)
+                #hword.info = ("NOT_HYPHENATABLE", aWord)
         else:
-            hword.info = ("UNKNOWN", aWord)
+            #hword.info = ("UNKNOWN", aWord)
             loesung = []
             #for i in range(len(aWord)):
             for i in range(1,len(aWord)-1):

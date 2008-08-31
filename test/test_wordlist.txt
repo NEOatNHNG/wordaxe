@@ -28,7 +28,7 @@ mit             mit
 mir             mir
 ein             ein
 weizenbier      wei-zen-bier
-gewürzKetchup   Ge-würz-Ket-chup
+GewürzKetchup   Ge-würz-Ketchup
 hotelier        ho-te-lier
 friseur         fri-seur
 panzergrenadier pan-zer-gre-na-dier

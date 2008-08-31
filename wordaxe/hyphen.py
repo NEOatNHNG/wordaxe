@@ -22,7 +22,7 @@ __version__=''' hyphen.py, V 1.0,  Henning von Bargen, $Revision:  1.0 '''
 from copy import copy
 SHY = "\xAD".decode("iso-8859-1")
 
-class HyphenationPoint:
+class HyphenationPoint(object):
     """
     A possible hyphenation point in a HyphenatedWord.
     
@@ -63,7 +63,7 @@ class HyphenationPoint:
       HyphenationPoint(5,q,0,"f"+shy,0,"")
       This could also be expressed as HyphenationPoint(6,q,0,shy,0,"f").
     """
-    __slots__ = ["indx","quality","nl","sr","nr","sr"]
+    __slots__ = ["indx","quality","nl","sl","nr","sr"]
     def __init__(self,indx,quality,nl=0,sl=u"",nr=0,sr=u""):
         self.indx = indx
         self.quality = quality
@@ -76,7 +76,19 @@ class HyphenationPoint:
     def __repr__(self):
         return 'HyphenationPoint(%d,%d,%d,%s,%d,%s)' % (self.indx,self.quality,self.nl,`self.sl`,self.nr,`self.sr`)
 
-class HyphenatedWord:
+def _lshift(hyphenations, amt):
+    "Moves the hyphenation points left"
+    hyph = []
+    for h in hyphenations:
+        if type(h) is int:
+            if h > amt: 
+                hyph.append(h-amt)
+        else:
+            if h.indx > amt:
+                hyph.append(HyphenationPoint(h.indx-amt,h.quality,h.nl,h.sl,h.nr,h.sr))
+    return hyph
+
+class HyphenatedWord(unicode):
     """
     A hyphenated word.
     
@@ -88,17 +100,28 @@ class HyphenatedWord:
     See also class Hyphenator for an explanation.
     """
 
-    def __init__(self, word, hyphenations=[]):
+    __slots__ = ["hyphenations",]
+    
+    def __new__(klass, word, hyphenations=None, encoding="utf-8", errors='strict'):
+        if isinstance(word, unicode):
+            return unicode.__new__(klass, word)
+        return unicode.__new__(klass, word, encoding, errors)
+    
+    def __init__(self, word, hyphenations=None, encoding="utf-8", errors='strict'):
         "Constructor using the string aWord and a list of hyphenation points."
-        assert isinstance(word, unicode)
-        self.word = word
-        self.hyphenations = hyphenations[:]
+        super(HyphenatedWord, self).__init__(word, encoding, errors)
+        if hyphenations is not None:
+            self.hyphenations = hyphenations
+        elif hasattr(word, "hyph"):
+            self.hyphenations = word.hyphenations
+        else:
+            raise ValueError("'hyphenations' Argument is missing")
             
     def __str__(self):
-        return ("HyphWord(%s)" % self.word)
+        return self.encode("utf-8")
 
     def __repr__(self):
-        return ("HyphenatedWord(%r)" % self.word)
+        return ("HyphenatedWord(%s)" % super(HyphenatedWord, self).__repr__())
 
     def split(self, hp):
         """Performs a split at the given hyphenation point.
@@ -107,14 +130,27 @@ class HyphenatedWord:
            where left is a string (the left part, including the hyphenation character)
            and right is a HyphenatedWord describing the rest of the word.
         """
-        left = self.word[:hp.indx-hp.nl]+hp.sl
+        if type(hp) is int:
+            left = self[:hp] + SHY
+            hyph = _lshift (self.hyphenations, hp)
+            print hyph
+            right = self.__class__(self[hp:], hyphenations=hyph)
+        else:
+            shift = hp.indx-hp.nr+len(hp.sr)
+            left = self[:hp.indx-hp.nl] + hp.sl
+            hyph = _lshift (self.hyphenations, shift)
+            right = self.__class__(hp.sr+self[hp.indx+hp.nr:], hyphenations=hyph)
         assert isinstance(left, unicode)
-        right = HyphenatedWord(hp.sr+self.word[hp.indx+hp.nr:])
-        shift = hp.indx-hp.nr+len(hp.sr)
-        right.hyphenations = [HyphenationPoint(h.indx-shift,h.quality,h.nl,h.sl,h.nr,h.sr)
-                              for h in self.hyphenations if h.indx>hp.indx
-                             ]
+        assert isinstance(right, self.__class__)
         return (left,right)
+        
+    def prepend(self, string):
+        "Allows adding prefix chars (such as '('), returning a new HyphenatedWord"
+        return self.__class__(unicode(string) + self, hyphenations=_lshift(self.hyphenations,-len(string)))
+
+    def append(self, string):
+        "Allows adding suffix chars (such as ')'), returning a new HyphenatedWord"
+        return self.__class__(self + unicode(string), hyphenations=self.hyphenations)
             
     def showHyphens(self):
         "Returns the possible hyphenations as a string list, for debugging purposes."
@@ -124,19 +160,11 @@ class HyphenatedWord:
             L.append("%s %s (%d)" % (left,right.word, h.quality))
         return L
         
-    def prepend(self, prefix):
-        "Prepends a prefix to the word. The hyphenation points are shifted accordingly."
-        assert isinstance(prefix, unicode)
-        self.word = prefix + self.word
+    def get_hyphenations(self):
+        "Returns an iteration of the possible hyphenations."
         for hp in self.hyphenations:
-            hp.indx += len(prefix)
-            
-    def append(self, suffix):
-        "Appends a suffix to the word. The hyphenation points are shifted accordingly."
-        assert isinstance(suffix, unicode)
-        self.word += suffix
-        # Nothing to to for the hyphenations
-        
+            yield self.split(hp)
+                
     @staticmethod 
     def join(*hyphwords):
         """
@@ -151,22 +179,19 @@ class HyphenatedWord:
             hyphwords = hyphwords[0]
         for w in hyphwords:
             assert isinstance(w,HyphenatedWord)
-        result = HyphenatedWord(u"".join([w.word for w in hyphwords]))
-        hps = result.hyphenations
+        word = u"".join(hyphwords)
+        hps = []
         offset = 0
         for w in hyphwords:
-            for h in w.hyphenations:
-                hp = copy(h)
-                hp.indx += offset
-                hps.append(hp)
+            hps += _lshift(w.hyphenations, -offset)
             if w is not hyphwords[-1]:
                 #print w.word
-                if w.word.endswith(u"-") or w.word.endswith(SHY):
-                    hps.append(HyphenationPoint(offset+len(w.word), quality=9))
+                if w.endswith(u"-") or w.endswith(SHY):
+                    hps.append(HyphenationPoint(offset+len(w), quality=9))
                 else:
-                    hps.append(HyphenationPoint(offset+len(w.word), quality=9, sl=SHY))
-                offset += len(w.word)
-        return result            
+                    hps.append(HyphenationPoint(offset+len(w), quality=9, sl=SHY))
+                offset += len(w)
+        return HyphenatedWord(word, hyphenations=hps)
 
 class Hyphenator:
     """
@@ -264,8 +289,6 @@ class Hyphenator:
         if hyphenatedWord is not None:
             assert isinstance(hyphenatedWord, HyphenatedWord)
             assert type(hyphenatedWord.hyphenations) == list
-            for hp in hyphenatedWord.hyphenations:
-                assert isinstance(hp,HyphenationPoint)
                 
     def i_hyphenate(self, aWord):
         """

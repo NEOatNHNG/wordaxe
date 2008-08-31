@@ -65,9 +65,9 @@ class Stripper:
             return None
         if isinstance(result, HyphenatedWord):
             if prefix:
-                result.prepend(prefix)
+                result = result.prepend(prefix)
             if suffix:
-                result.append(suffix)
+                result = result.append(suffix)
         else:
             result = prefix + result + suffix
         return result
@@ -91,7 +91,7 @@ class BaseHyphenator(Hyphenator):
     
     def hyph(self,word):
         "Internal worker function."
-        hword = HyphenatedWord(word)
+        hword = HyphenatedWord(word, hyphenations=[])
         # strip common prefix- and suffix-characters
         l = len(word)
         if l < self.minWordLength:

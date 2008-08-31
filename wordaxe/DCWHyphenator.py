@@ -828,7 +828,7 @@ class DCWHyphenator(ExplicitHyphenator):
             assert u"".join(words) == aWord, "%r != %r" % (u"".join(words), aWord)
             for indx in range(len(words)):
                 if hwords[indx] is None:
-                    hwords[indx] = HyphenatedWord(words[indx])
+                    hwords[indx] = HyphenatedWord(words[indx], hyphenations=[])
             return HyphenatedWord.join(hwords)
         else:        
             return hwords[0] # Kann auch None sein.

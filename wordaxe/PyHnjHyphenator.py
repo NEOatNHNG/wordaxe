@@ -112,8 +112,7 @@ class PyHnjHyphenator(BaseHyphenator):
         
     def hyph(self,aWord):
         assert isinstance(aWord, unicode)
-        hword = HyphenatedWord(aWord)
-        hword.hyphenations = self.zerlegeWort(aWord)
+        hword = HyphenatedWord(aWord, hyphenations=self.zerlegeWort(aWord))
         # None (unknown) kann hier nicht vorkommen, da der
         # Algorithmus Musterbasiert funktioniert und die Wörter
         # sowieso nicht "kennt" oder "nicht kennt".

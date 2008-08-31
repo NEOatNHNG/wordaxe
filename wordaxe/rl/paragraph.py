@@ -369,12 +369,12 @@ class Paragraph(_orig_Paragraph):
                 word = hyphenator.hyphenate(uniword)
                 # HVB, 29.04.2008
                 if word is None:
-                    word = HyphenatedWord(uniword)
+                    word = HyphenatedWord(uniword, hyphenations=[])
                 #if self.debug and not word.hyphenations and word.info[0] != "NOT_HYPHENATABLE":
                 #    print "---- %s : %s" % (word.word,word.info)
             else:
                 ### word = HyphenatedWord(word)
-                word = HyphenatedWord(uniword)
+                word = HyphenatedWord(uniword, hyphenations=[])
             
         #print "findBestSolution %s %s" % (cLine,word.word)
         if hyphenator is None:
@@ -382,21 +382,21 @@ class Paragraph(_orig_Paragraph):
                 #FALSCH return (self.OVERFLOW, word, 0, "", maxWidth-currentWidth)
                 return (self.OVERFLOW, "", word, maxWidth-currentWidth)
             else:
-                wordWidth = stringWidth(word.word,fontName,fontSize)
+                wordWidth = stringWidth(word,fontName,fontSize)
                 leftWidth = currentWidth + spaceWidth + wordWidth
-                return (self.SQUEEZE, word.word, None, maxWidth-leftWidth)
+                return (self.SQUEEZE, word, None, maxWidth-leftWidth)
         # try OVERFLOW
         quality = self.rateHyph(0,cLine,maxWidth-currentWidth,spaceWidth)
         bestSolution = (self.OVERFLOW, "", word, maxWidth-currentWidth)
         #print "OV"
         # try SQUEEZE
         if trySqueeze and len(cLine):
-            wordWidth = stringWidth(word.word,fontName,fontSize)
+            wordWidth = stringWidth(word,fontName,fontSize)
             leftWidth = currentWidth + spaceWidth + wordWidth
             q = self.rateHyph(0,cLine,maxWidth-leftWidth,spaceWidth)
             if q>quality:
                 #print "SQZ"
-                bestSolution = (self.SQUEEZE, word.word, None, maxWidth-leftWidth)
+                bestSolution = (self.SQUEEZE, word, None, maxWidth-leftWidth)
                 quality = q
         # try HYPHENATE
         for hp in word.hyphenations:
@@ -411,7 +411,7 @@ class Paragraph(_orig_Paragraph):
         if bestSolution[0] is self.OVERFLOW and not cLine:
             # We have to make a hard break in the word
             #print "FORCE Hyphenation"
-            for p in range(1,len(word.word)):
+            for p in range(1,len(word)):
                 left,right = word.split(HyphenationPoint(p,1,0,"",0,""))
                 if left[-1:] not in ["-",SHY]: 
                     left = left + SHY
@@ -627,7 +627,7 @@ class Paragraph(_orig_Paragraph):
                 tryAgain = False
                 wordStr = word
                 if isinstance(word,HyphenatedWord):
-                    wordStr = word.word #HVB20060907 muss hier auf UTF8 geachtet werden?
+                    wordStr = word #HVB20060907 muss hier auf UTF8 geachtet werden?
                 wordWidth = stringWidth(wordStr, fontName, fontSize, self.encoding)
                     
                 newWidth = currentWidth + spaceWidth + wordWidth
@@ -795,7 +795,7 @@ class Paragraph(_orig_Paragraph):
                     # than we have added the hyphenated word as the last element to the list w.
                     if isinstance(w[-1],HyphenatedWord):
                         hyphWord = w[-1]
-                        wordstr = hyphWord.word
+                        wordstr = hyphWord
                     else:
                         wordstr = "".join([pfrag[1] for pfrag in w[1:]])
                         uniwordstr = wordstr.decode(self.encoding)
@@ -803,13 +803,13 @@ class Paragraph(_orig_Paragraph):
                             hyphWord = hyphenator.hyphenate(uniwordstr)
                             # HVB, 29.04.2008
                             if hyphWord is None:
-                                hyphWord = HyphenatedWord(uniwordstr)
+                                hyphWord = HyphenatedWord(uniwordstr, hyphenations=[])
                         else:
                             #if not uniwordstr:
                             #    print "TODO Leeres Wort ergibt sich aus pfrag[1] for pfrag in w[1:]]"
-                            hyphWord = HyphenatedWord(uniwordstr)
-                        if self.debug and not hyphWord.hyphenations and hyphWord.info[0] != "NOT_HYPHENATABLE":
-                            print "---- %s : %s" % (hyphWord.word,hyphWord.info)
+                            hyphWord = HyphenatedWord(uniwordstr, hyphenations=[])
+                        #if self.debug and not hyphWord.hyphenations and hyphWord.info[0] != "NOT_HYPHENATABLE":
+                        #    print "---- %s : %s" % (hyphWord.word,hyphWord.info)
                         w.append(hyphWord)
 
                     nFragments = len(w)-2 # w[0] is width, w[-1] the hyphWord

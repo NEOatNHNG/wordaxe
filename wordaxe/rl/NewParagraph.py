@@ -229,10 +229,10 @@ class StyledText(StyledFragment):
             text = unicode(text, "utf-8")
         return StyledText(text, frag)
         
-class StyledWhitespace(StyledFragment):
+class StyledWhiteSpace(StyledFragment):
     "Used for every token that delimits words."
 
-class StyledSpace(StyledWhitespace):
+class StyledSpace(StyledWhiteSpace):
     "A spacer in some style"
     def __init__(self, style, text=u" "):
         super(StyledSpace, self).__init__(style)
@@ -244,7 +244,7 @@ class StyledSpace(StyledWhitespace):
 
     __repr__ = __str__
         
-class StyledNewLine(StyledWhitespace):
+class StyledNewLine(StyledWhiteSpace):
     "A new line"
 
     def __str__(self):
@@ -270,17 +270,28 @@ class StyledWord(Fragment):
 class Line(object):
     "A single line in the paragraph"
      
-    def __init__(self, fragments, width, height, baseline):
+    def __init__(self, fragments, width, height, baseline, keepWhiteSpace):
         for frag in fragments: assert isinstance(frag, Fragment)
         self.fragments = fragments
         self.width = width
         #print fragments
         #print "Line width:", width, sum(getattr(f, "width",0) for f in fragments)
-        assert self.width + 1e-6 >= sum(getattr(f,"width",0) for f in fragments)
+        assert abs(self.width - sum(getattr(f,"width",0) for f in fragments)) <= 1e-5
         self.height = height
         self.baseline = baseline
         assert 0 <= self.baseline
         assert baseline <= height
+        # kill WhiteSpace at beginning and end of line
+        if not keepWhiteSpace:
+            while self.fragments and isinstance (self.fragments[0], StyledWhiteSpace):
+                ws = self.fragments.pop(0)
+                self.width -= ws.width
+            while self.fragments and isinstance (self.fragments[-1], StyledWhiteSpace):
+                ws = self.fragments.pop(-1)
+                self.width -= ws.width
+            # TODO: What to do with two differently styled spaces 
+            #       in the middle of the line?
+        
          
     def __str__(self):
         return "Line(%s)" % (",".join(str(frag) for frag in self.fragments))
@@ -291,13 +302,14 @@ class Line(object):
 class Paragraph(Flowable):
     "A simple new implementation for Paragraph flowables."
     
-    def __init__(self, text, style, bulletText = None, frags=None, lines=None, caseSensitive=1, encoding='utf-8'):
+    def __init__(self, text, style, bulletText = None, frags=None, lines=None, caseSensitive=1, encoding='utf-8', keepWhiteSpace=False):
         """
         Either text and style or frags must be supplied.
         """
         self.caseSensitive = caseSensitive
         self.style = style
         self.bulletText = bulletText
+        self.keepWhiteSpace = keepWhiteSpace # TODO: Unterstützen
         
         if text is None:
             assert frags is not None or lines is not None
@@ -418,7 +430,7 @@ class Paragraph(Flowable):
                     lineHeight = self.style.leading # TODO correct height calculation
                     print lineHeight, 
                     baseline = 0   # TODO correct baseline calculation
-                    line = Line(lineFrags, width, lineHeight, baseline)
+                    line = Line(lineFrags, width, lineHeight, baseline, self.keepWhiteSpace)
                     lines.append(line)
                     lineFrags = []
                     width = 0
@@ -433,7 +445,7 @@ class Paragraph(Flowable):
             # Everything did fit
             lineHeight = self.calcLineHeight(lineFrags)
             baseline = 0   # TODO correct baseline calculation
-            line = Line(lineFrags, width, lineHeight, baseline)
+            line = Line(lineFrags, width, lineHeight, baseline, self.keepWhiteSpace)
             lines.append(line)
             width = 0
             sumHeight += lineHeight
@@ -618,11 +630,48 @@ class Paragraph(Flowable):
     def _leftDrawParaLineX( self, tx, offset, line, last=0):
         # TODO 20080911 ist eher unsinnig! Die Breite des Absatzes kann ja im Verlauf schwanken,
         # z.B. wenn der Absatz um ein Bild herumfließen soll
-        if line.width > self._width: 
+        extraSpace = self._width - line.width
+        if extraSpace < 0: 
             return _justifyDrawParaLineX(tx,offset,line,last)
         setXPos(tx,offset)
         _putFragLine(offset, tx, line)
         setXPos(tx,-offset)
+
+    def _rightDrawParaLineX( self, tx, offset, line, last=0):
+        # s.o.
+        extraSpace = self._width - line.width
+        if extraSpace < 0: 
+            return _justifyDrawParaLineX(tx,offset,line,last)
+        m = offset + extraSpace
+        setXPos(tx,m)
+        _putFragLine(m, tx, line)
+        setXPos(tx,-m)
+
+    def _centerDrawParaLineX( self, tx, offset, line, last=0):
+        # s.o.
+        extraSpace = self._width - line.width
+        if extraSpace < 0: 
+            return _justifyDrawParaLineX(tx,offset,line,last)
+        m = offset + 0.5 * extraSpace
+        setXPos(tx, m)
+        _putFragLine(m, tx, line)
+        setXPos(tx,-m)
+        
+    def _justifyDrawParaLineX( self, tx, offset, line, last=0):
+        # s.o.
+        extraSpace = self._width - line.width
+        setXPos(tx,offset)
+        frags = line.fragments
+        nSpaces = sum([len(frag.text) for frag in frags if isinstance(frag, StyledSpace)])
+        if last or not nSpaces or abs(extraSpace)<=1e-8 or isinstance(frags[-1], StyledNewLine):
+            _putFragLine(offset, tx, line)  #no space modification
+        else:
+            tx.setWordSpace(extraSpace / float(nSpaces))
+            _putFragLine(offset, tx, line)
+            tx.setWordSpace(0)
+        setXPos(tx,-offset)
+        
+        
 
 if True:
     # Test
@@ -681,6 +730,7 @@ if True:
         normal.leading = 16
         normal.language = 'DE'
         normal.hyphenation = True
+        normal.alignment = TA_JUSTIFY
     
         text = "Bedauerlicherweise ist ein DonaudampfschiffkapitÃ¤n auch nur ein DampfschiffkapitÃ¤n."
         # strange behaviour when next line uncommented

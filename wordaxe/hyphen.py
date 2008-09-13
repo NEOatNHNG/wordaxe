@@ -123,6 +123,27 @@ class HyphenatedWord(unicode):
     def __repr__(self):
         return ("HyphenatedWord(%s)" % super(HyphenatedWord, self).__repr__())
 
+    def __add__(self, other):
+        """(other) -> instance of this class
+        Like unicode.__add__, but assumes that the other element
+        is either unicode or an utf-8 encoded string.
+        """
+        if not isinstance(other,unicode):
+            other = unicode(other, "utf-8")
+        return unicode(unicode.__add__(self, other))
+
+    def __radd__(self, other):
+        """(other) -> instance of this class
+        Like unicode.__add__, but assumes that the other element
+        is either unicode or an utf-8 encoded string.
+        """
+        if isinstance(other, basestring):
+            if not isinstance(other,unicode):
+                other = unicode(other, "utf-8")
+            return unicode(unicode.__add__(other, self))
+        else:
+            return NotImplemented
+
     def split(self, hp):
         """Performs a split at the given hyphenation point.
         

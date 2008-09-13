@@ -17,7 +17,7 @@ __license__="""
    limitations under the License.
 """
 
-from wordaxe.hyphen import HyphenatedWord
+from wordaxe.hyphen import SHY, HyphenatedWord
 from wordaxe.BaseHyphenator import BaseHyphenator
 from wordaxe.hyphrules import decodeTrennung
 
@@ -108,6 +108,52 @@ class ExplicitHyphenator(BaseHyphenator):
     def i_hyphenate(self, aWord):
         assert isinstance(aWord, unicode)
         return self.stripper.apply_stripped(aWord, self.hyph)
+
+    def i_hyphenate_derived(self,aWord):
+        """
+        You can use this method in classes derived from ExplicitHyphenator.
+        It will first split the word using BaseHyphenator,
+        then for each "subword" it will call ExplicitHyphenator,
+        and only call the derived classes hyph method for the still
+        unknown subwords.
+        """
+        assert isinstance(aWord, unicode)
+        hwords = []
+        rest = aWord
+        words = []
+        while rest:
+            i = rest.find(u"-")
+            if i<0 or i+1==len(rest):
+                words.append(rest)
+                break
+            words.append(rest[:i+1])
+            rest = rest[i+1:]
+        assert words, "words is leer bei Eingabe %r" % aWord
+        for indx, word in enumerate(words):
+            if not word:
+                # Nur "-"
+                raise NotImplementedError("Sonderfall -", aWord, words)
+            if SHY in word:
+                # Das Wort ist vorgetrennt
+                hword = BaseHyphenator.hyph(self,word)
+            else:
+                # Prüfen, ob Trennung explizit vorgegeben (Sonderfälle)
+                def func(word):
+                    return ExplicitHyphenator.hyph(self, word)
+                hword = self.stripper.apply_stripped(word, func)
+                if hword is None:
+                    hword = self.stripper.apply_stripped(word, self.hyph)
+            hwords.append(hword)
+        assert len(hwords) == len(words)
+        if len(words) > 1:
+            assert u"".join(words) == aWord, "%r != %r" % (u"".join(words), aWord)
+            for indx in range(len(words)):
+                if hwords[indx] is None:
+                    hwords[indx] = HyphenatedWord(words[indx], hyphenations=[])
+            return HyphenatedWord.join(hwords)
+        else:        
+            return hwords[0] # Kann auch None sein.
+
 
 if __name__=="__main__":
     h = ExplicitHyphenator("DE",5)

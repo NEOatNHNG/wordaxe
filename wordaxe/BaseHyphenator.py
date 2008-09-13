@@ -118,7 +118,7 @@ class BaseHyphenator(Hyphenator):
     def i_hyphenate(self,aWord):
         assert isinstance(aWord, unicode)
         return self.stripper.apply_stripped(aWord, self.hyph)
-
+        
     def learn(self,wordlist,htmlFile=None,VERBOSE=False):
         #print sys.stdout.encoding
         #print "VERBOSE:", VERBOSE

@@ -25,11 +25,11 @@ import copy
 from wordaxe.hyphen import *
 from xml.sax.saxutils import escape,quoteattr
 
-from wordaxe.BaseHyphenator import BaseHyphenator
+from wordaxe.ExplicitHyphenator import ExplicitHyphenator
 
 VERBOSE = False
 
-class PyHnjHyphenator(BaseHyphenator):
+class PyHnjHyphenator(ExplicitHyphenator):
     """
     Hyphenation using pyHnj (Knuth's algorithm).
     The pyHnj/libhnj code does not work if german words contain umlauts.
@@ -48,7 +48,7 @@ class PyHnjHyphenator(BaseHyphenator):
             The purePython version does NOT use Knuth's algorithm,
             but a more simple (and slower) algorithm.
         """
-        BaseHyphenator.__init__(self,language=language,minWordLength=minWordLength)
+        ExplicitHyphenator.__init__(self,language=language,minWordLength=minWordLength)
         if hyphenDir is None:
             hyphenDir = os.path.join(os.path.split(__file__)[0], "dict")
         self.purePython = purePython
@@ -114,13 +114,12 @@ class PyHnjHyphenator(BaseHyphenator):
         assert isinstance(aWord, unicode)
         hword = HyphenatedWord(aWord, hyphenations=self.zerlegeWort(aWord))
         # None (unknown) kann hier nicht vorkommen, da der
-        # Algorithmus Musterbasiert funktioniert und die Wörter
+        # Algorithmus musterbasiert funktioniert und die Wörter
         # sowieso nicht "kennt" oder "nicht kennt".
         return hword
 
     def i_hyphenate(self, aWord):
-        assert isinstance(aWord, unicode)
-        return self.stripper.apply_stripped(aWord, self.hyph)
+        return ExplicitHyphenator.i_hyphenate_derived(self, aWord)
     
 if __name__=="__main__":
     h = PyHnjHyphenator("de_DE",5, purePython=True)

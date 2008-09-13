@@ -787,51 +787,7 @@ class DCWHyphenator(ExplicitHyphenator):
         return HyphenatedWord(word, loesung)
         
     def i_hyphenate(self,aWord):
-        assert isinstance(aWord, unicode)
-        # Zunächst einmal ganz grob trennen (nur bei "-").
-        #words = aWord.split(u"-")
-        #hwords = []
-        #for indx, word in enumerate(words):
-        #    if not word:
-        #        # Nur "-"
-        #        raise NotImplementedError("Sonderfall -", aWord, words)
-        #    if indx + 1 < len(words):
-        #        words[indx] = words[indx] + u"-"
-        hwords = []
-        rest = aWord
-        words = []
-        while rest:
-            i = rest.find(u"-")
-            if i<0 or i+1==len(rest):
-                words.append(rest)
-                break
-            words.append(rest[:i+1])
-            rest = rest[i+1:]
-        assert words, "words is leer bei Eingabe %r" % aWord
-        for indx, word in enumerate(words):
-            if not word:
-                # Nur "-"
-                raise NotImplementedError("Sonderfall -", aWord, words)
-            if SHY in word:
-                # Das Wort ist vorgetrennt
-                hword = BaseHyphenator.hyph(self,word)
-            else:
-                # Prüfen, ob Trennung explizit vorgegeben (Sonderfälle)
-                def func(word):
-                    return ExplicitHyphenator.hyph(self, word)
-                hword = self.stripper.apply_stripped(word, func)
-                if hword is None:
-                    hword = self.stripper.apply_stripped(word, self.hyph)
-            hwords.append(hword)
-        assert len(hwords) == len(words)
-        if len(words) > 1:
-            assert u"".join(words) == aWord, "%r != %r" % (u"".join(words), aWord)
-            for indx in range(len(words)):
-                if hwords[indx] is None:
-                    hwords[indx] = HyphenatedWord(words[indx], hyphenations=[])
-            return HyphenatedWord.join(hwords)
-        else:        
-            return hwords[0] # Kann auch None sein.
+        return ExplicitHyphenator.i_hyphenate_derived(self, aWord)
 
 if __name__=="__main__":
     h = DCWHyphenator("DE",5)

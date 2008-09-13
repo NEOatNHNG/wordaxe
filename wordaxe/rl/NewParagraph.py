@@ -23,8 +23,7 @@ def _do_post_text(tx):
     leading = xs.style.leading
     autoLeading = xs.autoLeading
 
-    print "TODO: _do_post_text - Problem: Line object has no attribute fontsize"
-    if False:
+    if True:
         f = xs.f
         if autoLeading=='max':
             leading = max(leading,1.2*f.fontSize)
@@ -291,7 +290,21 @@ class Line(object):
                 self.width -= ws.width
             # TODO: What to do with two differently styled spaces 
             #       in the middle of the line?
-        
+
+        # Compute font size
+        maxSize = 0
+        for frag in fragments:
+            if isinstance(frag, StyledWord):
+                frags = frag.fragments
+            else:
+                frags = [frag]
+            for frag in frags:
+                if hasattr(f, "style"):
+                    s = getattr(f.style, "fontSize", 0)
+                else:
+                    s = 0
+                maxSize = max(maxSize, s)
+        self.fontSize = maxSize
          
     def __str__(self):
         return "Line(%s)" % (",".join(str(frag) for frag in self.fragments))
@@ -314,15 +327,15 @@ class Paragraph(Flowable):
         if text is None:
             assert frags is not None or lines is not None
             if frags is not None:
-                print id(self), "init with frags"
+                #print id(self), "init with frags", frags
                 for frag in frags: assert isinstance(frag, Fragment)
                 self.frags = frags
             else:
-                print id(self), "init with lines"
+                #print id(self), "init with %d lines" % len(lines)
                 for line in lines: assert isinstance(line, Line)
                 self._lines = lines
         else:
-            print id(self), "init with text"
+            #print id(self), "init with text"
             assert isinstance(text, basestring)
             # Text parsen
             if not isinstance(text, unicode):
@@ -372,20 +385,20 @@ class Paragraph(Flowable):
             yield StyledWord(wordFrags)
         
     def __repr__(self):
-        return "Paragraph(frags=%r)" % self.frags
+        return "%s(frags=%r)" % (self.__class__.__name__, self.frags)
 
     def calcLineHeight(self, line):
         """
         Compute the height needed for a given line.
         """
-        print "calcLineHeight", self.style.leading
+        #print "calcLineHeight", self.style.leading
         return self.style.leading
         # TODO aus frags berechnen?
     
     def wrap(self, availW, availH):
         """
         """
-        print id(self), "wrap", availW, availH
+        #print id(self), "wrap", availW, availH
         if hasattr(self, "_lines"):
             height = sum([line.height for line in self._lines])
             assert height <= availH + 1e-5
@@ -402,7 +415,7 @@ class Paragraph(Flowable):
         attribute _lines (to improve performance).
         TODO: Should StyledSpaces be ignored before or after StyledNewLines?
         """
-        print id(self), "i_wrap", availW, availH
+        #print id(self), "i_wrap", availW, availH
         lines = []
         sumHeight = 0
         lineHeight = 0 
@@ -421,21 +434,22 @@ class Paragraph(Flowable):
                     # does not fit 
                     # TODO Hyphenation support
                     action = "LINEFEED,ADD"
+                    #print "LINEFEED before", frag
             else:
                 # Some Meta Fragment
                 pass
             for act in action.split(","):
                 if act == "LINEFEED":
-                    print act, 
+                    #print act, 
                     lineHeight = self.style.leading # TODO correct height calculation
-                    print lineHeight, 
+                    #print lineHeight, 
                     baseline = 0   # TODO correct baseline calculation
                     line = Line(lineFrags, width, lineHeight, baseline, self.keepWhiteSpace)
                     lines.append(line)
                     lineFrags = []
                     width = 0
                     sumHeight += lineHeight
-                    print sumHeight
+                    #print sumHeight
                 elif act == "IGNORE":
                     pass
                 elif act == "ADD":
@@ -447,18 +461,19 @@ class Paragraph(Flowable):
             baseline = 0   # TODO correct baseline calculation
             line = Line(lineFrags, width, lineHeight, baseline, self.keepWhiteSpace)
             lines.append(line)
+            lineFrags = []
             width = 0
-            sumHeight += lineHeight
+            sumHeight += lineHeight            
 
         if sumHeight > availH:
-            print id(self), "doesn't fit"
+            #print id(self), "doesn't fit"
             # don't store the last line (it does not fit)
             # TODO muss hier evtl. noch ein Linefeed dazwischen?
             #                        v
-            self._unused = lines[-1].fragments + self.frags[indx:]
+            self._unused = lines[-1].fragments + lineFrags + self.frags[indx:]
             self._lines = lines[:-1]
         else:
-            print id(self), "fits"
+            #print id(self), "fits"
             self._unused = []
             self._lines = lines
         self._width = availW
@@ -468,7 +483,7 @@ class Paragraph(Flowable):
         """
         Split the paragraph into two
         """
-        print id(self), "split"
+        #print id(self), "split"
         
         if not hasattr(self, "_lines"):
             # This can only happen when split has been called
@@ -503,7 +518,7 @@ class Paragraph(Flowable):
         """
         Draw the paragraph.
         """
-        print id(self), "draw"
+        #print id(self), "draw"
 
         # Code more or less copied from RL
 
@@ -558,7 +573,7 @@ class Paragraph(Flowable):
 
         #print "Lines: %s" % lines
         nLines = len(lines)
-        print "len(lines)", nLines
+        #print "len(lines)", nLines
         bulletText = self.bulletText
         if nLines > 0:
             _offsets = getattr(self,'_offsets',[0])
@@ -732,7 +747,7 @@ if True:
         normal.hyphenation = True
         normal.alignment = TA_JUSTIFY
     
-        text = "Bedauerlicherweise ist ein Donaudampfschiffkapitän auch nur ein Dampfschiffkapitän."
+        text = "Bedauerlicherweise ist ein <ul>Donau</ul>dampfschiffkapitän auch nur ein Dampfschiffkapitän."
         # strange behaviour when next line uncommented
         text = " ".join(['<font color="red">%s</font>' % w for w in text.split()])
         

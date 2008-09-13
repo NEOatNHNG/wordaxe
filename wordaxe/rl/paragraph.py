@@ -411,6 +411,9 @@ class Paragraph(_orig_Paragraph):
         if bestSolution[0] is self.OVERFLOW and not cLine:
             # We have to make a hard break in the word
             #print "FORCE Hyphenation"
+            # force at least a single character into this line
+            left, right = word.split(HyphenationPoint(1,1,0,"",0,""))
+            bestSolution = (self.HYPHENATE, left, right, 0)
             for p in range(1,len(word)):
                 left,right = word.split(HyphenationPoint(p,1,0,"",0,""))
                 if left[-1:] not in ["-",SHY]: 
@@ -527,6 +530,9 @@ class Paragraph(_orig_Paragraph):
         if bestSolution[0] is self.OVERFLOW and not words:
             # We have to make a hard break in the word
             #print "FORCE Hyphenation"
+            # force at least a single character into this line
+            left, right = word.split(HyphenationPoint(1,1,0,"",0,""))
+            bestSolution = (self.HYPHENATE, left, right, 0)
             for p in range(1,len(hyphWord.word)):
                 if hyphWord.word[p-1] not in ["-",SHY]:
                     r= SHY
@@ -545,7 +551,7 @@ class Paragraph(_orig_Paragraph):
             #print "wordWidth=", wordWidth,
             #print "too wide=", currentWidth + spaceWidth + wordWidth - maxWidth
 
-        #print "bestSolution:", HVBDBG.s(bestSolution)
+        print "bestSolution:", HVBDBG.s(bestSolution)
         return bestSolution
 
     # HVB, 20071104 copied from rl paragraph.py.

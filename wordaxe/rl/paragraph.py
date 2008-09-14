@@ -551,7 +551,7 @@ class Paragraph(_orig_Paragraph):
             #print "wordWidth=", wordWidth,
             #print "too wide=", currentWidth + spaceWidth + wordWidth - maxWidth
 
-        print "bestSolution:", HVBDBG.s(bestSolution)
+        #print "bestSolution:", HVBDBG.s(bestSolution)
         return bestSolution
 
     # HVB, 20071104 copied from rl paragraph.py.

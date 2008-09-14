@@ -1,6 +1,16 @@
-Release Notes for wordaxe 0.2.5
+Release Notes for wordaxe 0.2.6
 
-H. von Bargen, May 1st, 2008
+H. von Bargen, September 14th, 2008
+
+Release 0.2.6
+
+* Changed license: now dual licensed: Free BSD or Apache 2.0
+
+* Support for pyhyphen
+
+* Fixed a few bugs
+
+History:
 
 Release 0.2.5
 

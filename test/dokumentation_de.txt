@@ -1,6 +1,6 @@
 = wordaxe Silbentrennung =
 
-Henning von Bargen, 01.05.2008, Release 0.2.5
+Henning von Bargen, 14.09.2008, Release 0.2.6
 
 == Übersicht ==
 
@@ -27,15 +27,13 @@ wird im Sourceforge Subversion-Repository verwaltet.
 
 == Lizenz ==
 
-Die wordaxe Silbentrennungsbibliothek steht unter der Apache 2.0 Lizenz.
+Die wordaxe Silbentrennungsbibliothek kann wahlweise unter einer der beiden
+Open-Sourcen Lizenzen "Apache 2.0 License" oder "2-Clauses BSD-License"
+verwendet werden.
 
-Dabei handelt es sich um eine Open Source Lizenz.
+Der genaue Text liegt der Bibliothek bei (Datei license.txt).
 
-Der genaue Text kann nachgelesen werden unter
-<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>
-und liegt auch der Bibliothek selbst bei (Datei license.txt).
-
-Zu den Lizenzen für die pyHnj Bibliothek von Danny Yoo zur HNJ-Silbentrennung 
+Zu den Lizenzen für die pyHnj Bibliothek von Danny Yoo zur HNJ-Silbentrennung,
 und für die ReportLab PDF Bibliothek siehe die entsprechenden Webseiten.
 
 Die "dictionary files" mit der Endung <tt>.dic</tt> sind von der OpenOffice
@@ -45,16 +43,19 @@ Distribution übernommen, sie stehen unter der GNU LGPL Lizenz.
 
 === ReportLab 2.1 ===
 
-wordaxe Release 0.2.5 wurde mit Python 2.5 und ReportLab 2.1 getestet,
+wordaxe Release 0.2.6 wurde mit Python 2.5 und ReportLab 2.1 getestet,
 sollte jedoch problemlos auch mit Python 2.4 funktionieren, da keine neuen 
 Features von Python 2.5 verwendet werden.
 
 ReportLab 2.1 kann von <a href="http://www.reportlab.org">www.reportlab.org</a>
 heruntergeladen und installiert werden (hier wird nicht beschrieben, wie das geht).
 
+Es sollte auch mit ReportLab 2.2 funktionieren, ich selbst habe das
+aber nicht getestet.
+
 Hinweise zu älteren ReportLab-Versionen:
 
-Möglicherweise funktioniert wordaxe Release 0.2.5 auch mit ReportLab 2.0.
+Möglicherweise funktioniert wordaxe Release 0.2.6 auch mit ReportLab 2.0.
 Ansonsten kann in diesem Fall auch Release 0.2.2 verwendet werden,
 was aber bei der Installation etwas schwieriger ist (man musste da noch
 einige Dateien in der ReportLab-Installation überschreiben und die
@@ -66,16 +67,16 @@ zu beachten, dass bestehender Code evtl. angepasst werden muss, da als
 "paragraph encoding" immer UTF8 benutzt werden muss.
 
 === Installation wordaxe Schritt für Schritt ===
-1. Das ZIP-Archiv wordaxe-0.2.5.zip von der SourceForge Seite
+1. Das ZIP-Archiv wordaxe-0.2.6.zip von der SourceForge Seite
    (siehe <a href="#bezug">Bezug</a>) herunterladen.
 
-2. Das ZIP-Archiv wordaxe-0.2.5.zip im Wurzelverzeichnis C:\ entpacken
-   (innerhalb des Archivs liegen alle Dateien in einem Verzeichnis "wordaxe-0.2.5").
+2. Das ZIP-Archiv wordaxe-0.2.6.zip im Wurzelverzeichnis C:\ entpacken
+   (innerhalb des Archivs liegen alle Dateien in einem Verzeichnis "wordaxe-0.2.6").
    Dadurch wird die folgende Verzeichnisstruktur angelegt:
 
 {{{
 C:
-    wordaxe-0.2.5
+    wordaxe-0.2.6
         htdocs
             css
             examples
@@ -90,14 +91,14 @@ C:
 3. Auf der Kommandozeile ausführen:
 
 {{{
-cd /d c:\wordaxe-0.2.5
+cd /d c:\wordaxe-0.2.6
 setup.py install
 }}}
    
    Alternativ:
    Eine Sicherheitskopie der Datei reportlab\pdfbase\rl_codecs.py von der
    ReportLab 2.1 Installation anlegen; anschließend die Datei ersetzen
-   durch die mitgelieferte angepasste Version in c:\wordaxe-0.2.5\wordaxe\rl\rl_codecs.py.
+   durch die mitgelieferte angepasste Version in c:\wordaxe-0.2.6\wordaxe\rl\rl_codecs.py.
    
    <em>Beachte:</em> Dadurch werden nur zwei Zeilen in der Datei geändert, 
    die das "scheue Minuszeichen" SHY betreffen. 
@@ -107,7 +108,7 @@ setup.py install
    die nur die folgende Textzeile enthält:
 
 {{{
-c:\wordaxe-0.2.5
+c:\wordaxe-0.2.6
 }}}
 
    Anschließend sicherstellen, dass "import wordaxe" keine Fehlermeldung erzeugt.
@@ -261,6 +262,13 @@ Diese Klasse funktioniert so wie die Silbentrennung in TeX, basierend auf Muster
 (vergleiche libhnj, pyhnj). Die Implementierung kann die pyhnj C-Bibliothek
 verwenden (das ist die Voreinstellung) oder aber Pure Python, wenn das
 Argument purePython=True beim Konstruktor angegeben wird.
+
+=== wordaxe.plugins.PyHyphenHyphenator ===
+
+Diese Klasse funktioniert ebenfalls so ähnlich wie in TeX, verwendet jedoch
+eine andere Implementierung und <em>funktioniert wesentlich besser</em>!
+Um diese Klasse verwenden zu können, muss die pyhyphen-Bibliothek
+installiert sein (siehe <a href="http://pypi.python.org/pypi/PyHyphen/">http://pypi.python.org/pypi/PyHyphen/</a>).
 
 === BaseHyphenator ===
 

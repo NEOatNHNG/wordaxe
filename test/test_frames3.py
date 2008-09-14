@@ -65,7 +65,6 @@ class FrameSwitchTestCase(unittest.TestCase):
         # strange behaviour when next line uncommented
         text = " ".join(['<font color="red">%s</font>' % w for w in text.split()])
         text += " "
-        print text
         
         story = []
         story.append(Paragraph(text * 30, style=normal))

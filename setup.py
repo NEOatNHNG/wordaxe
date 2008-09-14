@@ -6,14 +6,14 @@ from distutils.core import setup
 
 setup(
     name = "wordaxe",
-    version = "0.2.5",
+    version = "0.2.6",
     description = "Provide hyphenation for python programs and ReportLab paragraphs.",
     long_description = "Provide hyphenation for python programs and ReportLab paragraphs.",
     author = "Henning von Bargen",
     author_email = "henning.vonbargen@arcor.de",
     maintainer = "Henning von Bargen",
     maintainer_email = "henning.vonbargen@arcor.de",
-    license = "Apache License, version 2.0",
+    license = "Apache License, version 2.0 or Free BSD License",
     platforms = ["Unix", "Windows"],
     keywords = ["multi-language", "hyphenation", "paragraphs", "reportlab"],
     url = "http://deco-cow.sourceforge.net",

@@ -9,14 +9,14 @@ How to install
    For users of RL 1.19: Remember that you may have to change your
    code for RL 2.1 (paragraph encoding should be UTF8).
 
-1. Download the file wordaxe-0.2.5.zip from the SourceForge web site
+1. Download the file wordaxe-0.2.6.zip from the SourceForge web site
    http://sourceforge.net/project/showfiles.php?group_id=105867
 
 2. Unzip the files in the ZIP archive to the root directory
-   (inside the archive, everything is in a directory "wordaxe-0.2.5".
+   (inside the archive, everything is in a directory "wordaxe-0.2.6".
    This will create the following structure:
    C:\
-     wordaxe-0.2.5
+     wordaxe-0.2.6
        htdocs
          css
          examples
@@ -33,13 +33,13 @@ How to install
 
    Alternatively, make a backup of the file reportlab\pdfbase\rl_codecs.py
    from your reportlab installation, then overwrite it with the version 
-   found in c:\wordaxe-0.2.5\wordaxe\rl\rl_codecs.py.
+   found in c:\wordaxe-0.2.6\wordaxe\rl\rl_codecs.py.
    Note: This will change only 2 lines that effect the handling of
    the "shy" character.
    
 4. Add wordaxe to your python path, for example by creating a corresponding
    file wordaxe.pth in your lib/site-packages directory, containing the text
-   c:\wordaxe-0.2.5
+   c:\wordaxe-0.2.6
    Make sure that "import wordaxe" does not produce an error message.
    
 5. Unless you have used the "shy" character (0xAD) in your text,

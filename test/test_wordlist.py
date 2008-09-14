@@ -16,7 +16,6 @@ class WordlistTestCase(unittest.TestCase):
         errs = []
         def error(msg, *args):
             errs.append(msg % args)
-        print hy
         hy.testWordList("test_wordlist.txt", "utf8", error)
         errors = "\n".join(errs)
         self.assertEqual (errors, "")

@@ -14,9 +14,9 @@
    <div align="center" class="titlepage">
     <h1>wordaxe : Hyphenation by decomposition of compound words</h1>
     <p>
-     <strong>Release 0.2.5</strong>
+     <strong>Release 0.2.6</strong>
 	   <br>
-	   <strong>May 1st, 2008</strong>
+	   <strong>September 14th, 2008</strong>
 	   <br>
 	   <strong>For more up-to-date information, take a look at the <a href="http://deco-cow.wiki.sourceforge.net">wiki</a>
 	           or <a href="http://sourceforge.net/project/showfiles.php?group_id=105867">download</a> the package and look at doc directory.</strong>
@@ -44,6 +44,9 @@
           only after a few special characters (in particular, <tt>'-'</tt>).</li>
       <li><tt>PyHnjHyphenator</tt> is a pure Python implementation of the
           hyphenation algorithm used in TeX and <a href="http://www.openoffice.org">OpenOffice</a>.</li>
+      <li><tt>wordaxe.plugins.PyHyphenHyphenator</tt> uses the
+          <a href="http://pypi.python.org/pypi/PyHyphen/">pyhyphen</a>
+          library, which works a lot better than pyhnj on my computer.
      </ul>
    </p>
    <p>The library can be used as a simple add-on to the
@@ -99,11 +102,13 @@
          Older versions of the library work with ReportLab 2.0 and 1.19 (not recommended).</li>
      <li><em>PyHnj:</em> If you want to use the libhnj C library (not recommended for German language),
          then you also need the <a href="http://hkn.eecs.berkeley.edu/~dyoo/python/pyHnj/">pyHnj library</a> from Danny Yoo.</li>
+     <li><em>pyhyphen</em> If you want to use pyhyphen-based hyphenator,
+         you have to install that library of course.</li>
     </ul>
   </div>
   <div>
    <h2>Licensing</h2>
-    <p>The wordaxe library itself is released under the Apache 2.0 license.</p>
+    <p>The wordaxe library itself is released under a dual-license: Apache 2.0 license or Free BSD.</p>
     <p>If you want to use pyHnj or ReportLab, see the corresponding licenses.</p>
     <p>The hyphenation dictionary files were taken from the OpenOffice distribution;
        they are licensed under the GNU LGPL license.</p>
@@ -111,8 +116,9 @@
   <div>
    <h2>Download</h2>
     <p>You can <a href="http://sourceforge.net/project/showfiles.php?group_id=105867">download the source</a> from the files section.</p>
-    <p>As usual on Sourceforge.net, you can also access files via anonymous CVS,
-       but note that <strong>the files available via CSV or subversion are outdated</strong>!
+    <p>As usual on Sourceforge.net, you can also browse the subversion repository.</p>
+   <h2>Project Information</h2>
+   See the <a href="http://sourceforge.net/projects/deco-cow/">project page</a> on SourceForge.net.
   </div>
   <hr>
 <a href="http://sourceforge.net"> <img src="http://sourceforge.net/sflogo.php?group_id=105867&amp;type=5" width="210" height="62" border="0" alt="SourceForge.net Logo" /></a>

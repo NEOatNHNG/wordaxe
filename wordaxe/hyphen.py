@@ -178,7 +178,7 @@ class HyphenatedWord(unicode):
         L = []
         for h in self.hyphenations:
             left,right = self.split(h)
-            L.append("%s %s (%d)" % (left,right.word, h.quality))
+            L.append(u"%s %s (%d)" % (left,right, h.quality))
         return L
         
     def get_hyphenations(self):

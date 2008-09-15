@@ -47,10 +47,10 @@ class PyHyphenHyphenator(ExplicitHyphenator):
         ExplicitHyphenator.__init__(self,language=language,minWordLength=minWordLength)
         if hyphenDir is None:
             hyphenDir = os.path.join(os.path.split(__file__)[0], "..", "dict")
-        print hyphenDir
         fname = os.path.join(hyphenDir, "hyph_%s.dic" % language)
         if not dictools.is_installed(language, directory=hyphenDir):
             dictools.install(language, directory=hyphenDir)
+            print "installed dictionary for %s into %s" % (language, hyphenDir)
         self.hnj = pyhyphen.hyphenator(language, directory=hyphenDir)
         self.quality = quality
 

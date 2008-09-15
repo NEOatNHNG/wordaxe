@@ -2,7 +2,7 @@ How to install
 --------------
 
 0. The sources have been developed and tested under Python 2.5
-   and ReportLab 2.1.
+   and ReportLab 2.1 and 2.2.
    If you are using an older version of Python or ReportLab,
    it will probably not work without some fiddling, since it uses
    at least the boolean constants True and False.
@@ -37,8 +37,9 @@ How to install
    Note: This will change only 2 lines that effect the handling of
    the "shy" character.
    
-4. Add wordaxe to your python path, for example by creating a corresponding
-   file wordaxe.pth in your lib/site-packages directory, containing the text
+4. If you didn't use setup.py install, then you have to manually add wordaxe
+   to your python path, for example by creating a corresponding file 
+   wordaxe.pth in your lib/site-packages directory, containing the text
    c:\wordaxe-0.2.6
    Make sure that "import wordaxe" does not produce an error message.
    

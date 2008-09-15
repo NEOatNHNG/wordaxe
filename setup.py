@@ -18,7 +18,7 @@ setup(
     keywords = ["multi-language", "hyphenation", "paragraphs", "reportlab"],
     url = "http://deco-cow.sourceforge.net",
     download_url = "http://sourceforge.net/project/showfiles.php?group_id=105867",
-    packages = ["wordaxe", "wordaxe/rl"],
+    packages = ["wordaxe", "wordaxe/rl", "wordaxe/plugins"],
     package_data = {"wordaxe": ["dict/*.ini", "dict/*.dic"]},
 )
 

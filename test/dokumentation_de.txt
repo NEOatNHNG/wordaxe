@@ -41,19 +41,18 @@ Distribution übernommen, sie stehen unter der GNU LGPL Lizenz.
 
 == Installation ==
 
-=== ReportLab 2.1 ===
+=== ReportLab 2.1 oder 2.2 ===
 
-wordaxe Release 0.2.6 wurde mit Python 2.5 und ReportLab 2.1 getestet,
+wordaxe Release 0.2.6 wurde mit Python 2.5 und ReportLab 2.2 getestet,
 sollte jedoch problemlos auch mit Python 2.4 funktionieren, da keine neuen 
 Features von Python 2.5 verwendet werden.
 
-ReportLab 2.1 kann von <a href="http://www.reportlab.org">www.reportlab.org</a>
+ReportLab 2.2 kann von <a href="http://www.reportlab.org">www.reportlab.org</a>
 heruntergeladen und installiert werden (hier wird nicht beschrieben, wie das geht).
 
-Es sollte auch mit ReportLab 2.2 funktionieren, ich selbst habe das
-aber nicht getestet.
+wordaxe funktioniert auch mit dem etwas älteren ReportLab 2.1.
 
-Hinweise zu älteren ReportLab-Versionen:
+Hinweise zu noch älteren ReportLab-Versionen:
 
 Möglicherweise funktioniert wordaxe Release 0.2.6 auch mit ReportLab 2.0.
 Ansonsten kann in diesem Fall auch Release 0.2.2 verwendet werden,
@@ -322,10 +321,8 @@ noch anderen Byte-Codierungen gearbeitet.
 
 === Was noch zu tun ist ===
 
-1. hunspell-Unterstützung
+1. Eigene Paragraph Implementierung.
 
-2. Refactoring, sobald RL das besser unterstützt.
-
-3. Spagetti-Code aufräumen, Performance-Tuning, 
+2. Spagetti-Code aufräumen, Performance-Tuning, 
 
 ...

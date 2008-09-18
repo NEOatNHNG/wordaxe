@@ -1,77 +1,83 @@
-= wordaxe Silbentrennung =
+= wordaxe Hyphenation =
 
 Henning von Bargen, 14.09.2008, Release 0.2.7 pre
 
-== Übersicht ==
+== Overview ==
 
-Der frühere Name der wordaxe-Bibliothek war "deco-cow" und stand
-für "decomposition of compound words".
+The wordaxe library was formerly called "deco-cow", which is
+an abbreviation for "decomposition of compound words".
 
-Die Bibliothek besteht aber genau genommen aus drei verschiedenen Programmteilen:
+The library consists of three program parts:
 
-1. eine allgemeine (erweiterbare) Klassenbibliothek zur Unterstützung 
-   von Silbentrennung in Python-Programmen
+1) an (easily extendable) class library adding hyphenation support
+   to Python programs.
 
-2. ein spezieller Silbentrennungsalgorithmus, basierend auf der Zerlegung von zusammengesetzten Wörtern
+2) a special hyphenation algorithm, based on the decomposition of
+   compound words (the implementation is only for the German language).
 
-3. eine Silbentrennungserweiterung zur <a href="http://www.reportlab.org">ReportLab</a> PDF Bibliothek
+3) a hyphenation extension for the <a href="http://www.reportlab.org">ReportLab</a> PDF library.
 
-== <a name="bezug" />Bezugsquelle ==
+== <a name="bezug" />Where to get it ==
 
-Die wordaxe Bibliothek wird auf SourceForge verwaltet (<a href="http://deco-cow.sourceforge.net">http://deco-cow.sourceforge.net</a>).
+The wordaxe library is hosted at SourceForge (<a href="http://deco-cow.sourceforge.net">http://deco-cow.sourceforge.net</a>).
 
-Das jeweils aktuelle Release der Software kann aber über die entsprechende
-SourceForge <a href="http://sourceforge.net/project/showfiles.php?group_id=105867">Download-Seite</a>
-heruntergeladen werden. Die allerneueste in Entwicklung befindliche Version
-wird im Sourceforge Subversion-Repository verwaltet.
+The current stable Release of the software can be downloaded from the
+SourceForge <a href="http://sourceforge.net/project/showfiles.php?group_id=105867">download page</a>.
+There's also a subversion repository where you can get the current development code.
 
-== Lizenz ==
+== Licence ==
 
-Die wordaxe Silbentrennungsbibliothek kann wahlweise unter einer der beiden
-Open-Sourcen Lizenzen "Apache 2.0 License" oder "2-Clauses BSD-License"
-verwendet werden.
+The wordaxe hyphenation library is dual-licensed.
+You are permitted to use and distribute wordaxe under one 
+of these open source licenses:
 
-Der genaue Text liegt der Bibliothek bei (Datei license.txt).
+"Apache 2.0 License" or "2-Clauses BSD-License".
 
-Zu den Lizenzen für die pyHnj Bibliothek von Danny Yoo zur HNJ-Silbentrennung,
-und für die ReportLab PDF Bibliothek siehe die entsprechenden Webseiten.
+For details, see the file license.txt contained in the library.
 
-Die "dictionary files" mit der Endung <tt>.dic</tt> sind von der OpenOffice
-Distribution übernommen, sie stehen unter der GNU LGPL Lizenz.
+Regarding the licenes for the 
+<a href="http://hkn.eecs.berkeley.edu/~dyoo/pyHnj">pyHnj library</a> from Danny Yoo
+(HNJ hyphenation, contained in the wordaxe installation), for the 
+<a href="http://www.reportlab.org">ReportLab PDF library</a> 
+and the <a href="http://code.google.com/p/pyhyphen">pyhyphen library</a>
+please visit the corresponding web sites.
+
+The dictionary files with the suffix <tt>.dic</tt> have been taken from
+the OpenOffice distribution, they are licences under the GNU LGPL.
 
 == Installation ==
 
-=== ReportLab 2.1 oder 2.2 ===
+=== ReportLab 2.1 or 2.2 ===
 
-wordaxe Release 0.2.6 wurde mit Python 2.5 und ReportLab 2.2 getestet,
-sollte jedoch problemlos auch mit Python 2.4 funktionieren, da keine neuen 
-Features von Python 2.5 verwendet werden.
+wordaxe Release 0.2.6 has been tested with Python 2.5 and ReportLab 2.2,
+but it should work equally well with Python 2.4 funktionieren, since AFAIK
+none of the new features of 2.5 have are used.
 
-ReportLab 2.2 kann von <a href="http://www.reportlab.org">www.reportlab.org</a>
-heruntergeladen und installiert werden (hier wird nicht beschrieben, wie das geht).
+ReportLab 2.2 can be obtained from <a href="http://www.reportlab.org">www.reportlab.org</a>.
+The installation is easy (though not with easy-install ;-) and is not described here.
 
-wordaxe funktioniert auch mit dem etwas älteren ReportLab 2.1.
+wordaxe works with ReportLab 2.1, too.
 
-Hinweise zu noch älteren ReportLab-Versionen:
+Notes on even older ReportLab versions:
 
-Möglicherweise funktioniert wordaxe Release 0.2.6 auch mit ReportLab 2.0.
-Ansonsten kann in diesem Fall auch Release 0.2.2 verwendet werden,
-was aber bei der Installation etwas schwieriger ist (man musste da noch
-einige Dateien in der ReportLab-Installation überschreiben und die
-Installationsanleitung war nicht korrekt).
+Though untested, wordaxe Release 0.2.6 may work with ReportLab 2.0.
+Otherwise you can use 0.2.2 in this case,
+but the installation is a little harder (because some more files
+in the ReportLab installation had to be overwritten and the installation guide
+was not correct).
 
-Für ReportLab 1.19 sei auf Release 0.1.1 verwiesen (nicht empfohlen).
-Bei einer Umstellung von ReportLab 1.x auf 2.x ist (unabhängig von wordaxe)
-zu beachten, dass bestehender Code evtl. angepasst werden muss, da als
-"paragraph encoding" immer UTF8 benutzt werden muss.
+For ReportLab 1.19 please use Release 0.1.1 (not recommended).
+When upgrading from ReportLab 1.x to 2.x you probably have to change
+existing code (independently from wordaxe), since for 2.x all paragraph
+input text has to be unicode or UTF8 encoded.
 
-=== Installation wordaxe Schritt für Schritt ===
-1. Das ZIP-Archiv wordaxe-0.2.6.zip von der SourceForge Seite
-   (siehe <a href="#bezug">Bezug</a>) herunterladen.
+=== Installating wordaxe step-by-step ===
+1. Download the ZIP archive wordaxe-0.2.6.zip from the SourceForge site.
 
-2. Das ZIP-Archiv wordaxe-0.2.6.zip im Wurzelverzeichnis C:\ entpacken
-   (innerhalb des Archivs liegen alle Dateien in einem Verzeichnis "wordaxe-0.2.6").
-   Dadurch wird die folgende Verzeichnisstruktur angelegt:
+2. Unpack the ZIP-archive wordaxe-0.2.6.zip in the root directory C:\
+   (inside the archive, all files are in a directory "wordaxe-0.2.6").
+   
+   The following directory structure will be created:
 
 {{{
 C:
@@ -87,49 +93,49 @@ C:
 }}}
 
    
-3a. Auf der Kommandozeile ausführen:
+3a. On the command line, execute:
 
 {{{
 cd /d c:\wordaxe-0.2.6
 setup.py install
 }}}
+
+3b. Alternative:
+
+   Make a backup copy of the file reportlab\pdfbase\rl_codecs.py from the
+   ReportLab Installation; then replace the file with the
+   modified version from c:\wordaxe-0.2.6\wordaxe\rl\rl_codecs.py.
    
-3b. Alternativ:
-   Eine Sicherheitskopie der Datei reportlab\pdfbase\rl_codecs.py von der
-   ReportLab Installation anlegen; anschließend die Datei ersetzen
-   durch die mitgelieferte angepasste Version in c:\wordaxe-0.2.6\wordaxe\rl\rl_codecs.py.
+   <em>Note:</em> This will only change two lines of code in the file, 
+   responsible for the "shy hyphen" character SHY. 
    
-   <em>Beachte:</em> Dadurch werden nur zwei Zeilen in der Datei geändert, 
-   die das "scheue Minuszeichen" SHY betreffen. 
-   
-   Die neue Bibliothek zum Python-Path hinzufügen, zum Beispiel durch Anlegen
-   einer entsprechenden Datei wordaxe.pth im Verzeichnis c:\python25\lib\site-packages,
-   die nur die folgende Textzeile enthält:
+   Add the new library to the Python path, for example by creating a
+   file wordaxe.pth in c:\python25\lib\site-packages,
+   containg only one text line:
 
 {{{
 c:\wordaxe-0.2.6
 }}}
 
-4. Anschließend sicherstellen, dass "import wordaxe" keine Fehlermeldung erzeugt.
+4. Assure that "import wordaxe" doesn't create an error message.
    
-5. ReportLab funktioniert genau so wie vorher; Unterschiede können höchstens auftreten,
-   wenn innerhalb der <em>eigenen</em> Programme oder Texte das SHY-Zeichen verwendet wird.
+5. ReportLab will work as before; differences may only occur,
+   if <em>your own</em> programs or texts use the SHY-character.
    
-== Verwendung ==
+== Usage ==
 
-Um die Silbentrennung mit dem DCW-Algorithmus (Zerlegung von zusammengesetzten Wörtern)
-für deutschsprachige Texte in Aktion zu sehen,
-kann man zum Beispiel das Skript "test_hyphenation.py" im Unterverzeichnis rl aufrufen.
-Es erzeugt dann zwei PDF-Dateien, test_hyphenation-plain.pdf und test_hyphenation_styled.pdf.
+To see the hyphenation with the DCW-Algorithmus (Decomposition of compound words)
+in action for german language text,
+run the example script "test_hyphenation.py" in the test subdirectory.
+It will produce two PDF files, test_hyphenation-plain.pdf and test_hyphenation_styled.pdf.
 
-Auch dieses Dokument selbst wurde mit automatischer Silbentrennung erzeugt
-(siehe Skript buildDoku.py).
+The document you read now has also be produced with automatic hyphenation
+(see the buildDoku.py script).
 
-Um die Silbentrennung in eigenen Programmen zu verwenden (am Beispiel
-des DCW-Algorithmus für Deutsch), genügt es, wenige sehr einfache Änderungen 
-am vorhandenen Programm vorzunehmen:
+To add hyphenation support to your own programs (here using the DCW algorithm
+as an example), only very few modifications in your code are necessary:
   
-Die folgenden Zeilen hinzufügen:
+Add the following lines:
 
 {{{
 from wordaxe import hyphRegistry
@@ -137,16 +143,15 @@ from wordaxe.DCWHyphenator import DCWHyphenator
 hyphRegistry['DE'] = DCWHyphenator('de',5)
 }}}
 
-Die folgenden Strings suchen und ersetzen:
+Search and replace the following strings:
 {{{
-Suchen                            Ersetzen durch
+Search                            Replace with
 reportlab.platypus.paragraph      wordaxe.rl.paragraph
 reportlab.platypus.xpreformatted  wordaxe.rl.xpreformatted
 reportlab.lib.styles              wordaxe.rl.styles
 }}}
 
-Die Silbentrennung einschalten. Dazu im verwendeten ParagraphStyle zwei
-Attribute setzen:
+Enable hyphenation. To do this, set two attributes in your ParagraphStyle:
 
 {{{
 stylesheet = getSampleStyleSheet()
@@ -155,38 +160,39 @@ myStyle.language = 'DE'
 myStyle.hyphenation = True
 }}}
 
-=== Verwendung eines Hyphenators ===
+=== Using a Hyphenator ===
 
-Selbstverständlich kann die Silbentrennung auch unabhängig von ReportLab
-verwendet werden.
+Of course the wordaxe hyphenation can be used independent from ReportLab.
 
-Beim Konstruktor muss neben einem Sprachcode vor allem eine 
-minimale Wortlänge angegeben werden. Kürzere Wörter werden gar nicht betrachtet.
+In the constructor, at least a language code and a minimal word-length
+have to be supplied. Shorter words will not be considered for hyphenation.
 
 {{{
 from wordaxe.DCWHyphenator import DCWHyphenator
 hyphenator = DCWHyphenator('de',5)
 }}}
 
-Nun können Wörter (Unicode) getrennt werden.
-Zurückgeliefert wird entwender None (unbekanntes Wort)
-oder ein HyphenatedWord, d.h. ein Wort mit Angabe der
-möglichen Trennstellen und ihrer Qualität.
+Now you can hyphenate (unicode) words.
+The return value will either be None (unknown word)
+or a HyphenatedWord, that is, a word with hyphenation points and their quality.
 
 {{{
 hword = hyphenator.hyphenate(u"Donaudampfschiffahrt")
-print "Mögliche Trennstellen", hword.hyphenations
-# Trenne an der 2. möglichen Trennstelle:
+print "Possible hyphenations", hword.hyphenations
+# Split the word at the second possible hyphenation point:
 left,right = hword.split(hword.hyphenations[1])
-# liefert: (u'Donau\xad', HyphenatedWord(u'dampfschiffahrt'))
-# Der linke Teil ist wieder ein Unicode-Objekt (hier: Donau-),
-# der rechte Teil ist das übriggebliebene HyphenatedWord, das
-# in die nächste Zeile kommen soll.
+# returns: (u'Donau\xad', HyphenatedWord(u'dampfschiffahrt'))
+# The left part is a unicode object (here: Donau-),
+# the right part is the rest of the word (a HyphenatedWord instance again),
+# that should go into the next line.
 print left
+print right
 print right.hyphenations
 }}}
 
-== Klassen für die Silbentrennung ==
+== Hyphenation Classes ==
+
+TODO continue translation
 
 Zur Verwendung der Klassen siehe auch die jeweiligen Quelltexte, die
 jeweils Testcode mit Aufruf des Konstruktors enthalten. Der Testcode

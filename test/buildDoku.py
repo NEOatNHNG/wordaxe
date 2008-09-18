@@ -31,15 +31,16 @@ def myLaterPages(canvas, doc):
     canvas.drawString(inch, 0.75 * inch, "Seite %d" % doc.page)
     canvas.restoreState()
 
-stylesheet=getSampleStyleSheet()
-for name in ["Heading1", "Heading2", "Heading3", "Code", "BodyText"]:
-    style = stylesheet[name]
-    style.language = 'DE'
-    style.hyphenation = True
-
 import wordaxe
 from wordaxe.DCWHyphenator import DCWHyphenator
 wordaxe.hyphRegistry['DE'] = DCWHyphenator('DE',5)
+
+try:
+    from wordaxe.plugins.PyHyphenHyphenator import PyHyphenHyphenator
+    wordaxe.hyphRegistry['EN'] = PyHyphenHyphenator('en_US')
+except:
+    from wordaxe.PyHnjHyphenator import PyHnjHyphenator
+    wordaxe.hyphRegistry['EN'] = PyHnjHyphenator('EN')
 
 def makeParagraphs(txt,style):
     """Convert plain text into a list of paragraphs."""
@@ -47,55 +48,69 @@ def makeParagraphs(txt,style):
     retval = [Paragraph(line[:6]=='<para>' and line or ('<para>%s</para>' % line), style) for line in lines]
     return retval
 
-doc = SimpleDocTemplate("dokumentation_de.pdf",
-                        title="wordaxe Anleitung (deutsch)",
-                        author="Henning von Bargen",
-                        pagesize=pagesizes.portrait(pagesizes.A4),
-                        allowSplitting=1
-                       )
+def run():
+    for language, fname, title in [
+    ("DE", "dokumentation_de", u"wordaxe Anleitung (deutsch)"),
+    ("EN", "dokumentation_en", u"wordaxe User Guide (english)"),
+    ]:
+        print "Generating", fname + ".pdf"
+        stylesheet=getSampleStyleSheet()
+        for name in ["Heading1", "Heading2", "Heading3", "Code", "BodyText"]:
+            style = stylesheet[name]
+            style.language = language
+            style.hyphenation = True
 
-# Content einlesen und parsen
+        doc = SimpleDocTemplate(fname + ".pdf",
+                                title=title,
+                                author="Henning von Bargen",
+                                pagesize=pagesizes.portrait(pagesizes.A4),
+                                allowSplitting=1
+                               )
 
-content = open("dokumentation_de.txt").read()
+        # Content einlesen und parsen
 
-story = []
-frags = []
-opts = []
+        content = open(fname + ".txt").read()
 
-def emit(f, o):
-    if len(f):
-        if "PRE" in o:
-            # Preformatted
-            txt = "\n".join(f)
-            story.append(XPreformatted(txt, stylesheet["Code"]))
-        else:
-            txt = " ".join([s.strip() for s in f])
-            story.append(Paragraph(txt, stylesheet["BodyText"]))
-    del o[:]
-    del f[:]
-    
-for zeile in content.splitlines():
-    # Umkodieren nach utf8
-    zeile = zeile.decode("iso-8859-1").encode("utf8")
-    zstrip = zeile.strip()
-    # Überschrift?
-    level = 0
-    while zeile.startswith("=") and zeile.endswith("="):
-        level += 1
-        zeile = zeile[1:-1]
-    if level > 0:
+        story = []
+        frags = []
+        opts = []
+
+        def emit(f, o):
+            if len(f):
+                if "PRE" in o:
+                    # Preformatted
+                    txt = "\n".join(f)
+                    story.append(XPreformatted(txt, stylesheet["Code"]))
+                else:
+                    txt = " ".join([s.strip() for s in f])
+                    story.append(Paragraph(txt, stylesheet["BodyText"]))
+            del o[:]
+            del f[:]
+
+        for zeile in content.splitlines():
+            # Umkodieren nach utf8
+            zeile = zeile.decode("iso-8859-1").encode("utf8")
+            zstrip = zeile.strip()
+            # Überschrift?
+            level = 0
+            while zeile.startswith("=") and zeile.endswith("="):
+                level += 1
+                zeile = zeile[1:-1]
+            if level > 0:
+                emit(frags, opts)
+                stil = "Heading%d" % level
+                story.append(Paragraph(zeile, stylesheet[stil]))
+            elif zstrip == "" and not "PRE" in opts:
+                emit(frags, opts)
+            elif zstrip == "{{{":
+                emit(frags, opts)
+                opts.append("PRE")
+            elif zstrip == "}}}":
+                emit(frags, opts)
+            else:
+                frags.append(zeile)
+
         emit(frags, opts)
-        stil = "Heading%d" % level
-        story.append(Paragraph(zeile, stylesheet[stil]))
-    elif zstrip == "" and not "PRE" in opts:
-        emit(frags, opts)
-    elif zstrip == "{{{":
-        emit(frags, opts)
-        opts.append("PRE")
-    elif zstrip == "}}}":
-        emit(frags, opts)
-    else:
-        frags.append(zeile)
+        doc.build (story, onFirstPage=myFirstPage, onLaterPages=myLaterPages)
 
-emit(frags, opts)
-doc.build (story, onFirstPage=myFirstPage, onLaterPages=myLaterPages)
+run()

@@ -12,9 +12,11 @@ __doc__='Hyphenation support using different algorithms'
 
 __all__ = ["BaseHyphenator", "DCWHyphenator", "PyHnjHyphenator"]
 
-from wordaxe.hyphen import SHY,HyphenationPoint, HyphenatedWord, Hyphenator
+from wordaxe.hyphen import SHY, HyphenationPoint, HyphenatedWord, Hyphenator, Cached
 
 # This is meant as a registry for Hyphenators.
 # if you want to use a Hyphenator A for language B,
 # just set hyphRegistry[A]=B
 hyphRegistry = {}
+
+version = "wordaxe 0.2.7 pre"

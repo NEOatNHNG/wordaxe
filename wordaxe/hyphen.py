@@ -316,3 +316,42 @@ class Hyphenator:
         hword = self.i_hyphenate(aWord)
         self.postHyphenate(hword)
         return hword
+        
+class Cached(Hyphenator):
+    """
+    This caches the results of the hyphenate function.
+    Use it if the hyphenation is too slow.
+    """
+    
+    def __init__(self, hyphenator, max_entries):
+        """
+        Creates a new, cached version of hyphenator
+        that caches at most max_entries of the results
+        from hyphenator.hyphenate.
+        If you need other functionality of the hyphenator,
+        you have to access the attribute "hyphenator"
+        directly.
+        """
+        self._max_entries = max_entries
+        assert isinstance(hyphenator, Hyphenator)
+        self.hyphenator = hyphenator
+        self.cache = dict()
+        
+    def hyphenate(self, aWord):
+        """
+        Get the hyphenated word for word from the cache.
+        If not found there, call the internal hyphenator
+        and add to the cache (like a lazy setdefault).
+        """
+        cache = self.cache
+        if aWord not in cache:
+            if len(cache) >= self._max_entries:
+                self.cache = dict()
+            self.cache[aWord] = self.hyphenator.hyphenate(aWord)
+        return self.cache[aWord]
+
+    def purge_cache(self):
+        """
+        Purges the cache (freeing resources).
+        """
+        self.cache = dict()

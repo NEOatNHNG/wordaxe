@@ -9,6 +9,8 @@ from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
 from reportlab.platypus.paraparser import ParaParser
 from reportlab.platypus.flowables import Flowable
 import reportlab.pdfbase.pdfmetrics as pdfmetrics
+from reportlab.rl_config import platypus_link_underline 
+import re
 
 import wordaxe
 from wordaxe.hyphen import HyphenationPoint, SHY, HyphenatedWord, Hyphenator
@@ -16,6 +18,59 @@ from wordaxe.hyphen import HyphenationPoint, SHY, HyphenatedWord, Hyphenator
 pt = 1 # Points is the base unit in RL
 
 # This is more or less copied from RL paragraph
+
+def _drawBullet(canvas, offset, cur_y, bulletText, style):
+    '''draw a bullet text could be a simple string or a frag list'''
+    tx2 = canvas.beginText(style.bulletIndent, cur_y+getattr(style,"bulletOffsetY",0))
+    tx2.setFont(style.bulletFontName, style.bulletFontSize)
+    tx2.setFillColor(hasattr(style,'bulletColor') and style.bulletColor or style.textColor)
+    if isinstance(bulletText,basestring):
+        tx2.textOut(bulletText)
+    else:
+        for f in bulletText:
+            tx2.setFont(f.fontName, f.fontSize)
+            tx2.setFillColor(f.textColor)
+            tx2.textOut(f.text)
+
+    canvas.drawText(tx2)
+    #AR making definition lists a bit less ugly
+    #bulletEnd = tx2.getX()
+    bulletEnd = tx2.getX() + style.bulletFontSize * 0.6
+    offset = max(offset,bulletEnd - style.leftIndent)
+    return offset
+
+def _handleBulletWidth(bulletText,style,maxWidths):
+    '''work out bullet width and adjust maxWidths[0] if neccessary
+    '''
+    if bulletText:
+        if isinstance(bulletText,basestring):
+            bulletWidth = stringWidth( bulletText, style.bulletFontName, style.bulletFontSize)
+        else:
+            #it's a list of fragments
+            bulletWidth = 0
+            for f in bulletText:
+                bulletWidth = bulletWidth + stringWidth(f.text, f.fontName, f.fontSize)
+        bulletRight = style.bulletIndent + bulletWidth + 0.6 * style.bulletFontSize
+        indent = style.leftIndent+style.firstLineIndent
+        if bulletRight > indent:
+            #..then it overruns, and we have less space available on line 1
+            maxWidths[0] -= (bulletRight - indent)
+
+_scheme_re = re.compile('^[a-zA-Z][-+a-zA-Z0-9]+$')
+def _doLink(tx,link,rect):
+    if isinstance(link,unicode):
+        link = link.encode('utf8')
+    parts = link.split(':',1)
+    scheme = len(parts)==2 and parts[0].lower() or ''
+    if _scheme_re.match(scheme) and scheme!='document':
+        kind=scheme.lower()=='pdf' and 'GoToR' or 'URI'
+        if kind=='GoToR': link = parts[1]
+        tx._canvas.linkURL(link, rect, relative=1, kind=kind)
+    else:
+        if link[0]=='#':
+            link = link[1:]
+            scheme=''
+        tx._canvas.linkRect("", scheme!='document' and link or parts[1], rect, relative=1)
 
 def _do_post_text(tx):
 
@@ -68,6 +123,26 @@ def _do_post_text(tx):
     #print "xs.cur_y:", xs.cur_y
 
 # This is more or less copied from RL paragraph
+
+def imgVRange(h,va,fontSize):
+    '''return bottom,top offsets relative to baseline(0)'''
+    if va=='baseline':
+        iyo = 0
+    elif va in ('text-top','top'):
+        iyo = fontSize-h
+    elif va=='middle':
+        iyo = fontSize - (1.2*fontSize+h)*0.5
+    elif va in ('text-bottom','bottom'):
+        iyo = fontSize - 1.2*fontSize
+    elif va=='super':
+        iyo = 0.5*fontSize
+    elif va=='sub':
+        iyo = -0.5*fontSize
+    elif hasattr(va,'normalizedValue'):
+        iyo = va.normalizedValue(fontSize)
+    else:
+        iyo = va
+    return iyo,iyo+h
 
 _56=5./6
 _16=1./6
@@ -747,13 +822,20 @@ if True:
         normal.hyphenation = True
         normal.alignment = TA_JUSTIFY
     
-        text = "Bedauerlicherweise ist ein <ul>Donau</ul>dampfschiffkapitän auch nur ein Dampfschiffkapitän."
+        text = """Bedauerlicherweise ist ein <u>Donau</u>dampfschiffkapitän auch nur ein <a href="http://www.reportlab.org">Dampfschiff</a>kapitän."""
         # strange behaviour when next line uncommented
         text = " ".join(['<font color="red">%s</font>' % w for w in text.split()])
+
+        text="""Das jeweils aktuelle Release der Software kann aber von der entsprechenden
+SourceForge <a color="blue" backColor="yellow" href="http://sourceforge.net/project/showfiles.php?group_id=105867">Download-Seite</a>
+heruntergeladen werden. Die allerneueste in Entwicklung befindliche Version
+wird im Sourceforge Subversion-Repository verwaltet.
+""".replace("\n"," ")
         
         story = []
         text = " ".join(["%d %s" % (i+1,text) for i in range(20)])
         story.append(Paragraph(text, style=normal))
+        story.append(Paragraph(u"Eine Aufzaehlung", style=normal, bulletText="\xe2\x80\xa2"))
 
         doc = TwoColumnDocTemplate("testNewParagraph.pdf", pagesize=PAGESIZE)
         doc.build(story)

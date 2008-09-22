@@ -340,6 +340,47 @@ class StyledWord(Fragment):
         return "SW(%s)" % self.text.encode("utf-8")
         
     __repr__ = __str__
+    
+    def splitAt(self, hyphWord, hp):
+        """
+        Splits the styled word at a given hyphenation point
+        (see wordaxe.hyphen).
+        The result is a tuple (left, right) of StyledWords.
+        Works just like HyphenatedWord.split, but for a StyledWord.
+        """
+        print self, "splitAt", hyphPoint
+        text = self.text
+        assert hyphWord == text
+        # first get the unstyled versions
+        left, right = hyphWord.split(hp)
+        # now restore the styled fragments for left + right
+        remaining = self.frags[:]
+        lfrags = list()
+        ltext = u""
+        rfrags = list()
+        rtext = u""
+        while text.startswith(ltext + remaining[0].text):
+            frag = remaining.pop(0)
+            ltext += frag.text
+            lfrags += frag
+        while text.endswith(remaining[-1].text + rtext):
+            frag = remaining.pop(-1)
+            rtext = frag.text + rtext
+            rfrags += frag + rfrags
+        # Now at most 2 frags might remain.
+        # Decide whether they belong to left or right
+        assert len(remaining) <= 2
+        if remaining:
+            if type(hp) is int:
+                indx = hp
+            else:
+                indx = hp.indx
+            lfrags.append(StyledText(left[len(ltext):], remaining[0].style))
+            rfrags.append(StyledText(right[:len(rtext):], remaining[-1].style))
+        left = StyledWord(lfrags)
+        right = StyledWord(rfrags)
+        return (left,right)
+
 
 class Line(object):
     "A single line in the paragraph"

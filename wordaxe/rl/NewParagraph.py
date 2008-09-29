@@ -341,32 +341,34 @@ class StyledWord(Fragment):
         
     __repr__ = __str__
     
-    def splitAt(self, hyphWord, hp):
+    def splitAt(self, hp):
         """
         Splits the styled word at a given hyphenation point
         (see wordaxe.hyphen).
         The result is a tuple (left, right) of StyledWords.
         Works just like HyphenatedWord.split, but for a StyledWord.
         """
-        print self, "splitAt", hyphPoint
+        
+        #TODO does not work as expected
+        
         text = self.text
-        assert hyphWord == text
+        assert isinstance(text, HyphenatedWord)
         # first get the unstyled versions
-        left, right = hyphWord.split(hp)
+        left, right = text.split(hp)
         # now restore the styled fragments for left + right
-        remaining = self.frags[:]
+        remaining = self.fragments[:]
         lfrags = list()
         ltext = u""
         rfrags = list()
         rtext = u""
-        while text.startswith(ltext + remaining[0].text):
+        while remaining and ltext.startswith(ltext + remaining[0].text):
             frag = remaining.pop(0)
             ltext += frag.text
-            lfrags += frag
-        while text.endswith(remaining[-1].text + rtext):
+            lfrags.append(frag)
+        while remaining and rtext.endswith(remaining[-1].text + rtext):
             frag = remaining.pop(-1)
             rtext = frag.text + rtext
-            rfrags += frag + rfrags
+            rfrags.insert(0, frag)
         # Now at most 2 frags might remain.
         # Decide whether they belong to left or right
         assert len(remaining) <= 2
@@ -376,7 +378,10 @@ class StyledWord(Fragment):
             else:
                 indx = hp.indx
             lfrags.append(StyledText(left[len(ltext):], remaining[0].style))
-            rfrags.append(StyledText(right[:len(rtext):], remaining[-1].style))
+            if rtext:
+                rfrags.insert(0, StyledText(right[:-len(rtext)], remaining[-1].style))
+            else:
+                rfrags.insert(0, StyledText(right, remaining[-1].style))
         left = StyledWord(lfrags)
         right = StyledWord(rfrags)
         return (left,right)
@@ -548,9 +553,21 @@ class Paragraph(Flowable):
                 w = frag.width
                 if width + w > availW:
                     # does not fit 
-                    # TODO Hyphenation support
-                    action = "LINEFEED,ADD"
-                    #print "LINEFEED before", frag
+                    if isinstance(frag, StyledWord):
+                        # Hyphenation support
+                        act, left, right, spaceWasted \
+                            = self.findBestSolution(lineFrags, frag, availW-width, True)
+                        # TODO: vorerst immer mit try_squeeze
+                        if act == self.OVERFLOW:
+                            action = "LINEFEED,ADD"
+                        elif act == self.SQUEEZE:
+                            action = "ADD,LINEFEED"
+                        elif act == self.HYPHENATE:
+                            action = "ADD_L,LINEFEED,ADD_R"
+                        else:
+                            raise AssertionError
+                    else:
+                        action = "LINEFEED,ADD"
             else:
                 # Some Meta Fragment
                 pass
@@ -571,6 +588,14 @@ class Paragraph(Flowable):
                 elif act == "ADD":
                     lineFrags.append(frag)
                     width += getattr(frag, "width", 0)
+                elif act == "ADD_L":
+                    lineFrags.append(left)
+                    width += getattr(left, "width", 0)
+                elif act == "ADD_R":
+                    lineFrags.append(right)
+                    width += getattr(right, "width", 0)
+                else:
+                    raise AssertionError
         else:
             # Everything did fit
             lineHeight = self.calcLineHeight(lineFrags)
@@ -802,9 +827,123 @@ class Paragraph(Flowable):
             tx.setWordSpace(0)
         setXPos(tx,-offset)
         
+    class OVERFLOW:
+         pass
+    class SQUEEZE:
+         pass
+    class HYPHENATE:
+         pass
+
+    def rateHyph(self,base_penalty,frags,word,space_remaining):
+        """Rate a possible hyphenation point"""
+        #### EVTL ist Bewertung falsch, vor allem falls space_remaining ZU klein ist!
+        #print "rateHyph %s %d" % (frags,space_remaining)
+
+        spaces_width = sum([frag.width for frag in frags if isinstance(frag, StyledSpace)])
+        if spaces_width:
+            stretch = space_remaining/spaces_width
+            if stretch<0:
+                stretch_penalty = stretch*stretch*stretch*stretch*5000
+            else:
+                stretch_penalty = stretch*stretch*30
+        else: # HVB 20060907: Kein einziges Wort?
+            if space_remaining>0:
+                 # TODO this should be easier
+                 lst = [(len(frag.text), frag,width) for frag in frags if hasattr(frag,"text")]
+                 sum_len = sum([x[0] for x in lst])
+                 sum_width=sum([x[1] for x in lst])
+                 avg_char_width = sum_width / sum_len
+                 stretch_penalty = space_remaining/avg_char_width*20
+            else:
+                 stretch_penalty = 20000
+        rating = 16384 - base_penalty - stretch_penalty
+        return rating
         
+    # finding bestSolution where the word uses possibly several different font styles
+    # (action,left,right,spaceWasted) = self.findBestSolution(frags,w,currentWidth,maxWidth,windx<len(words))
+    def findBestSolution(self, frags, word, space_remaining, try_squeeze):
+        if self.style.hyphenation:
+            hyphenator = wordaxe.hyphRegistry.get(self.style.language,None)
+        else: # Keine Silbentrennung aktiv
+            hyphenator = None
+        assert isinstance(word, StyledWord)
+        assert space_remaining <= word.width
+            
+        #print "findBestSolution %s %s %s" % (frags, word, space_remaining)
+        nwords = len([True for frag in frags if isinstance(frag,StyledWord)])
+        #print "nwords=%d" % nwords
+        if hyphenator is None:
+            # The old RL way: at least one word per line
+            if nwords:
+                #FALSCH return (self.OVERFLOW, word, 0, "", maxWidth-currentWidth)
+                return (self.OVERFLOW, None, word, space_remaining)
+            else:
+                return (self.SQUEEZE, word, None, space_remaining - word.width)
+        if not isinstance(word.text, HyphenatedWord):
+            hw = hyphenator.hyphenate(word.text)
+            if not hw: hw = HyphenatedWord(word.text, hyphenations=list())
+            word.text = hw
+        assert isinstance(word.text, HyphenatedWord)
+        #print "hyphenations:", word.text.hyphenations
+
+        # try OVERFLOW
+        quality = self.rateHyph(0, frags, None, space_remaining)
+        bestSolution = (self.OVERFLOW, None, word, space_remaining)
+        #print "OV"
+        # try SQUEEZE
+        if try_squeeze and nwords: # HVB 20080925 warum "and nwords"?
+            q = self.rateHyph(0, frags, word, space_remaining - word.width)
+            if q>quality:
+                #print "SQZ"
+                bestSolution = (self.SQUEEZE, word, None, space_remaining - word.width)
+                quality = q
+        # try HYPHENATE
+        for hp in word.text.hyphenations:
+            left,right = word.splitAt(hp)
+            #print "left=%r  right=%r" % (left, right)
+            q = self.rateHyph(100-10*hp.quality,frags,left,space_remaining - left.width)
+            if q>quality:
+                bestSolution = (self.HYPHENATE, left, right, space_remaining - left.width)
+                quality = q
+        if bestSolution[0] is self.OVERFLOW and not nwords:
+            # We have to make a hard break in the word
+            #print "FORCE Hyphenation"
+            # force at least a single character into this line
+            left, right = word.splitAt(HyphenationPoint(1,1,0,"",0,""))
+            bestSolution = (self.HYPHENATE, left, right, 0)
+            for p in range(1,len(word.text)):
+                if hyphWord.text[p-1] not in ["-",SHY]:
+                    r= SHY
+                else:
+                    r = ""
+                left,right = word.splitAt(HyphenationPoint(p,1,0,r,0,""))
+                if left.width <= space_remaining:
+                    bestSolution = (self.HYPHENATE, left, right, space_remaining - left.width)
+                else:
+                    # does not fit anymore
+                    break
+
+        #print "bestSolution:", HVBDBG.s(bestSolution)
+        return bestSolution
+
 
 if True:
+
+    class HVBDBG:
+        @staticmethod
+        def s(obj):
+            if type(obj) == list:
+                return "[" + ", ".join([HVBDBG.s(x) for x in obj]) + "]"
+            elif type(obj) == tuple:
+                return "(" + ", ".join([HVBDBG.s(x) for x in obj]) + ")"
+            elif isinstance(obj, ABag):
+                return "ABag(.text=%r)" % obj.text
+            elif type(obj) == float:
+                return "%1.2f" % obj
+            else:
+                return repr(obj)
+
+
     # Test
     import styles
     styleSheet = styles.getSampleStyleSheet()
@@ -854,6 +993,8 @@ if True:
             self.addPageTemplates(template)
 
     def test():    
+        from wordaxe.DCWHyphenator import DCWHyphenator
+        wordaxe.hyphRegistry["DE"] = DCWHyphenator("DE")
         stylesheet = getSampleStyleSheet()
         normal = stylesheet['BodyText']
         normal.fontName = "Helvetica"
@@ -875,9 +1016,10 @@ wird im Sourceforge Subversion-Repository verwaltet.
         
         story = []
         text = " ".join(["%d %s" % (i+1,text) for i in range(20)])
-        story.append(Paragraph(text, style=normal))
-        story.append(Paragraph(u"Eine Aufzaehlung", style=normal, bulletText="\xe2\x80\xa2"))
-
+        #story.append(Paragraph(text, style=normal))
+        #story.append(Paragraph(u"Eine Aufzaehlung", style=normal, bulletText="\xe2\x80\xa2"))
+        story.append(Paragraph(u"Silbentrennungsverfahren helfen dabei, extrem lange Donaudampfschiffe in handliche Schiffchen aufzuteilen. " * 10, style=normal))
+        #story.append(Paragraph(u"Silbentrennungsverfahren helfen dabei, extrem lange Donaudampfschiffe in handliche Schiffchen aufzuteilen.", style=normal, bulletText="\xe2\x80\xa2"))
         doc = TwoColumnDocTemplate("testNewParagraph.pdf", pagesize=PAGESIZE)
         doc.build(story)
     

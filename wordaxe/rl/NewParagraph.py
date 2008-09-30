@@ -788,7 +788,7 @@ class Paragraph(Flowable):
         # z.B. wenn der Absatz um ein Bild herumflieﬂen soll
         extraSpace = self._width - line.width
         if extraSpace < 0: 
-            return _justifyDrawParaLineX(tx,offset,line,last)
+            return self._justifyDrawParaLineX(tx,offset,line,last)
         setXPos(tx,offset)
         _putFragLine(offset, tx, line)
         setXPos(tx,-offset)
@@ -797,7 +797,7 @@ class Paragraph(Flowable):
         # s.o.
         extraSpace = self._width - line.width
         if extraSpace < 0: 
-            return _justifyDrawParaLineX(tx,offset,line,last)
+            return self._justifyDrawParaLineX(tx,offset,line,last)
         m = offset + extraSpace
         setXPos(tx,m)
         _putFragLine(m, tx, line)
@@ -807,7 +807,7 @@ class Paragraph(Flowable):
         # s.o.
         extraSpace = self._width - line.width
         if extraSpace < 0: 
-            return _justifyDrawParaLineX(tx,offset,line,last)
+            return self._justifyDrawParaLineX(tx,offset,line,last)
         m = offset + 0.5 * extraSpace
         setXPos(tx, m)
         _putFragLine(m, tx, line)

@@ -102,7 +102,7 @@ class HyphenatedWord(unicode):
         super(HyphenatedWord, self).__init__(word, encoding, errors)
         if hyphenations is not None:
             self.hyphenations = hyphenations
-        elif hasattr(word, "hyph"):
+        elif hasattr(word, "hyphenations"):
             self.hyphenations = word.hyphenations
         else:
             raise ValueError("'hyphenations' Argument is missing")

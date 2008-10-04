@@ -533,6 +533,8 @@ class Paragraph(Flowable):
             width = 0
             sumHeight += lineHeight            
 
+        self.width = availW
+        self.height = sumHeight 
         if sumHeight > availH:
             #print id(self), "doesn't fit"
             # don't store the last line (it does not fit)
@@ -540,18 +542,18 @@ class Paragraph(Flowable):
             #                        v
             self._unused = lines[-1].fragments + lineFrags + self.frags[indx:]
             self._lines = lines[:-1]
+            self.height -= lineHeight
         else:
             #print id(self), "fits"
             self._unused = []
             self._lines = lines
-        self._width = availW
         return availW, sumHeight
 
     def split(self, availWidth, availHeight):
         """
         Split the paragraph into two
         """
-        print id(self), "split"
+        #print id(self), "split"
         
         if not hasattr(self, "_lines"):
             # This can only happen when split has been called
@@ -596,6 +598,15 @@ class Paragraph(Flowable):
                         s = i+1
                 else:
                     raise ValueError('invalid autoLeading value %r' % autoLeading)
+            else:
+                l = leading
+                if autoLeading=='max':
+                    l = max(leading,1.2*style.fontSize)
+                elif autoLeading=='min':
+                    l = 1.2*style.fontSize
+                s = int(availHeight/l)
+                height = s*l
+                    
             # Widows/orphans
             # TODO: this cannot work, since we have not yet computed
             # the lines for the second part.
@@ -619,7 +630,8 @@ class Paragraph(Flowable):
                         del self._unused 
                         return []
             first = self.__class__(text=None, style=self.style, bulletText=self.bulletText, lines=self._lines)
-            first._width = self._width # TODO 20080911
+            first.width = self.width # TODO 20080911
+            first.height = self.height
             first._JustifyLast = 1
             if style.firstLineIndent != 0:
                 style = deepcopy(style)

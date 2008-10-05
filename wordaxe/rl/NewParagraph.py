@@ -9,7 +9,7 @@ from reportlab.platypus.paraparser import ParaParser
 from reportlab.platypus.flowables import Flowable
 from reportlab.rl_config import platypus_link_underline 
 import re
-from copy import copy
+from copy import copy, deepcopy
 
 import wordaxe
 from wordaxe.hyphen import HyphenationPoint, SHY, HyphenatedWord, Hyphenator
@@ -18,6 +18,15 @@ from wordaxe.rl.para_fragments import *
 pt = 1 # Points is the base unit in RL
 
 # This is more or less copied from RL paragraph
+
+def cleanBlockQuotedText(text,joiner=u' '):
+    """This is an internal utility which takes triple-
+    quoted text form within the document and returns
+    (hopefully) the paragraph the user intended originally."""
+    def _lineClean(line):
+        return u' '.join([x for x in line.strip().split(u' ') if x])
+    lines=[_lineClean(line) for line in text.split('\n')]
+    return joiner.join(line for line in lines if line)
 
 
 def setXPos(tx,dx):
@@ -345,7 +354,7 @@ def textTransformFrags(frags,style):
 class Paragraph(Flowable):
     "A simple new implementation for Paragraph flowables."
     
-    def __init__(self, text, style, bulletText = None, frags=None, lines=None, caseSensitive=1, encoding='utf-8', keepWhiteSpace=False):
+    def __init__(self, text, style, bulletText = None, frags=None, lines=None, caseSensitive=1, encoding='utf-8', keepWhiteSpace=False, textCleaner=cleanBlockQuotedText):
         """
         Either text and style or frags must be supplied.
         """
@@ -370,12 +379,15 @@ class Paragraph(Flowable):
             # Text parsen
             if not isinstance(text, unicode):
                 text = unicode(text, encoding)
+            if textCleaner: text = textCleaner(text)
             self.frags = list(self.parse(text, style, bulletText))
 
     def parse_tokens(self, text, style, bulletText):
         "Use the ParaParser to create a sequence of fragments"
         parser = ParaParser()
+        parser.caseSensitive = self.caseSensitive
         style1, fragList, bFragList = parser.parse(text, style)
+        textTransformFrags(fragList, style)
         for f in fragList:
             if getattr(f, "lineBreak", False):
                 assert not f.text
@@ -384,6 +396,12 @@ class Paragraph(Flowable):
             del f.text
             if not isinstance(text, unicode):
                 text = unicode(text, "utf-8")
+            #this has already been done before, in textCleaner
+            ## replace NEWLINEs and TABs with SPACEs
+            #if u"\n" in text:
+            #    text = text.replace(u"\n", u" ")
+            #if u"\t" in text:
+            #    text = text.replace(u"\t", u" ")
             while u" " in text:
                 indxSpace = text.find(u" ")
                 if indxSpace > 0:
@@ -431,12 +449,17 @@ class Paragraph(Flowable):
         #print id(self), "wrap", availW, availH
         if hasattr(self, "_lines"):
             height = sum([line.height for line in self._lines])
-            assert height <= availH + 1e-5
+            assert height <= availH + 1e-5, (height, availH)
             return availW, height
         else:
-            return self.i_wrap(availW, availH)
+            style = self.style
+            leftIndent = style.leftIndent
+            first_line_width = availW - (leftIndent+style.firstLineIndent) - style.rightIndent
+            later_widths = availW - leftIndent - style.rightIndent
+            max_widths = [first_line_width, later_widths]
+            return self.i_wrap(availW, availH, max_widths)
             
-    def i_wrap(self, availW, availH):
+    def i_wrap(self, availW, availH, max_widths):
         """
         Return the height and width that are actually needed.
         Note:
@@ -452,13 +475,7 @@ class Paragraph(Flowable):
         width = 0           # width of current line
         lineFrags = []      # (flattened) fragments in current line
         
-        style = self.style
-        leftIndent = style.leftIndent
-        first_line_width = availW - (leftIndent+style.firstLineIndent) - style.rightIndent
-        later_widths = availW - leftIndent - style.rightIndent
-        max_widths = [first_line_width, later_widths]
-        
-        _handleBulletWidth(self.bulletText,style,max_widths)
+        _handleBulletWidth(self.bulletText, self.style, max_widths)
         
         def iter_widths(max_widths=max_widths):
             # an iterator that repeats the last element infinitely
@@ -607,36 +624,37 @@ class Paragraph(Flowable):
                 s = int(availHeight/l)
                 height = s*l
                     
-            # Widows/orphans
-            # TODO: this cannot work, since we have not yet computed
-            # the lines for the second part.
-            n = len(self._lines)
-            allowWidows = getattr(self,'allowWidows',getattr(self,'allowWidows',1))
-            allowOrphans = getattr(self,'allowOrphans',getattr(self,'allowOrphans',0))
-            if not allowOrphans:
-                if s<=1:    #orphan?
-                    del self._lines
-                    del self._unused 
-                    return []
-            if n<=s:
-                return [self]
-            if not allowWidows:
-                if n==s+1: #widow?
-                    if (allowOrphans and n==3) or n>3:
-                        s -= 1  #give the widow some company
-                    else:
-                        #no room for adjustment; force the whole para onwards
+            if False:
+                # Widows/orphans control
+                # TODO: this cannot work, since we have not yet computed
+                # the lines for the second part.
+                n = len(self._lines)
+                allowWidows = getattr(self,'allowWidows',getattr(self,'allowWidows',1))
+                allowOrphans = getattr(self,'allowOrphans',getattr(self,'allowOrphans',0))
+                if not allowOrphans:
+                    if s<=1:    #orphan?
                         del self._lines
                         del self._unused 
                         return []
-            first = self.__class__(text=None, style=self.style, bulletText=self.bulletText, lines=self._lines)
+                if n<=s:
+                    return [self]
+                if not allowWidows:
+                    if n==s+1: #widow?
+                        if (allowOrphans and n==3) or n>3:
+                            s -= 1  #give the widow some company
+                        else:
+                            #no room for adjustment; force the whole para onwards
+                            del self._lines
+                            del self._unused 
+                            return []
+            first = self.__class__(text=None, style=self.style, bulletText=self.bulletText, lines=self._lines, caseSensitive=self.caseSensitive)
             first.width = self.width # TODO 20080911
             first.height = self.height
             first._JustifyLast = 1
             if style.firstLineIndent != 0:
                 style = deepcopy(style)
                 style.firstLineIndent = 0
-            second = self.__class__(text=None, style=self.style, bulletText=None, frags=self._unused)
+            second = self.__class__(text=None, style=self.style, bulletText=None, frags=self._unused, caseSensitive=self.caseSensitive)
             return [first, second]
             
 
@@ -906,6 +924,77 @@ class Paragraph(Flowable):
 
         #print "bestSolution:", HVBDBG.s(bestSolution)
         return bestSolution
+
+
+
+class ParagraphAndImage(Flowable):
+    '''combine a Paragraph and an Image'''
+    def __init__(self,P,I,xpad=3,ypad=3,side='right'):
+        self.P = P
+        self.I = I
+        self.xpad = xpad
+        self.ypad = ypad
+        self._side = side
+
+    def getSpaceBefore(self):
+        return max(self.P.getSpaceBefore(),self.I.getSpaceBefore())
+
+    def getSpaceAfter(self):
+        return max(self.P.getSpaceAfter(),self.I.getSpaceAfter())
+
+    def wrap(self,availWidth,availHeight):
+        wI, hI = self.I.wrap(availWidth,availHeight)
+        self.wI = wI
+        self.hI = hI
+        # work out widths array for breaking
+        self.width = availWidth
+        P = self.P
+        style = P.style
+        xpad = self.xpad
+        ypad = self.ypad
+        leading = style.leading
+        leftIndent = style.leftIndent
+        later_widths = availWidth - leftIndent - style.rightIndent
+        intermediate_widths = later_widths - xpad - wI
+        first_line_width = intermediate_widths - style.firstLineIndent
+        P.width = 0
+        nIW = int((hI+ypad)/leading)
+
+        if hasattr(P, "_lines"):
+            pass
+        else:
+            max_widths = [first_line_width] + nIW*[intermediate_widths] + [later_widths]
+            pw, ph = P.i_wrap(availWidth, availHeight, max_widths)
+        if self._side=='left':
+            self._offsets = [wI+xpad]*(1+nIW)+[0]
+        self.height = max(hI,P.height)
+        return (self.width, self.height)
+
+    def split(self,availWidth, availHeight):
+        P, wI, hI, ypad = self.P, self.wI, self.hI, self.ypad
+        if hI+ypad>availHeight or len(P.frags)<=0: return []
+        S = P.split(availWidth,availHeight)
+        if not S: return S
+        P = self.P = S[0]
+        del S[0]
+        style = P.style
+        #P.height = len(self.P.blPara.lines)*style.leading
+        self.height = max(hI,P.height)
+        return [self]+S
+
+    def draw(self):
+        canv = self.canv
+        if self._side=='left':
+            self.I.drawOn(canv,0,self.height-self.hI)
+            self.P._offsets = self._offsets
+            try:
+                self.P.drawOn(canv,0,0)
+            finally:
+                del self.P._offsets
+        else:
+            self.I.drawOn(canv,self.width-self.wI-self.xpad,self.height-self.hI)
+            self.P.drawOn(canv,0,0)
+
 
 # from here on, only test code...
 

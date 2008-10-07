@@ -1,7 +1,61 @@
 #!/bin/env/python
 # -*- coding: utf-8 -*-
 
-# Neue Paragraph-Implementierung
+# A new paragraph implementation
+
+__doc__ = """
+A new Paragraph implementation.
+
+A Paragraph can be constructed in one of two ways:
+ * supplying text (with support for a HTML-subset formatting)
+ * supplying frags directly.
+If text is supplied, the constructor calls the ParaParser
+to parse it and construct frags.
+
+Please note that a "frag" is different from the ReportLab
+standard "frag": Here, a frag is either a StyledWord instance 
+or a StyledFragment instance (see para_fragments.py).
+However, there are two functions in para_fragments.py that
+allow you to convert classic RL frag lists to wordaxe frag lists
+and vice versa: 
+frags_reportlab_to_wordaxe and frags_wordaxe_to_reportlab
+
+The following is a definition of some typographic concepts:
+´
+
+BASELINE, ASCENT, DESCENT:
+  Characters seem to "rest" on the baseline.
+  The ASCENT of a font is the maximum distance from the baseline to 
+  the top of upper-case characters (accents not counted).
+  Usually,all upper-case characters in a fonts have the same height,
+  and characters like 'b', 'd', 'l', 't' have this same height, too.
+  The DESCENT of a font is the maximum distance from the baseline
+  to the bottom of characters like 'f','g', 'j' etc.
+  
+  Note that other, non-character glyphs (like the integral symbol)
+  may differ in height, for example, the integral symbol's height
+  is greater than the font's ascent+descent.
+  
+LEADING:
+  (pronounced like heading, it comes from the metal used in
+  typesetting).
+-----------------------------------------------------------------
+  Note: The definition used inside the ReportLab toolkit is 
+  different from the definition used elsewhere!
+-----------------------------------------------------------------
+  While the common definition is "the space between the bottom
+  of the characters of one line and the top of the characters in
+  the next line (i.e. line height = ASCENT+DESCENT+LEADING),
+  ReportLab uses a different definition - see userguide.pdf,
+  "Text object methods, Interline spacing (Leading)".  
+  
+See also:
+ * http://developer.apple.com/documentation/mac/Text/Text-186.html
+ * http://java.sun.com/developer/onlineTraining/Media/2DText/other.html
+Ascent:
+
+
+"""
 
 from reportlab.lib.units import cm
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
@@ -93,18 +147,8 @@ def _putFragLine(cur_x, tx, line):
         tx._oleading = leading
     ws = getattr(tx,'_wordSpace',0)
     nSpaces = 0
-
-    # Now join fragments with the same style again
-    fragments = []
-    for frag in line.iter_flattened_frags():
-        if not fragments or not hasattr(frag,"text") or last_style is not frag.style:
-            last_style = frag.style
-            last_frag = copy(frag)
-            fragments.append(last_frag)
-        else:
-            last_frag.text += frag.text
-            last_frag.width += frag.width
         
+    fragments = list(frags_wordaxe_to_reportlab(line.iter_flattened_frags()))
     for frag in fragments:
         #print "render", frag
         f = frag.style
@@ -193,7 +237,7 @@ def _putFragLine(cur_x, tx, line):
                     xs.link_x = cur_x_s
                     xs.linkColor = xs.textColor
             txtlen = tx._canvas.stringWidth(text, tx._fontname, tx._fontsize)
-            # TODO wir haben doch die TExtlänge schon!
+            # TODO why is this? We already have got the text length!?
             cur_x += txtlen
             nSpaces += text.count(' ')
     cur_x_s = cur_x+(nSpaces-1)*ws
@@ -376,43 +420,11 @@ class Paragraph(Flowable):
         else:
             #print id(self), "init with text"
             assert isinstance(text, basestring)
-            # Text parsen
+            # parse text
             if not isinstance(text, unicode):
                 text = unicode(text, encoding)
             if textCleaner: text = textCleaner(text)
             self.frags = list(self.parse(text, style, bulletText))
-
-    def parse_tokens(self, text, style, bulletText):
-        "Use the ParaParser to create a sequence of fragments"
-        parser = ParaParser()
-        parser.caseSensitive = self.caseSensitive
-        style1, fragList, bFragList = parser.parse(text, style)
-        textTransformFrags(fragList, style)
-        for f in fragList:
-            if getattr(f, "lineBreak", False):
-                assert not f.text
-                yield StyledNewLine(f)
-            text = f.text
-            del f.text
-            if not isinstance(text, unicode):
-                text = unicode(text, "utf-8")
-            #this has already been done before, in textCleaner
-            ## replace NEWLINEs and TABs with SPACEs
-            #if u"\n" in text:
-            #    text = text.replace(u"\n", u" ")
-            #if u"\t" in text:
-            #    text = text.replace(u"\t", u" ")
-            while u" " in text:
-                indxSpace = text.find(u" ")
-                if indxSpace > 0:
-                    yield StyledText(text[:indxSpace], f)
-                indxNext = indxSpace
-                while text[indxNext:].startswith(u" "):
-                    indxNext += 1
-                yield StyledSpace(f) # we ignore repeated blanks
-                text = text[indxNext:]
-            if text:
-                yield StyledText(text, f)
 
     def parse(self, text, style, bulletText):
         """
@@ -421,16 +433,12 @@ class Paragraph(Flowable):
         but StyledTexts are grouped to StyledWords.
         """
         wordFrags = []
-        for frag in self.parse_tokens(text, style, bulletText):
-            if isinstance(frag, StyledText):
-                wordFrags.append(frag)
-            else:
-                if wordFrags:
-                    yield StyledWord(wordFrags)
-                    wordFrags = []
-                yield frag
-        if wordFrags:
-            yield StyledWord(wordFrags)
+        "Use the ParaParser to create a sequence of fragments"
+        parser = ParaParser()
+        parser.caseSensitive = self.caseSensitive
+        style1, frag_list, bfrag_list = parser.parse(text, style)
+        textTransformFrags(frag_list, style)
+        return frags_reportlab_to_wordaxe(frag_list, style)
         
     def __repr__(self):
         return "%s(frags=%r)" % (self.__class__.__name__, self.frags)
@@ -441,7 +449,7 @@ class Paragraph(Flowable):
         """
         #print "calcLineHeight", self.style.leading
         return self.style.leading
-        # TODO aus frags berechnen?
+        # TODO or should this be computed from the frags?
     
     def wrap(self, availW, availH):
         """
@@ -500,7 +508,7 @@ class Paragraph(Flowable):
                         # Hyphenation support
                         act, left, right, spaceWasted \
                             = self.findBestSolution(lineFrags, frag, max_width-width, True)
-                        # TODO: vorerst immer mit try_squeeze
+                        # TODO: for now, always try squeeze
                         if act == self.OVERFLOW:
                             action = "LINEFEED,ADD"
                         elif act == self.SQUEEZE:
@@ -555,7 +563,7 @@ class Paragraph(Flowable):
         if sumHeight > availH:
             #print id(self), "doesn't fit"
             # don't store the last line (it does not fit)
-            # TODO muss hier evtl. noch ein Linefeed dazwischen?
+            # TODO perhaps we have to insert a Linefeed here?
             #                        v
             self._unused = lines[-1].fragments + lineFrags + self.frags[indx:]
             self._lines = lines[:-1]
@@ -787,8 +795,6 @@ class Paragraph(Flowable):
             canvas.restoreState()
         
     def _leftDrawParaLineX( self, tx, offset, line, last=0):
-        # TODO 20080911 ist eher unsinnig! Die Breite des Absatzes kann ja im Verlauf schwanken,
-        # z.B. wenn der Absatz um ein Bild herumfließen soll
         if line.space_wasted < 0: 
             return self._justifyDrawParaLineX(tx,offset,line,last)
         setXPos(tx,offset)
@@ -796,7 +802,6 @@ class Paragraph(Flowable):
         setXPos(tx,-offset)
 
     def _rightDrawParaLineX( self, tx, offset, line, last=0):
-        # s.o.
         if line.space_wasted < 0: 
             return self._justifyDrawParaLineX(tx,offset,line,last)
         m = offset + line.space_wasted
@@ -805,7 +810,6 @@ class Paragraph(Flowable):
         setXPos(tx,-m)
 
     def _centerDrawParaLineX( self, tx, offset, line, last=0):
-        # s.o.
         if line.space_wasted < 0: 
             return self._justifyDrawParaLineX(tx,offset,line,last)
         m = offset + 0.5 * line.space_wasted
@@ -814,10 +818,10 @@ class Paragraph(Flowable):
         setXPos(tx,-m)
         
     def _justifyDrawParaLineX( self, tx, offset, line, last=0):
-        # s.o.
         setXPos(tx,offset)
         frags = line.fragments
         nSpaces = sum([len(frag.text) for frag in frags if isinstance(frag, StyledSpace)])
+        # TODO: if !nSpaces use txt.setCharSpace instead
         if last or not nSpaces or abs(line.space_wasted)<=1e-8 or isinstance(frags[-1], StyledNewLine):
             _putFragLine(offset, tx, line)  #no space modification
         else:
@@ -835,7 +839,7 @@ class Paragraph(Flowable):
 
     def rateHyph(self,base_penalty,frags,word,space_remaining):
         """Rate a possible hyphenation point"""
-        #### EVTL ist Bewertung falsch, vor allem falls space_remaining ZU klein ist!
+        #### The rating could be wrong, in particular if space_remaining is too small!
         #print "rateHyph %s %d" % (frags,space_remaining)
 
         spaces_width = sum([frag.width for frag in frags if isinstance(frag, StyledSpace)])
@@ -845,7 +849,7 @@ class Paragraph(Flowable):
                 stretch_penalty = stretch*stretch*stretch*stretch*5000
             else:
                 stretch_penalty = stretch*stretch*30
-        else: # HVB 20060907: Kein einziges Wort?
+        else: # HVB 20060907: Not a single space so far
             if space_remaining>0:
                  # TODO this should be easier
                  lst = [(len(frag.text), frag,width) for frag in frags if hasattr(frag,"text")]
@@ -863,7 +867,8 @@ class Paragraph(Flowable):
     def findBestSolution(self, frags, word, space_remaining, try_squeeze):
         if self.style.hyphenation:
             hyphenator = wordaxe.hyphRegistry.get(self.style.language,None)
-        else: # Keine Silbentrennung aktiv
+        else: 
+            # Hyphenation deactivated
             hyphenator = None
         assert isinstance(word, StyledWord)
         assert space_remaining <= word.width
@@ -874,7 +879,6 @@ class Paragraph(Flowable):
         if hyphenator is None:
             # The old RL way: at least one word per line
             if nwords:
-                #FALSCH return (self.OVERFLOW, word, 0, "", maxWidth-currentWidth)
                 return (self.OVERFLOW, None, word, space_remaining)
             else:
                 return (self.SQUEEZE, word, None, space_remaining - word.width)
@@ -890,7 +894,7 @@ class Paragraph(Flowable):
         bestSolution = (self.OVERFLOW, None, word, space_remaining)
         #print "OV"
         # try SQUEEZE
-        if try_squeeze and nwords: # HVB 20080925 warum "and nwords"?
+        if try_squeeze and nwords: # HVB 20080925 why "and nwords"?
             q = self.rateHyph(0, frags, word, space_remaining - word.width)
             if q>quality:
                 #print "SQZ"
@@ -971,6 +975,7 @@ class ParagraphAndImage(Flowable):
         return (self.width, self.height)
 
     def split(self,availWidth, availHeight):
+        print "TODO: ParagraphAndImage.split does not work!"
         P, wI, hI, ypad = self.P, self.wI, self.hI, self.ypad
         if hI+ypad>availHeight or len(P.frags)<=0: return []
         S = P.split(availWidth,availHeight)
@@ -1036,12 +1041,9 @@ if __name__ == "__main__":
     USE_HYPHENATION = True
 
     if USE_HYPHENATION:
-        try:
-            import wordaxe.rl.styles
-            from wordaxe.DCWHyphenator import DCWHyphenator
-            wordaxe.hyphRegistry['DE'] = DCWHyphenator('DE', 5)
-        except SyntaxError:
-            print "could not import hyphenation - try to continue WITHOUT hyphenation!"
+        import wordaxe.rl.styles
+        from wordaxe.DCWHyphenator import DCWHyphenator
+        wordaxe.hyphRegistry['DE'] = DCWHyphenator('DE', 5)
 
     PAGESIZE = pagesizes.landscape(pagesizes.A4)
 

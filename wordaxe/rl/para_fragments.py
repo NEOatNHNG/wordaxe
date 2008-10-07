@@ -3,6 +3,8 @@
 
 # Helper classes for the new Paragraph-Implementation
 
+from copy import copy
+
 import reportlab.pdfbase.pdfmetrics as pdfmetrics
 from reportlab.lib.abag import ABag
 
@@ -190,9 +192,79 @@ class Line(object):
         """
         Returns the fragments flattened (one word may contribute several fragments).
         """
-        for frag in self.fragments:
-            if isinstance(frag, StyledWord):
-                for f in frag.fragments:
-                    yield f
-            else:
-                yield frag
+        return flatten_frags(self.fragments)
+
+
+def frags_to_StyledFragments(frag_list):
+    """
+    A helper function for frags_reportlab_to_wordaxe.
+    Yields StyledWords, StyledSpace and other entries,   
+    """
+    for f in frag_list:
+        if getattr(f, "lineBreak", False):
+            assert not f.text
+            yield StyledNewLine(f)
+        text = f.text
+        del f.text
+        if not isinstance(text, unicode):
+            text = unicode(text, "utf-8")
+        while u" " in text:
+            indxSpace = text.find(u" ")
+            if indxSpace > 0:
+                yield StyledText(text[:indxSpace], f)
+            indxNext = indxSpace
+            while text[indxNext:].startswith(u" "):
+                indxNext += 1
+            yield StyledSpace(f) # we ignore repeated blanks
+            text = text[indxNext:]
+        if text:
+            yield StyledText(text, f)
+                
+
+def frags_reportlab_to_wordaxe(frags, style):
+    """
+    Converts an iterator of reportlab frags to wordaxe frags.
+    Yields StyledWords, StyledSpace and other entries,
+    but StyledTexts are grouped to StyledWords.
+    """
+    word_frags = []
+    for frag in frags_to_StyledFragments(frags):
+        if isinstance(frag, StyledText):
+            word_frags.append(frag)
+        else:
+            if word_frags:
+                yield StyledWord(word_frags)
+                word_frags = []
+            yield frag
+    if word_frags:
+        yield StyledWord(word_frags)
+
+def flatten_frags(frags):
+    """
+    A helper function that flattens the StyledFragments,
+    i.e. StyledWords are split into StyledText fragments.
+    """
+    for frag in frags:
+        if isinstance(frag, StyledWord):
+            for f in frag.fragments:
+                yield f
+        else:
+            yield frag
+    
+def frags_wordaxe_to_reportlab(frags):
+    """
+    Converts an iterator of wordaxe frags to reportlab frags.
+    Fragments of the same style will be joined.
+    """
+    last_frag = None
+    for frag in flatten_frags(frags):
+        if last_frag is None or not hasattr(frag,"text") or last_style is not frag.style:
+            if last_frag is not None:
+                yield last_frag
+            last_style = frag.style
+            last_frag = copy(frag)
+        else:
+            last_frag.text += frag.text
+            last_frag.width += frag.width
+    if last_frag is not None:
+        yield last_frag

@@ -436,8 +436,11 @@ class Paragraph(Flowable):
         "Use the ParaParser to create a sequence of fragments"
         parser = ParaParser()
         parser.caseSensitive = self.caseSensitive
-        style1, frag_list, bfrag_list = parser.parse(text, style)
+        style, frag_list, bullet_frag_list = parser.parse(text, style)
+        if bullet_frag_list:
+            self.bulletText = bullet_frag_list
         textTransformFrags(frag_list, style)
+        self.style = style
         return frags_reportlab_to_wordaxe(frag_list, style)
         
     def __repr__(self):

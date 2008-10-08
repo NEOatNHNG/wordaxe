@@ -530,12 +530,16 @@ class Paragraph(Flowable):
                 action = "ADD"
             for act in action.split(","):
                 if act == "LINEFEED":
+                    if isinstance(frag,StyledNewLine):
+                        pass #print "LINEFEED", frag, self.frags
                     if not self.keepWhiteSpace:
                         # ignore space at the end of the line for the
                         # width calculation
                         for f in reversed(lineFrags):
                             if isinstance(f, StyledSpace):
                                 width -= f.width
+                                if width <= 0:
+                                    width = 0
                             else:
                                 break
                     #print act, 
@@ -572,6 +576,7 @@ class Paragraph(Flowable):
                     raise AssertionError("Action:%r" % action)
         else:
             # Everything did fit
+            indx = len(self.frags)
             lineHeight = self.calcLineHeight(lineFrags)
             baseline = 0   # TODO correct baseline calculation
             if not lineFrags and lines:
@@ -594,24 +599,37 @@ class Paragraph(Flowable):
         self.width = availW
         self.height = sumHeight 
         if sumHeight > availH:
-            #print id(self), "doesn't fit"
+            #print id(self), "needs splitting"
             # don't store the last line (it does not fit)
             # TODO perhaps we have to insert a Linefeed here?
             #                        v
-            self._unused = lines[-1].fragments + lineFrags + self.frags[indx:]
+            self._unused = lines[-1].fragments
+            _x = set(lineFrags).intersection(set(self._unused)) 
+            assert not _x, _x
+            self._unused += lineFrags
+            _x = set(self.frags[indx:]).intersection(set(self._unused)) 
+            assert not _x, (id(self), _x, indx, len(self.frags), self.frags)
+            self._unused += self.frags[indx:]
+            assert len(self._unused) == len(set(self._unused))
             self._lines = lines[:-1]
             self.height -= lineHeight
+            #print "%d lines, lineHeight=%f" % (len(lines), lineHeight)
+            #print "in wrap: self.height=%f" % (self.height)
+            #print "self.frags=%s" % self.frags
+            #if len(lines)==2:
+            #    print lines
         else:
             #print id(self), "fits"
             self._unused = []
             self._lines = lines
+        assert self.height <= availH, (id(self), self.height, availH)
         return availW, sumHeight
 
     def split(self, availWidth, availHeight):
         """
         Split the paragraph into two
         """
-        #print id(self), "split"
+        #print id(self), "split", availWidth, availHeight
         
         if not hasattr(self, "_lines"):
             # This can only happen when split has been called
@@ -620,10 +638,12 @@ class Paragraph(Flowable):
             # I assume this is only the case if the free space
             # in the frame is not even enough for getSpaceBefore.
             # Thus we can safely return []
+            print "split without previous wrap"
             return []
         
         assert hasattr(self, "_unused")
         if len(self._lines) < 1: # minimum widow rows
+            #print "split with lines == []"
             # Put everything on the next frame
             assert hasattr(self, "frags")
             del self._unused
@@ -631,6 +651,7 @@ class Paragraph(Flowable):
             return []
         elif not self._unused:
             # Everything fits on this page
+            #print "everything fits."
             return [self]
         else:
             style = self.style
@@ -696,6 +717,8 @@ class Paragraph(Flowable):
                 style = deepcopy(style)
                 style.firstLineIndent = 0
             second = self.__class__(text=None, style=self.style, bulletText=None, frags=self._unused, caseSensitive=self.caseSensitive)
+            #print "first id=%d height=%f" % (id(first), first.height)
+            #print "secnd id=%d" % id(second)
             return [first, second]
             
 
@@ -1059,8 +1082,8 @@ if __name__ == "__main__":
     style = styleSheet["Normal"]
     text = "Der blau<b>e </b><br />Klaus"
     p = Paragraph(text, style)
-    print "width=%f" % sum([f.width for f in p.frags if hasattr(f,"width")])
-    print "p=%r" % p
+    #print "width=%f" % sum([f.width for f in p.frags if hasattr(f,"width")])
+    #print "p=%r" % p
     
     import os
     import sys

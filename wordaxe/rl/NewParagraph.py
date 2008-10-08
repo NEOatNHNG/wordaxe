@@ -148,7 +148,7 @@ def _putFragLine(cur_x, tx, line):
     ws = getattr(tx,'_wordSpace',0)
     nSpaces = 0
         
-    fragments = list(frags_wordaxe_to_reportlab(line.iter_flattened_frags()))
+    fragments = list(frags_wordaxe_to_reportlab(line.iter_print_frags()))
     for frag in fragments:
         #print "render", frag
         f = frag.style
@@ -460,7 +460,7 @@ class Paragraph(Flowable):
         #print id(self), "wrap", availW, availH
         if hasattr(self, "_lines"):
             height = sum([line.height for line in self._lines])
-            assert height <= availH + 1e-5, (height, availH)
+            #assert height <= availH + 1e-5, (height, availH)
             return availW, height
         else:
             style = self.style
@@ -498,7 +498,7 @@ class Paragraph(Flowable):
         for indx, frag in enumerate(self.frags):
             if sumHeight > availH:
                 break
-            action = "ADD"
+            action = None
             w = 0
             if isinstance(frag, StyledNewLine):
                 action = "LINEFEED,IGNORE"
@@ -522,11 +522,22 @@ class Paragraph(Flowable):
                             raise AssertionError
                     else:
                         action = "LINEFEED,ADD"
+                else:
+                    # will fit into current line
+                    action = "ADD"
             else:
                 # Some Meta Fragment
-                pass
+                action = "ADD"
             for act in action.split(","):
                 if act == "LINEFEED":
+                    if not self.keepWhiteSpace:
+                        # ignore space at the end of the line for the
+                        # width calculation
+                        for f in reversed(lineFrags):
+                            if isinstance(f, StyledSpace):
+                                width -= f.width
+                            else:
+                                break
                     #print act, 
                     lineHeight = self.style.leading # TODO correct height calculation
                     #print lineHeight, 
@@ -542,24 +553,43 @@ class Paragraph(Flowable):
                     pass
                 elif act == "ADD":
                     lineFrags.append(frag)
-                    width += getattr(frag, "width", 0)
+                    # ignore space at the start of the line for the
+                    # width calculation
+                    if not self.keepWhiteSpace \
+                    and not width and isinstance(frag, StyledSpace):
+                            pass
+                    else:
+                        width += getattr(frag, "width", 0)
                 elif act == "ADD_L":
                     lineFrags.append(left)
                     width += getattr(left, "width", 0)
                 elif act == "ADD_R":
                     lineFrags.append(right)
                     width += getattr(right, "width", 0)
+                elif not act:
+                    pass
                 else:
-                    raise AssertionError
+                    raise AssertionError("Action:%r" % action)
         else:
             # Everything did fit
             lineHeight = self.calcLineHeight(lineFrags)
             baseline = 0   # TODO correct baseline calculation
-            line = Line(lineFrags, width, lineHeight, baseline, max_width - width, self.keepWhiteSpace)
-            lines.append(line)
-            lineFrags = []
-            width = 0
-            sumHeight += lineHeight            
+            if not lineFrags and lines:
+                pass # Ignore the final line if it's empty and there are already lines.
+            else:
+                # ignore space at the end of the line for the
+                # width calculation
+                if not self.keepWhiteSpace:
+                    for f in reversed(lineFrags):
+                        if isinstance(f, StyledSpace):
+                            width -= f.width
+                        else:
+                            break
+                line = Line(lineFrags, width, lineHeight, baseline, max_width - width, self.keepWhiteSpace)
+                lines.append(line)
+                lineFrags = []
+                width = 0
+                sumHeight += lineHeight            
 
         self.width = availW
         self.height = sumHeight 

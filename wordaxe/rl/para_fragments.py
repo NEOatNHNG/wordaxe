@@ -143,25 +143,33 @@ class Line(object):
         self.fragments = fragments
         self.width = width
         #print fragments
-        #print "Line width:", width, sum(getattr(f, "width",0) for f in fragments)
-        assert abs(self.width - sum(getattr(f,"width",0) for f in fragments)) <= 1e-5
         self.height = height
         self.baseline = baseline
+        self.keepWhiteSpace = keepWhiteSpace
         assert 0 <= self.baseline
         assert baseline <= height
         self.space_wasted = space_wasted
-        # kill WhiteSpace at beginning and end of line
+        # don't consider WhiteSpace at the start and end of the line
+        # for the width calculation
+        print_indx_start, print_indx_end = (0, len(self.fragments))
         if not keepWhiteSpace:
-            while self.fragments and isinstance (self.fragments[0], StyledWhiteSpace):
-                ws = self.fragments.pop(0)
-                self.width -= ws.width
-                self.space_wasted += ws.width
-            while self.fragments and isinstance (self.fragments[-1], StyledWhiteSpace):
-                ws = self.fragments.pop(-1)
-                self.width -= ws.width
-                self.space_wasted += ws.width
+            while print_indx_start < len(fragments) \
+            and isinstance(fragments[print_indx_start], StyledSpace):
+                print_indx_start += 1
+            while print_indx_end > print_indx_start \
+            and isinstance(fragments[print_indx_end-1], StyledSpace):
+                print_indx_end -= 1
             # TODO: What to do with two differently styled spaces 
             #       in the middle of the line?
+        self.print_indx_start = print_indx_start
+        self.print_indx_end = print_indx_end
+        #assert abs(self.width - sum(getattr(f,"width",0) for f in fragments[print_indx_start:print_indx_end])) <= 1e-5
+        if not abs(self.width - sum(getattr(f,"width",0) for f in fragments[print_indx_start:print_indx_end])) <= 1e-5:
+            print "Assertion failure"
+            print "self.width=%f" % self.width
+            print "nFrags=%d" % len(fragments)
+            print "printrange=%d:%d" % (self.print_indx_start, print_indx_end)
+            print "printwidth=%f" % sum(getattr(f,"width",0) for f in fragments[print_indx_start:print_indx_end])
 
         # Compute font size
         max_size = 0
@@ -194,6 +202,11 @@ class Line(object):
         """
         return flatten_frags(self.fragments)
 
+    def iter_print_frags(self):
+        """
+        Returns the fragments (to print) flattened (one word may contribute several fragments).
+        """
+        return flatten_frags(self.fragments[self.print_indx_start:self.print_indx_end])
 
 def frags_to_StyledFragments(frag_list):
     """

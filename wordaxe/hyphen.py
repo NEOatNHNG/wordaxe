@@ -248,6 +248,8 @@ class Hyphenator:
     This is made up of
     Ur = Primal
     Instinkt = Instinct
+    Hyphenatiing this word in a valid, but unfortunate position,
+    yields "Urin-stinkt" (urine stinks).
    
     These thoughts have led to the following interface for hyphenation.
     """

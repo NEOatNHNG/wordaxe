@@ -264,7 +264,9 @@ class BaseHyphenator(Hyphenator):
             assert isinstance(zeile,unicode)
             word, expected = zeile.strip().split()
             loesung = self.hyphenate(word)
-            if loesung.hyphenations:
+            if loesung is None:
+                output = word # unknown word
+            elif loesung.hyphenations:
                 x = word
                 ins=0
                 for h in loesung.hyphenations:

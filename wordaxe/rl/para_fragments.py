@@ -36,6 +36,9 @@ class StyledText(StyledFragment):
         super(StyledText, self).__init__(style)
         self.text = text
         self.width = self.str_width(text, style)
+        cbDefn = getattr(style,"cbDefn", None)
+        if cbDefn is not None and not self.width:
+            self.width = getattr(cbDefn, "width", 0)
         self.ascent, self.descent = pdfmetrics.getAscentDescent(style.fontName, style.fontSize)
 
     def __str__(self):
@@ -170,6 +173,7 @@ class Line(object):
             print "nFrags=%d" % len(fragments)
             print "printrange=%d:%d" % (self.print_indx_start, print_indx_end)
             print "printwidth=%f" % sum(getattr(f,"width",0) for f in fragments[print_indx_start:print_indx_end])
+            for i,f in enumerate(fragments): print i, f, getattr(f, "width")
 
         # Compute font size
         max_size = 0
@@ -214,6 +218,7 @@ def frags_to_StyledFragments(frag_list):
     Yields StyledWords, StyledSpace and other entries,   
     """
     for f in frag_list:
+        #if hasattr(f, "cbDefn") and f.cbDefn.kind!="img": print "convert", f
         if getattr(f, "lineBreak", False):
             assert not f.text
             yield StyledNewLine(f)
@@ -230,7 +235,7 @@ def frags_to_StyledFragments(frag_list):
                 indxNext += 1
             yield StyledSpace(f) # we ignore repeated blanks
             text = text[indxNext:]
-        if text:
+        if text or hasattr(f, "cbDefn"):
             yield StyledText(text, f)
                 
 

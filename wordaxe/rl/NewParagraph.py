@@ -153,6 +153,7 @@ def _putFragLine(cur_x, tx, line):
         #print "render", frag
         f = frag.style
         if hasattr(f,'cbDefn'):
+            #print "render", f
             cbDefn = f.cbDefn
             kind = cbDefn.kind
             if kind=='img':
@@ -177,7 +178,7 @@ def _putFragLine(cur_x, tx, line):
                     if not func:
                         raise AttributeError("Missing %s callback attribute '%s'" % (kind,name))
                     func(tx._canvas,kind,cbDefn.label)
-            if f is words[-1]:
+            if frag is fragments[-1]:
                 if not tx._fontname:
                     tx.setFont(xs.style.fontName,xs.style.fontSize)
                     tx._textOut('',1)

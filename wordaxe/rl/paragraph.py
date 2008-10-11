@@ -12,6 +12,9 @@
 
 __version__=''' paragraph.py, V 1.0,  Henning von Bargen, $Revision:  1.0 '''
 
+
+# The code here might not be in use - see end of file!
+
 from types import StringType, ListType, UnicodeType, TupleType
 
 from reportlab.platypus.paragraph import *
@@ -26,6 +29,7 @@ from reportlab.platypus.paragraph import _56, _16
 import traceback
 import copy
 from wordaxe import SHY, hyphRegistry, hyphen, HyphenatedWord, HyphenationPoint
+
 
 def myjoin(tlist, joiner=u" "):
     return joiner.join((isinstance(t,unicode) and t or t.decode("utf8")) for t in tlist)
@@ -1170,3 +1174,9 @@ class Paragraph(_orig_Paragraph):
             return text
         else:
             return ''
+
+# Don't use this file if USE_NEW_PARAGRAPH is selected.
+
+from wordaxe.rl import USE_NEW_PARAGRAPH
+if USE_NEW_PARAGRAPH:
+    from wordaxe.rl.NewParagraph import *

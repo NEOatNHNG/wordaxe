@@ -100,12 +100,74 @@ class StyledWord(Fragment):
         Works just like HyphenatedWord.split, but for a StyledWord.
         """
         
-        #TODO does not work as expected
-        
-        text = self.text
-        assert isinstance(text, HyphenatedWord)
+        #print self, "splitAt", hp
+        assert isinstance(self.text, HyphenatedWord)
         # first get the unstyled versions
-        left, right = text.split(hp)
+        ltext, rtext = self.text.split(hp)
+        #print "   unstyled would return", ltext, rtext
+        if isinstance(hp, int):
+            indx = hp
+            nl = nr = 0
+            sl = SHY
+            sr = u""
+        else:
+            indx = hp.indx
+            nl = hp.nl
+            nr = hp.nr
+            sl = hp.sl
+            sr = hp.sr
+        lfrags = []
+        rfrags = []
+        n = 0
+        stillLeftPart = True
+        firstRight = False
+        for frag in self.fragments:
+            if not isinstance(frag, StyledText):
+                if stillLeftPart:
+                    lfrags.append(frag)
+                else:
+                    rfrags.append(frag)
+                continue
+            text = frag.text
+            if stillLeftPart:
+                if len(text) < indx-n:
+                    # fragment still before the hyphenation point
+                    lfrags.append(frag)
+                    n += len(text)
+                elif len(text) == indx-n:
+                    # fragment boundary exactly at the hyphenation point
+                    if nl>0: text = text[:-nl]
+                    if sl: text += sl
+                    if text is frag.text:
+                        lfrags.append(frag)
+                    else:
+                        lfrags.append(StyledText(text, frag.style))
+                    n += len(text)
+                    stillLeftPart = False
+                    firstRight = True
+                else:
+                    # fragment crosses the hyphenation point
+                    n1 = indx-n
+                    tl = text[:n1-nl] + sl
+                    tr = sr + text[n1+nr:]
+                    lfrags.append(StyledText(tl, frag.style))
+                    rfrags.append(StyledText(tr, frag.style))
+                    stillLeftPart = False
+            elif firstRight and (sr or nr):
+                rfrags.append(StyledText(sr + frag.text[nr:], frag.style))
+            else:
+                rfrags.append(frag)
+        left = StyledWord(lfrags)
+        right = StyledWord(rfrags)
+        #print "splitWordAt returns %s, %s" % (left, right)
+        assert left.text == ltext
+        assert unicode(right.text) == rtext
+        right.text = rtext
+        return left, right        
+
+        # OLD CODE
+
+        print "left,right=", left, right
         # now restore the styled fragments for left + right
         remaining = self.fragments[:]
         lfrags = list()
@@ -122,7 +184,7 @@ class StyledWord(Fragment):
             rfrags.insert(0, frag)
         # Now at most 2 frags might remain.
         # Decide whether they belong to left or right
-        assert len(remaining) <= 2
+        assert len(remaining) <= 2, (lfrags, rfrags, remaining)
         if remaining:
             if type(hp) is int:
                 indx = hp

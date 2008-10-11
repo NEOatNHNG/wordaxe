@@ -894,11 +894,11 @@ class Paragraph(Flowable):
     class HYPHENATE:
          pass
 
-    def rateHyph(self,base_penalty,frags,word,space_remaining):
+    def rateHyph(self, base_penalty, frags, word, space_remaining):
         """Rate a possible hyphenation point"""
         #### The rating could be wrong, in particular if space_remaining is too small!
         #print "rateHyph %s %d" % (frags,space_remaining)
-
+        # All the factors used here are just a wild guess
         spaces_width = sum([frag.width for frag in frags if isinstance(frag, StyledSpace)])
         if spaces_width:
             stretch = space_remaining/spaces_width
@@ -908,12 +908,15 @@ class Paragraph(Flowable):
                 stretch_penalty = stretch*stretch*30
         else: # HVB 20060907: Not a single space so far
             if space_remaining>0:
-                 # TODO this should be easier
-                 lst = [(len(frag.text), frag,width) for frag in frags if hasattr(frag,"text")]
-                 sum_len = sum([x[0] for x in lst])
-                 sum_width=sum([x[1] for x in lst])
-                 avg_char_width = sum_width / sum_len
-                 stretch_penalty = space_remaining/avg_char_width*20
+                # TODO this should be easier
+                lst = [(len(frag.text), frag,width) for frag in frags if hasattr(frag,"text")]
+                sum_len = sum([x[0] for x in lst])
+                sum_width=sum([x[1] for x in lst])
+                if sum_len > 0:
+                    avg_char_width = sum_width / sum_len
+                    stretch_penalty = space_remaining/avg_char_width*20
+                else:
+                    stretch_penalty = space_remaining*60
             else:
                  stretch_penalty = 20000
         rating = 16384 - base_penalty - stretch_penalty
@@ -972,7 +975,7 @@ class Paragraph(Flowable):
             left, right = word.splitAt(HyphenationPoint(1,1,0,"",0,""))
             bestSolution = (self.HYPHENATE, left, right, 0)
             for p in range(1,len(word.text)):
-                if hyphWord.text[p-1] not in ["-",SHY]:
+                if word.text[p-1] not in ["-",SHY]:
                     r= SHY
                 else:
                     r = ""

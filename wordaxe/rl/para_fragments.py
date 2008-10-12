@@ -1,4 +1,3 @@
-#!/bin/env/python
 # -*- coding: utf-8 -*-
 
 # Helper classes for the new Paragraph-Implementation
@@ -155,6 +154,7 @@ class StyledWord(Fragment):
                     stillLeftPart = False
             elif firstRight and (sr or nr):
                 rfrags.append(StyledText(sr + frag.text[nr:], frag.style))
+                firstRight = False
             else:
                 rfrags.append(frag)
         left = StyledWord(lfrags)

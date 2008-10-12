@@ -1,4 +1,3 @@
-#!/bin/env/python
 # -*- coding: iso-8859-1 -*-
 
 __license__="""
@@ -10,7 +9,7 @@ __license__="""
 __version__=''' $Id: __init__.py,v 1.2 2004/05/31 22:22:12 hvbargen Exp $ '''
 __doc__='Hyphenation support using different algorithms'
 
-__all__ = ["BaseHyphenator", "DCWHyphenator", "PyHnjHyphenator"]
+__all__ = ["BaseHyphenator", "DCWHyphenator", "PyHnjHyphenator", "SHY", "HyphenationPoint", "HyphenatedWord"]
 
 from wordaxe.hyphen import SHY, HyphenationPoint, HyphenatedWord, Hyphenator, Cached
 
@@ -19,4 +18,4 @@ from wordaxe.hyphen import SHY, HyphenationPoint, HyphenatedWord, Hyphenator, Ca
 # just set hyphRegistry[A]=B
 hyphRegistry = {}
 
-version = "wordaxe 0.2.7 pre"
+version = "wordaxe 0.3.0"

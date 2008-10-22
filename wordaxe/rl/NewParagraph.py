@@ -150,7 +150,7 @@ def _putFragLine(cur_x, tx, line):
         
     fragments = list(frags_wordaxe_to_reportlab(line.iter_print_frags()))
     for frag in fragments:
-        #print "render", frag
+        #print "render %r" % getattr(frag, "text", "--")
         f = frag.style
         if hasattr(f,'cbDefn'):
             #print "render", f
@@ -496,13 +496,16 @@ class Paragraph(Flowable):
         width_iter = iter_widths()
         max_width = width_iter.next()
 
-        for indx, frag in enumerate(self.frags):
+        frags_remaining = self.frags[:]
+        while frags_remaining:
             if sumHeight > availH:
+                #print "sumHeight > availH, break, lineFrags=%s" % lineFrags
                 break
-            action = None
+            frag = frags_remaining.pop(0)
+            actions = [("ERROR",None)]
             w = 0
             if isinstance(frag, StyledNewLine):
-                action = "LINEFEED,IGNORE"
+                actions = [("ADD",frag), ("LINEFEED",None)]
             elif hasattr(frag, "width"):
                 w = frag.width
                 if width + w > max_width:
@@ -514,30 +517,31 @@ class Paragraph(Flowable):
                             = self.findBestSolution(lineFrags, frag, max_width-width, True)
                         # TODO: for now, always try squeeze
                         if act == self.OVERFLOW:
-                            action = "LINEFEED,ADD"
+                            actions = [("LINEFEED",None),("PUSH",frag)]
                         elif act == self.SQUEEZE:
-                            action = "ADD,LINEFEED"
+                            actions = [("ADD",frag),("LINEFEED",None)]
                         elif act == self.HYPHENATE:
-                            action = "ADD_L,LINEFEED,ADD_R"
+                            setattr(left,"_source", frag)
+                            setattr(right,"_source", frag)
+                            actions = [("ADD",left),("LINEFEED",None),("PUSH",right)]
                         else:
                             raise AssertionError
                     else:
-                        action = "LINEFEED,ADD"
+                        actions = [("LINEFEED",None),("PUSH",frag)]
                 else:
                     # will fit into current line
-                    action = "ADD"
+                    actions = [("ADD",frag)]
             else:
                 # Some Meta Fragment
-                action = "ADD"
-            for act in action.split(","):
+                action = ("ADD",frag)
+            for (act,afrag) in actions:
+                #print act, width            
                 if act == "LINEFEED":
-                    if isinstance(frag,StyledNewLine):
-                        pass #print "LINEFEED", frag, self.frags
                     if not self.keepWhiteSpace:
                         # ignore space at the end of the line for the
                         # width calculation
                         for f in reversed(lineFrags):
-                            if isinstance(f, StyledSpace):
+                            if isinstance(f, StyledSpace) or not f.width:
                                 width -= f.width
                                 if width <= 0:
                                     width = 0
@@ -557,28 +561,22 @@ class Paragraph(Flowable):
                 elif act == "IGNORE":
                     pass
                 elif act == "ADD":
-                    lineFrags.append(frag)
+                    lineFrags.append(afrag)
                     # ignore space at the start of the line for the
                     # width calculation
                     if not self.keepWhiteSpace \
-                    and not width and isinstance(frag, StyledSpace):
+                    and not width and isinstance(afrag, StyledSpace):
                             pass
                     else:
-                        width += getattr(frag, "width", 0)
-                elif act == "ADD_L":
-                    lineFrags.append(left)
-                    width += getattr(left, "width", 0)
-                elif act == "ADD_R":
-                    lineFrags.append(right)
-                    width += getattr(right, "width", 0)
-                elif not act:
-                    pass
+                        width += getattr(afrag, "width", 0)
+                elif act == "PUSH":
+                    frags_remaining.insert(0, afrag)
                 else:
-                    raise AssertionError("Action:%r" % action)
+                    raise AssertionError("Action:%r Frag:" % (act,afrag))
         else:
             # Everything did fit
-            indx = len(self.frags)
             lineHeight = self.calcLineHeight(lineFrags)
+            # TODO: Why here calcLineHeight(), instead of self.style.leading as above?
             baseline = 0   # TODO correct baseline calculation
             if not lineFrags and lines:
                 pass # Ignore the final line if it's empty and there are already lines.
@@ -587,7 +585,7 @@ class Paragraph(Flowable):
                 # width calculation
                 if not self.keepWhiteSpace:
                     for f in reversed(lineFrags):
-                        if isinstance(f, StyledSpace):
+                        if isinstance(f, StyledSpace) or not f.width:
                             width -= f.width
                         else:
                             break
@@ -601,16 +599,24 @@ class Paragraph(Flowable):
         self.height = sumHeight 
         if sumHeight > availH:
             #print id(self), "needs splitting"
+            #print "lines[-1]:", lines[-1]
+            #print "frags_remaining:", frags_remaining
             # don't store the last line (it does not fit)
             # TODO perhaps we have to insert a Linefeed here?
             #                        v
+            assert not lineFrags, lineFrags
+            assert lines
             self._unused = lines[-1].fragments
-            _x = set(lineFrags).intersection(set(self._unused)) 
-            assert not _x, _x
-            self._unused += lineFrags
-            _x = set(self.frags[indx:]).intersection(set(self._unused)) 
-            assert not _x, (id(self), _x, indx, len(self.frags), self.frags)
-            self._unused += self.frags[indx:]
+            if frags_remaining:
+                next = frags_remaining[0]
+                src = getattr(next, "_source", None)
+                if src is not None:
+                    # next is the right part of a hyphenation
+                    left = self._unused[-1]
+                    assert getattr(left,"_source") == src
+                    self._unused[-1] = src
+                    frags_remaining.pop(0)
+                self._unused += frags_remaining
             assert len(self._unused) == len(set(self._unused))
             self._lines = lines[:-1]
             self.height -= lineHeight
@@ -639,10 +645,13 @@ class Paragraph(Flowable):
             # I assume this is only the case if the free space
             # in the frame is not even enough for getSpaceBefore.
             # Thus we can safely return []
-            print "split without previous wrap"
+            
+            #print "split without previous wrap"
             return []
         
         assert hasattr(self, "_unused")
+        #print "_lines:", self._lines
+        #print "_unused:", self._unused
         if len(self._lines) < 1: # minimum widow rows
             #print "split with lines == []"
             # Put everything on the next frame
@@ -876,7 +885,12 @@ class Paragraph(Flowable):
         
     def _justifyDrawParaLineX( self, tx, offset, line, last=0):
         setXPos(tx,offset)
-        frags = line.fragments
+        frags = line.fragments[:]
+        while frags and (not frags[0].width or isinstance(frags[0], StyledSpace)):
+            frags.pop(0)
+        while frags and (not frags[-1].width or isinstance(frags[-1], StyledSpace)):
+            frags.pop()
+            
         nSpaces = sum([len(frag.text) for frag in frags if isinstance(frag, StyledSpace)])
         # TODO: if !nSpaces use txt.setCharSpace instead
         if last or not nSpaces or abs(line.space_wasted)<=1e-8 or isinstance(frags[-1], StyledNewLine):
@@ -897,7 +911,7 @@ class Paragraph(Flowable):
     def rateHyph(self, base_penalty, frags, word, space_remaining):
         """Rate a possible hyphenation point"""
         #### The rating could be wrong, in particular if space_remaining is too small!
-        #print "rateHyph %s %d" % (frags,space_remaining)
+        #print "rateHyph frags=%s, word=%r, space_remaining=%d" % (frags,word, space_remaining)
         # All the factors used here are just a wild guess
         spaces_width = sum([frag.width for frag in frags if isinstance(frag, StyledSpace)])
         if spaces_width:
@@ -907,7 +921,7 @@ class Paragraph(Flowable):
             else:
                 stretch_penalty = stretch*stretch*30
         else: # HVB 20060907: Not a single space so far
-            if space_remaining>0:
+            if space_remaining > 0:
                 # TODO this should be easier
                 lst = [(len(frag.text), frag,width) for frag in frags if hasattr(frag,"text")]
                 sum_len = sum([x[0] for x in lst])
@@ -920,6 +934,7 @@ class Paragraph(Flowable):
             else:
                  stretch_penalty = 20000
         rating = 16384 - base_penalty - stretch_penalty
+        #print "  rating:", rating
         return rating
         
     # finding bestSolution where the word uses possibly several different font styles
@@ -976,7 +991,7 @@ class Paragraph(Flowable):
             bestSolution = (self.HYPHENATE, left, right, 0)
             for p in range(1,len(word.text)):
                 if word.text[p-1] not in ["-",SHY]:
-                    r= SHY
+                    r = SHY
                 else:
                     r = ""
                 left,right = word.splitAt(HyphenationPoint(p,1,0,r,0,""))
@@ -986,7 +1001,7 @@ class Paragraph(Flowable):
                     # does not fit anymore
                     break
 
-        #print "bestSolution:", HVBDBG.s(bestSolution)
+        #print "bestSolution for", word, "returns:", HVBDBG.s(bestSolution)
         return bestSolution
 
 
@@ -1063,21 +1078,21 @@ class ParagraphAndImage(Flowable):
 
 # from here on, only test code...
 
-if __name__ == "__main__":
+class HVBDBG:
+    @staticmethod
+    def s(obj):
+        if type(obj) == list:
+            return "[" + ", ".join([HVBDBG.s(x) for x in obj]) + "]"
+        elif type(obj) == tuple:
+            return "(" + ", ".join([HVBDBG.s(x) for x in obj]) + ")"
+        elif isinstance(obj, ABag):
+            return "ABag(.text=%r)" % obj.text
+        elif type(obj) == float:
+            return "%1.2f" % obj
+        else:
+            return repr(obj)
 
-    class HVBDBG:
-        @staticmethod
-        def s(obj):
-            if type(obj) == list:
-                return "[" + ", ".join([HVBDBG.s(x) for x in obj]) + "]"
-            elif type(obj) == tuple:
-                return "(" + ", ".join([HVBDBG.s(x) for x in obj]) + ")"
-            elif isinstance(obj, ABag):
-                return "ABag(.text=%r)" % obj.text
-            elif type(obj) == float:
-                return "%1.2f" % obj
-            else:
-                return repr(obj)
+if __name__ == "__main__":
 
 
     # Test

@@ -74,6 +74,11 @@ class StyledNewLine(StyledWhiteSpace):
     def __str__(self):
         return "NL"
 
+    def __init__(self, style):
+        super(StyledNewLine, self).__init__(style)
+        self.width = 0
+        self.text = u""
+
     __repr__ = __str__
 
 class StyledWord(Fragment):

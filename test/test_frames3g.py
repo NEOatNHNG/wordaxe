@@ -36,8 +36,8 @@ class TwoColumnDocTemplate(BaseDocTemplate):
     def __init__(self, filename, **kw):
         m = 2*cm
         cw, ch = (PAGESIZE[0]-2*m)/2., (PAGESIZE[1]-2*m)
-        ch -= 12*cm
-        f1 = Frame(m, m+0.5*cm, cw-0.75*cm, ch-1*cm, id='F1', 
+        ch -= 14*cm
+        f1 = Frame(m, m+0.5*cm, cw-0.75*cm, ch-1.9*cm, id='F1', 
             leftPadding=0, topPadding=0, rightPadding=0, bottomPadding=0,
             showBoundary=True
         )
@@ -62,15 +62,15 @@ class FrameSwitchTestCase(unittest.TestCase):
         normal.language = 'DE'
         normal.hyphenation = True
     
-        text = "Bedauerlicherweise ist ein Donaudampfschiffkapitän auch nur ein Dampfschiffkapitän."
+        text = "schiffmeister auch nur ein Dampfschiffmeister. Bedauerlicherweise ist ein Donaudampfschiffmeister auch nur ein Dampfschiffmeister."
         # strange behaviour when next line uncommented
         text = " ".join(['<font color="red">%s</font>' % w for w in text.split()])
         text += " "
         
         story = []
-        story.append(Paragraph(text * 10, style=normal))
+        story.append(Paragraph(text, style=normal))
 
-        doc = TwoColumnDocTemplate("test_frames3b.pdf", pagesize=PAGESIZE)
+        doc = TwoColumnDocTemplate("test_frames3g.pdf", pagesize=PAGESIZE)
         doc.build(story)
 
 

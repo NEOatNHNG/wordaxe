@@ -10,6 +10,16 @@ import glob
 import unittest
 
 
+#we need to ensure 'tests' is on the path.  It will be if you
+#run 'setup.py tests', but won't be if you CD into the tests
+#directory and run this directly
+try:
+    from tests.utils import GlobDirectoryWalker, outputfile, printLocation
+except ImportError:
+    directoryAboveMe = os.path.dirname(os.getcwd())
+    sys.path.insert(0, directoryAboveMe)
+    from tests.utils import GlobDirectoryWalker, outputfile, printLocation
+
 def makeSuite(folder, pattern='test_*.py'):
     "Build a test suite of all available test files."
 

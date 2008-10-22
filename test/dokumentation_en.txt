@@ -50,8 +50,8 @@ the OpenOffice distribution, they are licences under the GNU LGPL.
 === ReportLab 2.1 or 2.2 ===
 
 wordaxe Release 0.2.6 has been tested with Python 2.5 and ReportLab 2.2,
-but it should work equally well with Python 2.4 funktionieren, since AFAIK
-none of the new features of 2.5 have are used.
+but it should work equally well with Python 2.4, since AFAIK
+none of the new features of 2.5 are used.
 
 ReportLab 2.2 can be obtained from <a href="http://www.reportlab.org">www.reportlab.org</a>.
 The installation is easy (though not with easy-install ;-) and is not described here.

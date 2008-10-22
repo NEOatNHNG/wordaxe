@@ -10,7 +10,7 @@ from operator import truth
 from types import StringType, ListType
 
 import unittest
-from reportlab.test.utils import makeSuiteForClasses, outputfile, printLocation
+from tests.utils import makeSuiteForClasses, outputfile, printLocation
 
 from reportlab.pdfbase.pdfmetrics import stringWidth, registerFont, registerFontFamily
 from reportlab.pdfbase.ttfonts import TTFont
@@ -101,7 +101,7 @@ class ParagraphCorners(unittest.TestCase):
         story.append(Paragraph('''T<i>hi</i>s shoul<font color="red">d b</font>e <b>LOWER</b> text.''',style=btL))
         story.append(Paragraph('''T<i>hi</i>s shoul<font color="red">d b</font>e <b>upper</b> text.''',style=btU))
         story.append(Paragraph('''T<i>hi</i>s shoul<font color="red">d b</font>e <b>cAPITALIZED</b> text.''',style=btC))
-        doc = MyDocTemplate('test_platypus_specialparagraphs.pdf')
+        doc = MyDocTemplate(outputfile('test_platypus_specialparagraphs.pdf'))
         doc.multiBuild(story)
         
 class ParagraphSplitTestCase(unittest.TestCase):
@@ -130,13 +130,13 @@ it's actually easy to do using platypus.
 '''
         from reportlab.platypus.flowables import Image
         from reportlab.lib.utils import _RL_DIR
-        gif = os.path.join(_RL_DIR,'test','pythonpowered.gif')
+        gif = os.path.join(os.path.dirname(__file__),'pythonpowered.gif')
         story.append(ParagraphAndImage(Paragraph(text,bt),Image(gif)))
         phrase = 'This should be a paragraph spanning at least three pages. '
         description = ''.join([('%d: '%i)+phrase for i in xrange(250)])
         story.append(ParagraphAndImage(Paragraph(description, bt),Image(gif),side='left'))
 
-        doc = MyDocTemplate('test_platypus_paragraphandimage.pdf')
+        doc = MyDocTemplate(outputfile('test_platypus_paragraphandimage.pdf'))
         doc.multiBuild(story)
 
     def test1(self):
@@ -167,7 +167,7 @@ your browser. If an internal link begins with something that looks like a scheme
 '''
         from reportlab.platypus.flowables import ImageAndFlowables, Image
         from reportlab.lib.utils import _RL_DIR
-        gif = os.path.join(_RL_DIR,'test','pythonpowered.gif')
+        gif = os.path.join(os.path.dirname(__file__),'pythonpowered.gif')
         heading = Paragraph('This is a heading',h3)
         story.append(ImageAndFlowables(Image(gif),[heading,Paragraph(text,bt)]))
         phrase = 'This should be a paragraph spanning at least three pages. '
@@ -223,9 +223,7 @@ providing the ultimate in ease of installation.''',
                     imageSide='left',
                     )
                 )
-
-        
-        doc = MyDocTemplate('test_platypus_imageandflowables.pdf',showBoundary=1)
+        doc = MyDocTemplate(outputfile('test_platypus_imageandflowables.pdf'),showBoundary=1)
         doc.multiBuild(story)
 
 class TwoFrameDocTemplate(BaseDocTemplate):
@@ -274,7 +272,7 @@ class SplitFrameParagraphTest(unittest.TestCase):
         from reportlab.lib import pagesizes
         PAGESIZE = pagesizes.landscape(pagesizes.A4)
         
-        doc = TwoFrameDocTemplate('test_paragraphs_splitframe.pdf', pagesize=PAGESIZE)
+        doc = TwoFrameDocTemplate(outputfile('test_paragraphs_splitframe.pdf'), pagesize=PAGESIZE)
         doc.build(story)
 
 class FragmentTestCase(unittest.TestCase):
@@ -371,7 +369,7 @@ phonemic and morphological analysis.''']
                             t,' '.join((n+1)*['A']),t,text0,t,' '.join((n+1)*['A']),t,text1),
                             style=s))
         a(Paragraph("The jump at the beginning should come here &lt;a name=\"theEnd\"/&gt;<a name=\"theEnd\"/>!",style=normal))
-        doc = MyDocTemplate('test_platypus_paragraphs_ul.pdf')
+        doc = MyDocTemplate(outputfile('test_platypus_paragraphs_ul.pdf'))
         doc.build(story)
 
 class AutoLeadingTestCase(unittest.TestCase):
@@ -417,7 +415,7 @@ phonemic and <u>morphological <img src="../docs/images/testimg.gif" valign="top"
                             style=s))
         a(Paragraph('''<img src="../docs/images/testimg.gif" valign="top"/> image is very first thing in the line.''', style=normal))
         a(Paragraph('some text.... some more.... some text.... some more....', normal))
-        a(Paragraph('<img src="../docs/images/testimg.gif" width="0.57in" height="0.19in" /> some text <br /> ', normal))
+        a(Paragraph('<img src="../docs/images/testimg.gif" width="0.57in" height="0.19in" /> some text after img <br /> ', normal))
         a(Paragraph('some text.... some more.... some text.... some more....', normal))
         a(Paragraph('<img src="../docs/images/testimg.gif" width="0.57in" height="0.19in" /> <br /> ', normal))
         a(Paragraph('some text.... some more.... some text.... some more....', normal))
@@ -446,7 +444,7 @@ phonemic and <u>morphological</u> <strike>analysis</strike>.'''
                 ):
             a(Paragraph(fmt % {'valign':valign},p_style))
             a(XPreformatted(fmt % {'valign':valign},p_style))
-        doc = MyDocTemplate('test_platypus_paragraphs_autoleading.pdf')
+        doc = MyDocTemplate(outputfile('test_platypus_paragraphs_autoleading.pdf'))
         doc.build(story)
 
 class JustifyTestCase(unittest.TestCase):
@@ -499,7 +497,7 @@ phonemic and morphological analysis.'''
                 a(Paragraph('Justified paragraph in normal font',style=normal))
 
             a(Paragraph(text,style=normal_just))
-        doc = MyDocTemplate('test_platypus_paragraphs_just.pdf')
+        doc = MyDocTemplate(outputfile('test_platypus_paragraphs_just.pdf'))
         doc.build(story)
 
 #noruntests

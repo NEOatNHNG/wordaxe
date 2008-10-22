@@ -301,7 +301,7 @@ class Hyphenator:
         if hyphenatedWord is not None:
             assert isinstance(hyphenatedWord, HyphenatedWord)
             assert type(hyphenatedWord.hyphenations) == list
-                
+
     def i_hyphenate(self, aWord):
         """
         This base class does not support any hyphenation!

@@ -50,7 +50,7 @@ class Stripper:
             offs_r -= 1
         return word[:offs_l], word[offs_l:offs_r], word[offs_r:]
         
-    def apply_stripped(self, word, func, *args, **kwargs):
+    def apply_stripped(self, func, hyphenator, word, *args, **kwargs):
         """
         Apply a hyphenation function for a word,
         but strips prefix and suffix characters before.
@@ -58,7 +58,11 @@ class Stripper:
         """
         assert isinstance(word, unicode)
         prefix, base, suffix = self.strip(word)
-        result = func(base, *args, **kwargs)
+        if func.im_self is None:
+            result = func(hyphenator, base, *args, **kwargs)
+        else:
+            assert func.im_self is hyphenator
+            result = func(base, *args, **kwargs)
         if result is None:
             return None
         if isinstance(result, HyphenatedWord):
@@ -88,7 +92,10 @@ class BaseHyphenator(Hyphenator):
     stripper = Stripper() # Mit den Standard-Einstellungen
     
     def hyph(self,word):
-        "Internal worker function."
+        """
+        This is the non-recursive hyphenation function.
+        """
+        #print "BaseHyphenator hyph", word
         hword = HyphenatedWord(word, hyphenations=[])
         # strip common prefix- and suffix-characters
         l = len(word)
@@ -114,8 +121,11 @@ class BaseHyphenator(Hyphenator):
         return None # unknown
         
     def i_hyphenate(self,aWord):
+        """
+        This is the (possible recursive) hyphenation function.
+        """
         assert isinstance(aWord, unicode)
-        return self.stripper.apply_stripped(aWord, self.hyph)
+        return self.stripper.apply_stripped(BaseHyphenator.hyph, self, aWord)
         
     def learn(self,wordlist,htmlFile=None,VERBOSE=False):
         #print sys.stdout.encoding

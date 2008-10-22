@@ -734,7 +734,7 @@ class DCWHyphenator(ExplicitHyphenator):
         return loesungen
         
     def hyph(self,word):
-        log.debug ("hyphenate %r", word)
+        log.debug ("DCW hyphenate %r", word)
         assert isinstance(word, unicode)
         loesungen = self.zerlegeWort(word)
         if len(loesungen) > 1:

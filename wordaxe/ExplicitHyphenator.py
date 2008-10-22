@@ -83,9 +83,7 @@ class ExplicitHyphenator(BaseHyphenator):
             self.add_entry(word, trennung)
         
     def hyph(self, word):
-        hword = BaseHyphenator.hyph(self, word)
-        if hword is not None:
-            return hword
+        #print "ExplicitHyphenator hyph", word
         lenword = len(word)
         for (lae, L) in self.sonderfaelle:
             if lae == lenword:
@@ -99,7 +97,7 @@ class ExplicitHyphenator(BaseHyphenator):
         
     def i_hyphenate(self, aWord):
         assert isinstance(aWord, unicode)
-        return self.stripper.apply_stripped(aWord, self.hyph)
+        return self.stripper.apply_stripped(ExplicitHyphenator.hyph, self, aWord)
 
     def i_hyphenate_derived(self,aWord):
         """
@@ -108,43 +106,57 @@ class ExplicitHyphenator(BaseHyphenator):
         then for each "subword" it will call ExplicitHyphenator,
         and only call the derived classes hyph method for the still
         unknown subwords.
+        
+        TODO: The implementation does not match the docstring
+              test: "hohenlimburg.de", "hohenlimburg.de)"
         """
+        #print "ExplicitHyphenator.i_hyphenate_derived", aWord
         assert isinstance(aWord, unicode)
-        hwords = []
-        rest = aWord
-        words = []
-        while rest:
-            i = rest.find(u"-")
-            if i<0 or i+1==len(rest):
-                words.append(rest)
-                break
-            words.append(rest[:i+1])
-            rest = rest[i+1:]
-        assert words, "words is leer bei Eingabe %r" % aWord
-        for indx, word in enumerate(words):
-            if not word:
-                # Nur "-"
-                raise NotImplementedError("Sonderfall -", aWord, words)
-            if SHY in word:
-                # Das Wort ist vorgetrennt
-                hword = BaseHyphenator.hyph(self,word)
+
+        # Helper function
+        
+        sub_hwords = []
+        hword = BaseHyphenator.i_hyphenate(self,aWord)
+        #print "BaseHyphenator.i_hyphenate returned %r" % hword
+        if hword is None:
+            hword = HyphenatedWord(aWord,hyphenations=[])
+        base_hyph_points = hword.hyphenations
+        last_indx = 0
+        nr = 0
+        for hpnum, hp in enumerate(base_hyph_points):
+            if isinstance(hp, int):
+                hp = HyphenationPoint(hp, quality=5, sl=SHY)
+            subword = hword[last_indx+nr:hp.indx]
+            # handle subword
+            if SHY in subword:
+                sub_hword = self.stripper.apply_stripped(BaseHyphenator.hyph, self, subword)
             else:
-                # Prüfen, ob Trennung explizit vorgegeben (Sonderfälle)
-                def func(word):
-                    return ExplicitHyphenator.hyph(self, word)
-                hword = self.stripper.apply_stripped(word, func)
-                if hword is None:
-                    hword = self.stripper.apply_stripped(word, self.hyph)
-            hwords.append(hword)
-        assert len(hwords) == len(words)
-        if len(words) > 1:
-            assert u"".join(words) == aWord, "%r != %r" % (u"".join(words), aWord)
-            for indx in range(len(words)):
-                if hwords[indx] is None:
-                    hwords[indx] = HyphenatedWord(words[indx], hyphenations=[])
-            return HyphenatedWord.join(hwords)
+                sub_hword = self.stripper.apply_stripped(ExplicitHyphenator.hyph, self, subword)
+            if sub_hword is None:
+                sub_hword = self.stripper.apply_stripped(self.hyph, self, subword)
+            if sub_hword is None:
+                sub_hword = HyphenatedWord(subword, hyphenations=[])
+            sub_hwords.append(sub_hword)
+            # end handle subword
+            last_indx = hp.indx
+            nr = hp.nr            
+        # Now the last subword
+        subword = hword[last_indx:]
+        # handle subword
+        if SHY in subword:
+            sub_hword = self.stripper.apply_stripped(BaseHyphenator.hyph, self, subword)
+        else:
+            sub_hword = self.stripper.apply_stripped(ExplicitHyphenator.hyph, self, subword)
+        if sub_hword is None:
+            sub_hword = self.stripper.apply_stripped(self.hyph, self, subword)
+        if sub_hword is None:
+            sub_hword = HyphenatedWord(subword, hyphenations=[])
+        sub_hwords.append(sub_hword)
+        #end handle subword
+        if len(sub_hwords) > 1:
+            return HyphenatedWord.join(sub_hwords)
         else:        
-            return hwords[0] # Kann auch None sein.
+            return sub_hwords[0] # Kann auch None sein.
 
 
 if __name__=="__main__":

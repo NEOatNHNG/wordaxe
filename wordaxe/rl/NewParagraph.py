@@ -474,7 +474,11 @@ class Paragraph(Flowable):
         return frags_reportlab_to_wordaxe(frag_list, style)
         
     def __repr__(self):
-        return "%s(frags=%r)" % (self.__class__.__name__, self.frags)
+        if hasattr(self, "frags"):
+            return "%s(frags=%r)" % (self.__class__.__name__, self.frags)
+        elif hasattr(self, "_lines"):
+            return "%s(_lines=%r)" % (self.__class__.__name__, self._lines)
+            
 
     def calcLineHeight(self, line):
         """
@@ -659,6 +663,7 @@ class Paragraph(Flowable):
             self._unused = []
             self._lines = lines
         assert self.height <= availH, (id(self), self.height, availH)
+        #print "i_wrap returns", availW, sumHeight        
         return availW, sumHeight
 
     def split(self, availWidth, availHeight):
@@ -1072,20 +1077,20 @@ class ParagraphAndImage(Flowable):
         nIW = int((hI+ypad)/leading)
 
         if hasattr(P, "_lines"):
-            pass
+            ph = P.height
         else:
             max_widths = [first_line_width] + nIW*[intermediate_widths] + [later_widths]
             pw, ph = P.i_wrap(availWidth, availHeight, max_widths)
         if self._side=='left':
             self._offsets = [wI+xpad]*(1+nIW)+[0]
-        self.height = max(hI,P.height)
+        self.height = max(hI,ph)
         return (self.width, self.height)
 
     def split(self,availWidth, availHeight):
-        print "TODO: ParagraphAndImage.split does not work!"
         P, wI, hI, ypad = self.P, self.wI, self.hI, self.ypad
         if hI+ypad>availHeight or len(P.frags)<=0: return []
         S = P.split(availWidth,availHeight)
+        #print S
         if not S: return S
         P = self.P = S[0]
         del S[0]

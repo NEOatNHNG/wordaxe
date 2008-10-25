@@ -196,6 +196,17 @@ def _putFragLine(cur_x, tx, line):
                 tx.setRise(f.rise)
             text = frag.text
             tx._textOut(text,frag is fragments[-1])    # cheap textOut
+
+            # Background colors (done like underline)
+            #print "f:", repr(f)
+            backColor = getattr(f, "backColor", None)
+            if xs.backgroundColor != backColor or xs.backgroundFontSize != f.fontSize:
+                if xs.backgroundColor is not None:
+                    xs.backgrounds.append( (xs.background_x, cur_x_s, xs.backgroundColor, xs.backgroundFontSize) )
+                xs.background_x = cur_x_s
+                xs.backgroundColor = backColor 
+                xs.backgroundFontSize = f.fontSize  
+            # Underline  
             if not xs.underline and f.underline:
                 xs.underline = 1
                 xs.underline_x = cur_x_s
@@ -244,6 +255,8 @@ def _putFragLine(cur_x, tx, line):
     cur_x_s = cur_x+(nSpaces-1)*ws
     if xs.underline:
         xs.underlines.append( (xs.underline_x, cur_x_s, xs.underlineColor) )
+    if xs.backgroundColor is not None:
+        xs.backgrounds.append( (xs.background_x, cur_x_s, xs.backgroundColor, xs.backgroundFontSize) )
     if xs.strike:
         xs.strikes.append( (xs.strike_x, cur_x_s, xs.strikeColor) )
     if xs.link:
@@ -319,6 +332,22 @@ def _do_post_text(tx):
         ff = 0.125*f.fontSize
         y0 = xs.cur_y
         y = y0 - ff
+        
+        # Background
+        ulc = None
+        for x1,x2,c,fs in xs.backgrounds:
+            # print "u",x1,x2,c, leading, ff, i, fs
+            if c!=ulc:
+                tx._canvas.setFillColor(c)     
+                ulc = c
+            #tx._canvas.rect(x1, y, x2-x1, fs, fill=1, stroke=0)
+            tx._canvas.rect(x1, y - ff, x2-x1, fs, fill=1, stroke=0)
+        xs.backgrounds = []
+        xs.background = 0
+        xs.backgroundColor = None   
+        xs.backgroundFontSize = None 
+
+        # Underline
         csc = None
         for x1,x2,c in xs.underlines:
             if c!=csc:
@@ -833,6 +862,9 @@ class Paragraph(Flowable):
             xs.underline=0
             xs.underlines=[]
             xs.underlineColor=None
+            xs.backgrounds = []
+            xs.backgroundColor = None
+            xs.backgroundFontSize = None  
             xs.strike=0
             xs.strikes=[]
             xs.strikeColor=None
@@ -1099,10 +1131,15 @@ if __name__ == "__main__":
     import styles
     styleSheet = styles.getSampleStyleSheet()
     style = styleSheet["Normal"]
-    text = "Der blau<b>e </b><br />Klaus"
-    p = Paragraph(text, style)
+    #text = "Der blau<b>e </b><br />Klaus"
+    #p = Paragraph(text, style)
     #print "width=%f" % sum([f.width for f in p.frags if hasattr(f,"width")])
     #print "p=%r" % p
+    
+    #p = Paragraph("jetzt auch <font backcolor='yellow'>bunt</font>", style)
+    #frags = p.frags
+    #print repr(frags)
+    #print repr(frags[-1].fragments[0].style)
     
     import os
     import sys
@@ -1168,9 +1205,9 @@ if __name__ == "__main__":
     """.replace("\n"," ")
 
             story = []
-            story.append(Paragraph(text, style=normal))
-            story.append(klass(u"Eine Aufzählung, bei der der Text hoffentlich etwas länger als eine Zeile ist.", style=normal, bulletText="\xe2\x80\xa2"))
-            story.append(klass(u"Silbentrennungsverfahren helfen dabei, extrem lange Donaudampfschiffe in handliche Schiffchen aufzuteilen. " * 10, style=normal))
+            #story.append(Paragraph(text, style=normal))
+            story.append(klass(u"Eine <font backcolor='yellow'>Aufzählung</font>, bei der der <font backcolor='green'>Text</font> hoffentlich etwas länger als eine Zeile ist.", style=normal, bulletText="\xe2\x80\xa2"))
+            #story.append(klass(u"Silbentrennungsverfahren helfen dabei, extrem lange Donaudampfschiffe in handliche Schiffchen aufzuteilen. " * 10, style=normal))
             #story.append(klass(u"Silbentrennungsverfahren helfen dabei, extrem lange Donaudampfschiffe in handliche Schiffchen aufzuteilen.", style=normal, bulletText="\xe2\x80\xa2"))
             doc = TwoColumnDocTemplate(("test_NewParagraph_%d.pdf" %indx), pagesize=PAGESIZE)
             doc.build(story)

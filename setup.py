@@ -6,7 +6,7 @@ from distutils.core import setup
 
 setup(
     name = "wordaxe",
-    version = "0.2.6",
+    version = "0.3.0",
     description = "Provide hyphenation for python programs and ReportLab paragraphs.",
     long_description = "Provide hyphenation for python programs and ReportLab paragraphs.",
     author = "Henning von Bargen",

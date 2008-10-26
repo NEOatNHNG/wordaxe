@@ -1,6 +1,6 @@
 = wordaxe Hyphenation =
 
-Henning von Bargen, 14.09.2008, Release 0.2.7 pre
+Henning von Bargen, 26 Oct 2008, Release 0.3.0
 
 == Overview ==
 
@@ -49,7 +49,7 @@ the OpenOffice distribution, they are licences under the GNU LGPL.
 
 === ReportLab 2.1 or 2.2 ===
 
-wordaxe Release 0.2.6 has been tested with Python 2.5 and ReportLab 2.2,
+wordaxe Release 0.3.0 has been tested with Python 2.5 and ReportLab 2.2,
 but it should work equally well with Python 2.4, since AFAIK
 none of the new features of 2.5 are used.
 
@@ -60,7 +60,7 @@ wordaxe works with ReportLab 2.1, too.
 
 Notes on even older ReportLab versions:
 
-Though untested, wordaxe Release 0.2.6 may work with ReportLab 2.0.
+Though untested, wordaxe Release 0.3.0 may work with ReportLab 2.0.
 Otherwise you can use 0.2.2 in this case,
 but the installation is a little harder (because some more files
 in the ReportLab installation had to be overwritten and the installation guide
@@ -72,23 +72,25 @@ existing code (independently from wordaxe), since for 2.x all paragraph
 input text has to be unicode or UTF8 encoded.
 
 === Installating wordaxe step-by-step ===
-1. Download the ZIP archive wordaxe-0.2.6.zip from the SourceForge site.
+1. Download the ZIP archive wordaxe-0.3.0.zip from the SourceForge site.
 
-2. Unpack the ZIP-archive wordaxe-0.2.6.zip in the root directory C:\
-   (inside the archive, all files are in a directory "wordaxe-0.2.6").
+2. Unpack the ZIP-archive wordaxe-0.3.0.zip in the root directory C:\
+   (inside the archive, all files are in a directory "wordaxe-0.3.0").
    
    The following directory structure will be created:
 
 {{{
 C:
-    wordaxe-0.2.6
+    wordaxe-0.3.0
+        doc
         htdocs
             css
             examples
             icons
             images
-         wordaxe
+        wordaxe
             dict
+            plugins
             rl
 }}}
 
@@ -96,7 +98,7 @@ C:
 3a. On the command line, execute:
 
 {{{
-cd /d c:\wordaxe-0.2.6
+cd /d c:\wordaxe-0.3.0
 setup.py install
 }}}
 
@@ -104,7 +106,7 @@ setup.py install
 
    Make a backup copy of the file reportlab\pdfbase\rl_codecs.py from the
    ReportLab Installation; then replace the file with the
-   modified version from c:\wordaxe-0.2.6\wordaxe\rl\rl_codecs.py.
+   modified version from c:\wordaxe-0.3.0\wordaxe\rl\rl_codecs.py.
    
    <em>Note:</em> This will only change two lines of code in the file, 
    responsible for the "shy hyphen" character SHY. 
@@ -114,7 +116,7 @@ setup.py install
    containg only one text line:
 
 {{{
-c:\wordaxe-0.2.6
+c:\wordaxe-0.3.0
 }}}
 
 4. Assure that "import wordaxe" doesn't create an error message.
@@ -192,116 +194,109 @@ print right.hyphenations
 
 == Hyphenation Classes ==
 
-TODO continue translation
+The source code for the classes contains test code that you can
+examine to find out how to use the class.
+The test code can be called to see how the corresponding class
+handles the words given on the command line.
+Probably you want to supply the -v argument for verbose output, too.
 
-Zur Verwendung der Klassen siehe auch die jeweiligen Quelltexte, die
-jeweils Testcode mit Aufruf des Konstruktors enthalten. Der Testcode
-kann aufgerufen werden, um zu sehen, wie die jeweilige Klasse mit
-Worten umgeht. Die Worte können auf der Kommandozeile eingegeben werden.
-Es bietet sich an, dabei außerdem die Option -v anzugeben.
-
-Beispiel:
+Example
 {{{
 c:\python25\python wordaxe\DCWHyphenator.py -v Silbentrennung
 }}}
 
 === DCWHyphenator ===
 
-Diese Klasse basiert auf der Zerlegung von zusammengesetzten Wörtern,
-inspiriert durch die Publikationen der TU Wien zur "sicheren sinnentsprechenden 
-Silbentrennung für die deutsche Sprache", siehe 
+This class works by splitting compound words into subwords,
+inspired by the publications of the TU Vienna, see 
 <a href="http://www.ads.tuwien.ac.at/research/SiSiSi/">http://www.ads.tuwien.ac.at/research/SiSiSi/</a>.
 
-Die Implementierung hat jedoch nichts zu tun mit dem Closed Source Produkt "SiSiSi".
+However, the implementation here isn't in any way related to the closed source product "SiSiSi".
 
-Der Algorithmus funktioniert wie folgt:
-Ein gegegebenes zusammengesetztes Wort wird zunächst in die Einzelwörter zerlegt.
-
-Dazu wird die Datei DE_hyph.ini verwendet.
-Sie enthält Wortstämme, teilweise versehen mit zusätzlichen Annotationen wie
+The algorithm works as follows:
+A given compound word will be decomposed into subwords first,
+using the file DE_hyph.ini, which contains stems,
+some of them annotated with properties like
 NEED_SUFFIX, NO_SUFFIX etc.
-Außerdem sind dort mögliche Vorsilben und Suffixe hinterlegt.
+Furthermore, possible prefixes and suffixes are defined there.
 
-Aufgrund der Komplexität des Zerlegungsverfahrens ist es vergleichsweise langsam:
+Due to its complexity, the algorithm is quite slow:
 
-Das Wort wird von links nach rechts betrachtet.
-Es wird zerlegt in ein Tupel (L,R), wobei natürlich verschiedene
-Aufteilungen möglich sind, z.B. bei "Trennung" ("T", "rennung"),
-("Tr", "ennung"), ("Tre", "nnung"),  usw.
-Immer wird geprüft, ob der linke Teil zu einer der bekannten Vorsilben, Wortstämme 
-bzw. Endungen aus der Datei DE_hyph.ini passt. Falls ja, wird mit dem Restwort
-analog weitergemacht. Andernfalls, oder wenn die Kombination keinen Sinn ergibt
-(z.B. Vorsilbe + Suffix ohne Wortstamm dazwischen) wird abgebrochen.
+The word will be scanned from left to right.
+It will be split into a pair (L,R), where different partitions
+are of possible of course, for example "Trennung": ("T", "rennung"),
+("Tr", "ennung"), ("Tre", "nnung"), and so on.
+For each pair, the algorithm checks if the left part matches a know prefix, stem
+or suffix from the file DE_hyph.ini. If yes, the algorithm R continues with
+the remainder R analogously.
+Otherwise, or if the combination does not make sense
+(i.e. prefix + suffix without stem) the algorithm cancels.
 
-Im Prinzip handelt es sich dabei um ein rekursives Verfahren, was aber im
-Programm nicht rekursiv, sondern mit Hilfe von Listen umgesetzt wurde.
+In principle, this is a recursive algorithm, although
+the implementation uses a to-do like list instead.
 
-Die besonderen Eigenschaften dieses Verfahrens sind:
+The properties of the algorithm are:
 
-Es werden nur dem Programm bekannte Wortstämme erkannt. 
+Only the stems defined in DE_hyph.ini will be detected. 
 
-Dadurch werden mögliche Trennstellen evtl. übersehen, denn unbekannte Wörter werden 
-grundsätzlich nicht getrennt. 
+As a consequence, possible some valid hyphenation points may be missed, because
+unknown words will not be hyphenated at all.
 
-Andererseits kann es so auch nicht zu falschen Trennungen kommen.
+On the other hand, this prevents wrong hyphenations.
 
-Wenn ein zusammengesetztes Wort auf mehr als eine Art interpretiert werden kann,
-werden nur die Trennstellen berücksichtigt, die bei allen Zerlegungen gleich sind.
-Dadurch kann es nicht zu sinnentstellenden Trennungen kommen.
+If a compound word cannot be decomposed uniquely,
+only those hyphenation points that exist in all the decompositions.
+This prevents hyphenations that may be valid but hard to read.
 
-Trennstellen werden mit einer Priorität versehen, die dann vom aufrufenden Programm
-berücksichtigt werden kann, um gute Trennstellen (an Wortgrenzen) zu bevorzugen.
+Hyphenation points have a priority, which can be used by the calling program
+to prefer good hyphenation points (at subword boundaries).
 
 === ExplicitHyphenator ===
 
-Bei dieser Klasse kann man für jedes Wort einzeln vorgeben, wie es getrennt werden
-soll. Damit eignet sich diese Klasse allenfalls für bestimmte Anwendungsbereiche,
-bei denen der Wortschatz so klein ist, dass die Trennung für alle anfallenden Worte
-(zumindest die langen) vorab festgelegt werden kann (z.B. wenn praktisch nur feste
-Textbausteine verwendet werden).
+Here you have to explicitly define the hyphenation for every word.
+Thus this class isn't of much use on its own - only if the dictionary
+is quite small (for example if more or less only fixed text templates
+are used).
 
 === PyHnjHyphenator ===
 
-Diese Klasse funktioniert so wie die Silbentrennung in TeX, basierend auf Mustern
-(vergleiche libhnj, pyhnj). Die Implementierung kann die pyhnj C-Bibliothek
-verwenden (das ist die Voreinstellung) oder aber Pure Python, wenn das
-Argument purePython=True beim Konstruktor angegeben wird.
+This works like the pattern-based hyphenation in TeX (see also libhnj, pyhnj).
+The implementation can use the pyhnj C-library or use pure Python, if the
+argument purePython=True is supplied to the constructor.
 
 === wordaxe.plugins.PyHyphenHyphenator ===
 
-Diese Klasse funktioniert ebenfalls so ähnlich wie in TeX, verwendet jedoch
-eine andere Implementierung und <em>funktioniert wesentlich besser</em>!
-Um diese Klasse verwenden zu können, muss die pyhyphen-Bibliothek
-installiert sein (siehe <a href="http://pypi.python.org/pypi/PyHyphen/">http://pypi.python.org/pypi/PyHyphen/</a>).
+This class also works like the pattern-based hyphenation in TeX,
+but it uses a different implementation and <em>works much better</em>!
+To use it, you need to have the pyhyphen library installed
+(see <a href="http://pypi.python.org/pypi/PyHyphen/">http://pypi.python.org/pypi/PyHyphen/</a>).
 
 === BaseHyphenator ===
 
-Diese Klasse funktioniert mit jeder Sprache.
-Getrennt wird nur nach den folgenden Zeichen:
+This class should work for all languages.
+It hyphenates only after the following characters:
 
 {{{
-    '-'   Minuszeichen (45, '\x2D')
-    '.'   Punkt (46, '\x2E') (aber z.B. nicht bei Punkten zwischen Ziffern)
-    '_'   Unterstrich (95, '\x5F')
+    '-'   minus (45, '\x2D')
+    '.'   dot (46, '\x2E') (but not if the dot is between digits)
+    '_'   underscore (95, '\x5F')
     '­'   SHY hyphenation character (173, '\xAD')
 }}}
 
 
-== Anmerkungen ==
+== Remarks ==
 
 === Performance ===
 
-Der DCWHyphenator benötigt aufgrund des verwendeten
-(im Prinzip rekursiven) Algorithmus relativ lange für die
-Trennung eines Wortes.
+The DCWHyphenator is quite slow, due to the rekursive nature of the
+algorithm.
 
-Da die Wortlänge in der Praxis begrenzt ist, ergibt sich beim
-Einsatz mit ReportLab eine Laufzeit proportional zur Anzahl
-der (Zeilen minus Absätze), denn es wird jeweils das letzte Wort
-einer Zeile geprüft (außer bei der letzten Zeile im Absatz).
+Since the word length is bounded, the run time when used with ReportLab
+is proportional to the number of lines, because only the last word
+of each line will be handled by the hyphenator.
 
-Speziell für den DCWHyphenator bietet es sich an, diesen nicht direkt
-zu verwenden, sondern die Ergebnisse wie folgt zu cachen:
+For the DCWHyphenator you can cache the results instead of using it
+directly, using the following code:
 {{{
 import wordaxe
 from wordaxe.DCWHyphenator import DCWHyphenator
@@ -309,34 +304,22 @@ hyph = DCWHyphenator("DE")
 wordaxe.hyphRegistry ["DE"] = wordaxe.Cached(hyph, 1000)
 }}}
 
-=== Erweiterungsmöglichkeiten ===
+=== Extensions ===
 
-Andere Silbentrennungsbibliotheken, z.B. von Duden,
-können mit Hilfe von ctypes oder mit SWIG leicht eingebaut werden.
+Other hyphenation libraries can easily integrated with the
+help of ctypes or SWIG.
 
-Dazu muss die Member-Funktion "hyphenate" überschrieben werden,
-die ein Unicode-Wort als Eingabe erhält und eine HyphenatedWord-Instanz
-zurückliefern muss.
+To do this, you have to override the member function "hyphenate",
+which receives a Unicode-word as input and has to return 
+a HyphenatedWord object or None.
 
-=== Hinweise zu ReportLab ===
+=== Notes on ReportLab ===
 
-ReportLab macht uns das Leben nicht leicht, da platypus.paragraph.py
-nicht gerade mit Rücksicht auf spätere Erweiterungen geschrieben wurde.
+The code in platypus/paragraph.py
+is hard to read and therefore it is quite hard to extend the
+functionality.
 
-Alles wäre <em>viel</em> einfacher, wenn anstelle der vielen internen
-Routinen (z.B. "_leftDrawParaLine" etc.) Methoden in der Paragraph-Klasse
-verwendet würden. Eine Erweiterung der Funktionalität könnte dann
-im Grunde durch einfaches Schreiben einer abgeleiteten Klasse erfolgen,
-bei der im Wesentlichen nur "breakLines" überschrieben werden müsste.
-
-Das zweite Problem bei ReportLab 2.x ist die nicht durchgängige Verwendung
-von Unicode. Stattdessen wird mal mit Unicode, mal mit UTF8 und mal mit
-noch anderen Byte-Codierungen gearbeitet.
-
-=== Was noch zu tun ist ===
-
-1. Eigene Paragraph Implementierung.
-
-2. Spagetti-Code aufräumen, Performance-Tuning, 
-
-...
+Since I was not able to add working hyphenation support to that code
+in case of paragraph splitting, I decided to start a new Paragraph
+implementation which a lot of code rewritten from scratch
+(NewParagraph.py and para_fragments.py) and use that instead.

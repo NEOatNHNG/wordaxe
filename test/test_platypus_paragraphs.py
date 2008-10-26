@@ -165,7 +165,7 @@ should be a pound sign &amp;pound;="&pound;" and this an alpha &amp;alpha;="&alp
 Use scheme "pdf:" to indicate an external PDF link, "http:", "https:" to indicate an external link eg something to open in
 your browser. If an internal link begins with something that looks like a scheme, precede with "document:". <strike>This text should have a strike through it.</strike>
 '''
-        from reportlab.platypus.flowables import ImageAndFlowables, Image
+        from reportlab.platypus.flowables import Image, ImageAndFlowables
         from reportlab.lib.utils import _RL_DIR
         gif = os.path.join(os.path.dirname(__file__),'pythonpowered.gif')
         heading = Paragraph('This is a heading',h3)

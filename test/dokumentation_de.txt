@@ -1,6 +1,6 @@
 = wordaxe Silbentrennung =
 
-Henning von Bargen, 14.09.2008, Release 0.2.7 pre
+Henning von Bargen, 26.10.2008, Release 0.3.0
 
 == Übersicht ==
 
@@ -43,7 +43,7 @@ Distribution übernommen, sie stehen unter der GNU LGPL Lizenz.
 
 === ReportLab 2.1 oder 2.2 ===
 
-wordaxe Release 0.2.6 wurde mit Python 2.5 und ReportLab 2.2 getestet,
+wordaxe Release 0.3.0 wurde mit Python 2.5 und ReportLab 2.2 getestet,
 sollte jedoch problemlos auch mit Python 2.4 funktionieren, da keine neuen 
 Features von Python 2.5 verwendet werden.
 
@@ -54,7 +54,7 @@ wordaxe funktioniert auch mit dem etwas älteren ReportLab 2.1.
 
 Hinweise zu noch älteren ReportLab-Versionen:
 
-Möglicherweise funktioniert wordaxe Release 0.2.6 auch mit ReportLab 2.0.
+Möglicherweise funktioniert wordaxe Release 0.3.0 auch mit ReportLab 2.0.
 Ansonsten kann in diesem Fall auch Release 0.2.2 verwendet werden,
 was aber bei der Installation etwas schwieriger ist (man musste da noch
 einige Dateien in der ReportLab-Installation überschreiben und die
@@ -66,23 +66,26 @@ zu beachten, dass bestehender Code evtl. angepasst werden muss, da als
 "paragraph encoding" immer UTF8 benutzt werden muss.
 
 === Installation wordaxe Schritt für Schritt ===
-1. Das ZIP-Archiv wordaxe-0.2.6.zip von der SourceForge Seite
+1. Das ZIP-Archiv wordaxe-0.3.0.zip von der SourceForge Seite
    (siehe <a href="#bezug">Bezug</a>) herunterladen.
 
-2. Das ZIP-Archiv wordaxe-0.2.6.zip im Wurzelverzeichnis C:\ entpacken
-   (innerhalb des Archivs liegen alle Dateien in einem Verzeichnis "wordaxe-0.2.6").
+2. Das ZIP-Archiv wordaxe-0.3.0.zip im Wurzelverzeichnis C:\ entpacken
+   (innerhalb des Archivs liegen alle Dateien in einem Verzeichnis "wordaxe-0.3.0").
    Dadurch wird die folgende Verzeichnisstruktur angelegt:
 
 {{{
 C:
-    wordaxe-0.2.6
+    wordaxe-0.3.0
+        docs
         htdocs
             css
             examples
             icons
             images
-         wordaxe
+        tests
+        wordaxe
             dict
+            plugins
             rl
 }}}
 
@@ -90,14 +93,14 @@ C:
 3a. Auf der Kommandozeile ausführen:
 
 {{{
-cd /d c:\wordaxe-0.2.6
+cd /d c:\wordaxe-0.3.0
 setup.py install
 }}}
    
 3b. Alternativ:
    Eine Sicherheitskopie der Datei reportlab\pdfbase\rl_codecs.py von der
    ReportLab Installation anlegen; anschließend die Datei ersetzen
-   durch die mitgelieferte angepasste Version in c:\wordaxe-0.2.6\wordaxe\rl\rl_codecs.py.
+   durch die mitgelieferte angepasste Version in c:\wordaxe-0.3.0\wordaxe\rl\rl_codecs.py.
    
    <em>Beachte:</em> Dadurch werden nur zwei Zeilen in der Datei geändert, 
    die das "scheue Minuszeichen" SHY betreffen. 
@@ -107,7 +110,7 @@ setup.py install
    die nur die folgende Textzeile enthält:
 
 {{{
-c:\wordaxe-0.2.6
+c:\wordaxe-0.3.0
 }}}
 
 4. Anschließend sicherstellen, dass "import wordaxe" keine Fehlermeldung erzeugt.
@@ -327,10 +330,6 @@ Das zweite Problem bei ReportLab 2.x ist die nicht durchgängige Verwendung
 von Unicode. Stattdessen wird mal mit Unicode, mal mit UTF8 und mal mit
 noch anderen Byte-Codierungen gearbeitet.
 
-=== Was noch zu tun ist ===
-
-1. Eigene Paragraph Implementierung.
-
-2. Spagetti-Code aufräumen, Performance-Tuning, 
-
-...
+Aus diesem Grunde wird nun eine eigene Paragraph Implementierung genutzt,
+bei der gegenüber ReportLab große Teile des Codes von Grund auf neu
+geschrieben wurden.

@@ -9,14 +9,14 @@ How to install
    For users of RL 1.19: Remember that you may have to change your
    code for RL 2.1 (paragraph encoding should be UTF8).
 
-1. Download the file wordaxe-0.2.6.zip from the SourceForge web site
+1. Download the file wordaxe-0.3.0.zip from the SourceForge web site
    http://sourceforge.net/project/showfiles.php?group_id=105867
 
 2. Unzip the files in the ZIP archive to the root directory
-   (inside the archive, everything is in a directory "wordaxe-0.2.6".
+   (inside the archive, everything is in a directory "wordaxe-0.3.0".
    This will create the following structure:
    C:\
-     wordaxe-0.2.6
+     wordaxe-0.3.0
        htdocs
          css
          examples
@@ -33,14 +33,14 @@ How to install
 
    Alternatively, make a backup of the file reportlab\pdfbase\rl_codecs.py
    from your reportlab installation, then overwrite it with the version 
-   found in c:\wordaxe-0.2.6\wordaxe\rl\rl_codecs.py.
+   found in c:\wordaxe-0.3.0\wordaxe\rl\rl_codecs.py.
    Note: This will change only 2 lines that effect the handling of
    the "shy" character.
    
 4. If you didn't use setup.py install, then you have to manually add wordaxe
    to your python path, for example by creating a corresponding file 
    wordaxe.pth in your lib/site-packages directory, containing the text
-   c:\wordaxe-0.2.6
+   c:\wordaxe-0.3.0
    Make sure that "import wordaxe" does not produce an error message.
    
 5. Unless you have used the "shy" character (0xAD) in your text,
@@ -90,22 +90,3 @@ You can add your own word stems, prefixes and suffixes
 to the file "DE_hyph.ini", it is far from perfect!
 The format of this file will probably change (rename the properties etc.)
 An entry can have additional attributes (see at the top of DCWHyphenator.py).
-
-Last-minute:
-A bug has crept in, words like "kennen" are marked as ambiguous.
-That's because the code for shortening "fff"->"ff" etc. is buggy.
-
-TODO:
-* Create a more detailed TODO-list!
-* Documentation
-* Allow "ae" for "ä" and so on (should be quite simple)
-* Code review (never worked with packages before: are the imports in __init__ necessary?)
-* Better performance
-* A BIG database of text with known hyphenation
-  to allow testing different algorithms.
-* Tools for testing 
-* Easy-to-use tools for "learning" (manually adding unknown words to the database)
-* Support for different languages
-* hyphenation in other Reportlab flowables (does it make sense? is it necessary?)
-...
-  

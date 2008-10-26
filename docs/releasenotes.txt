@@ -1,6 +1,20 @@
-Release Notes for wordaxe 0.2.6
+Release Notes for wordaxe 0.3.0
 
-H. von Bargen, September 14th, 2008
+H. von Bargen, October 26th, 2008
+
+Release 0.3.0
+
+By default, wordaxe now uses the NewParagraph implementation.
+The main reason is the fact that I found it impossible to fix
+the splitting bug in the old paragraph.py code.
+Usage of the NewParagraph implementation is controlled by the
+the option USE_NEW_PARAGRAPH in wordaxe.rl.__init__.py
+
+Other changes:
+
+* NewParagraph.py now supports ParagraphAndImage
+* Support for backColor adopted from Dirk Holtwick in NewParagraph
+* Fixed the core hyphenation library
 
 Release 0.2.6
 

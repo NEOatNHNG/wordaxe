@@ -249,7 +249,11 @@ Dadurch kann es nicht zu sinnentstellenden Trennungen kommen.
 Trennstellen werden mit einer Priorität versehen, die dann vom aufrufenden Programm
 berücksichtigt werden kann, um gute Trennstellen (an Wortgrenzen) zu bevorzugen.
 
+Diese Klasse unterstützt auch alle Features von ExplicitHyphenator.
+
 === ExplicitHyphenator ===
+
+Diese Klasse unterstützt alle Features von BaseHyphenator, plus:
 
 Bei dieser Klasse kann man für jedes Wort einzeln vorgeben, wie es getrennt werden
 soll. Damit eignet sich diese Klasse allenfalls für bestimmte Anwendungsbereiche,
@@ -271,6 +275,8 @@ eine andere Implementierung und <em>funktioniert wesentlich besser</em>!
 Um diese Klasse verwenden zu können, muss die pyhyphen-Bibliothek
 installiert sein (siehe <a href="http://pypi.python.org/pypi/PyHyphen/">http://pypi.python.org/pypi/PyHyphen/</a>).
 
+Diese Klasse unterstützt auch alle Features von ExplicitHyphenator.
+
 === BaseHyphenator ===
 
 Diese Klasse funktioniert mit jeder Sprache.
@@ -283,6 +289,8 @@ Getrennt wird nur nach den folgenden Zeichen:
     '­'   SHY hyphenation character (173, '\xAD')
 }}}
 
+Wenn beim Konstruktor das Argument CamelCase=True angegeben wird,
+dann werden auch CamelCase-Wörter getrennt.
 
 == Anmerkungen ==
 

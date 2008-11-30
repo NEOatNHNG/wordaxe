@@ -251,7 +251,11 @@ This prevents hyphenations that may be valid but hard to read.
 Hyphenation points have a priority, which can be used by the calling program
 to prefer good hyphenation points (at subword boundaries).
 
+This class supports all features of ExplicitHyphenator as well.
+
 === ExplicitHyphenator ===
+
+This class supports supports all features of BaseHyphenator, plus:
 
 Here you have to explicitly define the hyphenation for every word.
 Thus this class isn't of much use on its own - only if the dictionary
@@ -271,6 +275,8 @@ but it uses a different implementation and <em>works much better</em>!
 To use it, you need to have the pyhyphen library installed
 (see <a href="http://pypi.python.org/pypi/PyHyphen/">http://pypi.python.org/pypi/PyHyphen/</a>).
 
+This class supports all features of ExplicitHyphenator as well.
+
 === BaseHyphenator ===
 
 This class should work for all languages.
@@ -283,6 +289,8 @@ It hyphenates only after the following characters:
     '­'   SHY hyphenation character (173, '\xAD')
 }}}
 
+When the argument CamelCase=True is given to the constructor,
+CamelCase words will be hyphenated, too.
 
 == Remarks ==
 

@@ -217,9 +217,9 @@ endobj
  0
  0 ]
  /Rect [ 163.27
- 527.8098
+ 491.8098
  319.4
- 539.8098 ]
+ 503.8098 ]
  /Subtype /Link
  /Type /Annot >>
 endobj
@@ -442,7 +442,7 @@ endstream
 
 endobj
 25 0 obj
-<< /Length 5492 >>
+<< /Length 5491 >>
 stream
 1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
 q
@@ -484,7 +484,7 @@ Q
 q
 1 0 0 1 78 529.8898 cm
 q
-BT 1 0 0 1 0 29.17 Tm -0.009441 Tw 12 TL /F3 10 Tf 0 0 0 rg (3b. Alternativ: Eine Sicherheitskopie der Datei reportlab\\pdfbase\\rl_codecs.py von der ReportLab Installation) Tj T* 0 Tw (anlegen; anschlie\337end die Datei ersetzen durch die mitgelieferte angepasste Version in c:\\wordaxe-) Tj T* (0.3.0\\wordaxe\\rl\\rl_codecs.py.) Tj T* ET
+BT 1 0 0 1 0 29.17 Tm -0.009441 Tw 12 TL /F3 10 Tf 0 0 0 rg (3b. Alternativ: Eine Sicherheitskopie der Datei reportlab\\pdfbase\\rl_codecs.py von der ReportLab Installation) Tj T* 0 Tw (anlegen; anschlie\337end die Datei ersetzen durch die mitgelieferte angepasste Version in) Tj T* (c:\\wordaxe-0.3.0\\wordaxe\\rl\\rl_codecs.py.) Tj T* ET
 Q
 Q
 q
@@ -739,7 +739,7 @@ endstream
 
 endobj
 27 0 obj
-<< /Length 5504 >>
+<< /Length 5493 >>
 stream
 1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
 q
@@ -753,131 +753,137 @@ BT 1 0 0 1 0 17.17 Tm -0.029534 Tw 12 TL /F3 10 Tf 0 0 0 rg (Trennstellen werden
 Q
 Q
 q
-1 0 0 1 78 713.8898 cm
+1 0 0 1 78 721.8898 cm
+q
+BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse unterst\374tzt auch alle Features von ExplicitHyphenator.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 695.8898 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (ExplicitHyphenator) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 659.8898 cm
+1 0 0 1 78 677.8898 cm
+q
+BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse unterst\374tzt alle Features von BaseHyphenator, plus:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 623.8898 cm
 q
 BT 1 0 0 1 0 41.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Bei dieser Klasse kann man f\374r jedes Wort einzeln vorgeben, wie es getrennt werden soll. Damit eignet sich) Tj T* (diese Klasse allenfalls f\374r bestimmte Anwendungsbereiche, bei denen der Wortschatz so klein ist, dass die) Tj T* -0.519601 Tw (Trennung f\374r alle anfallenden Worte \(zumindest die langen\) vorab festgelegt werden kann \(z.B. wenn praktisch) Tj T* 0 Tw (nur feste Textbausteine verwendet werden\).) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 633.8898 cm
+1 0 0 1 78 597.8898 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (PyHnjHyphenator) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 591.8898 cm
+1 0 0 1 78 555.8898 cm
 q
 BT 1 0 0 1 0 29.17 Tm -0.066744 Tw 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse funktioniert so wie die Silbentrennung in TeX, basierend auf Mustern \(vergleiche libhnj, pyhnj\).) Tj T* 0 Tw (Die Implementierung kann die pyhnj C-Bibliothek verwenden \(das ist die Voreinstellung\) oder aber Pure) Tj T* (Python, wenn das Argument purePython=True beim Konstruktor angegeben wird.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 565.8898 cm
+1 0 0 1 78 529.8898 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (wordaxe.plugins.PyHyphenHyphenator) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 523.8898 cm
+1 0 0 1 78 487.8898 cm
 q
 BT 1 0 0 1 0 29.17 Tm -0.342458 Tw 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse funktioniert ebenfalls so \344hnlich wie in TeX, verwendet jedoch eine andere Implementierung und) Tj T* 0 Tw /F6 10 Tf (funktioniert wesentlich besser) Tj /F3 10 Tf (! Um diese Klasse verwenden zu k\366nnen, muss die pyhyphen-Bibliothek) Tj T* (installiert sein \(siehe ) Tj (http://pypi.python.org/pypi/PyHyphen/) Tj (\).) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 497.8898 cm
+1 0 0 1 78 469.8898 cm
+q
+BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse unterst\374tzt auch alle Features von ExplicitHyphenator.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 443.8898 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (BaseHyphenator) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 479.8898 cm
+1 0 0 1 78 425.8898 cm
 q
 BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse funktioniert mit jeder Sprache. Getrennt wird nur nach den folgenden Zeichen:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 444.6898 cm
+1 0 0 1 78 390.6898 cm
 q
 0 0 0 rg
 BT 1 0 0 1 36 30.168 Tm /F5 8 Tf 8.8 TL (    '-'   Minuszeichen \(45, '\\x2D'\)) Tj T* (    '.'   Punkt \(46, '\\x2E'\) \(aber z.B. nicht bei Punkten zwischen Ziffern\)) Tj T* (    '_'   Unterstrich \(95, '\\x5F'\)) Tj T* (    '\255'   SHY hyphenation character \(173, '\\xAD'\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 414.6898 cm
+1 0 0 1 78 360.6898 cm
+q
+BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Wenn beim Konstruktor das Argument CamelCase=True angegeben wird, dann werden auch CamelCase-) Tj T* (W\366rter getrennt.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 330.6898 cm
 q
 BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Anmerkungen) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 388.6898 cm
+1 0 0 1 78 304.6898 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Performance) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 358.6898 cm
+1 0 0 1 78 274.6898 cm
 q
 BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Der DCWHyphenator ben\366tigt aufgrund des verwendeten \(im Prinzip rekursiven\) Algorithmus relativ lange) Tj T* (f\374r die Trennung eines Wortes.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 316.6898 cm
+1 0 0 1 78 232.6898 cm
 q
 BT 1 0 0 1 0 29.17 Tm -0.197151 Tw 12 TL /F3 10 Tf 0 0 0 rg (Da die Wortl\344nge in der Praxis begrenzt ist, ergibt sich beim Einsatz mit ReportLab eine Laufzeit proportional) Tj T* 0 Tw -0.079689 Tw (zur Anzahl der \(Zeilen minus Abs\344tze\), denn es wird jeweils das letzte Wort einer Zeile gepr\374ft \(au\337er bei der) Tj T* 0 Tw (letzten Zeile im Absatz\).) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 286.6898 cm
+1 0 0 1 78 202.6898 cm
 q
 BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Speziell f\374r den DCWHyphenator bietet es sich an, diesen nicht direkt zu verwenden, sondern die Ergebnisse) Tj T* (wie folgt zu cachen:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 251.4898 cm
+1 0 0 1 78 167.4898 cm
 q
 0 0 0 rg
 BT 1 0 0 1 36 30.168 Tm /F5 8 Tf 8.8 TL (import wordaxe) Tj T* (from wordaxe.DCWHyphenator import DCWHyphenator) Tj T* (hyph = DCWHyphenator\("DE"\)) Tj T* (wordaxe.hyphRegistry ["DE"] = wordaxe.Cached\(hyph, 1000\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 225.4898 cm
+1 0 0 1 78 141.4898 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Erweiterungsm\366glichkeiten) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 195.4898 cm
+1 0 0 1 78 111.4898 cm
 q
 BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Andere Silbentrennungsbibliotheken, z.B. von Duden, k\366nnen mit Hilfe von ctypes oder mit SWIG leicht) Tj T* (eingebaut werden.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 165.4898 cm
+1 0 0 1 78 81.48976 cm
 q
 BT 1 0 0 1 0 17.17 Tm -0.338701 Tw 12 TL /F3 10 Tf 0 0 0 rg (Dazu muss die Member-Funktion "hyphenate" \374berschrieben werden, die ein Unicode-Wort als Eingabe erh\344lt) Tj T* 0 Tw (und eine HyphenatedWord-Instanz zur\374ckliefern muss.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 139.4898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Hinweise zu ReportLab) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 109.4898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (ReportLab macht uns das Leben nicht leicht, da platypus.paragraph.py nicht gerade mit R\374cksicht auf sp\344tere) Tj T* (Erweiterungen geschrieben wurde.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 79.48976 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Alles w\344re ) Tj /F6 10 Tf (viel) Tj /F3 10 Tf ( einfacher, wenn anstelle der vielen internen Routinen \(z.B. "_leftDrawParaLine" etc.\)) Tj T* (Methoden in der Paragraph-Klasse verwendet w\374rden. Eine Erweiterung der Funktionalit\344t k\366nnte dann im) Tj T* ET
 Q
 Q
  
@@ -885,7 +891,7 @@ endstream
 
 endobj
 28 0 obj
-<< /Length 945 >>
+<< /Length 1578 >>
 stream
 1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
 q
@@ -893,19 +899,31 @@ BT /F3 9 Tf 10.8 TL ET
 BT 1 0 0 1 72 54 Tm (Seite 5) Tj T* ET
 Q
 q
-1 0 0 1 78 739.8898 cm
+1 0 0 1 78 749.8898 cm
 q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Grunde durch einfaches Schreiben einer abgeleiteten Klasse erfolgen, bei der im Wesentlichen nur) Tj T* ("breakLines" \374berschrieben werden m\374sste.) Tj T* ET
+BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Hinweise zu ReportLab) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 709.8898 cm
+1 0 0 1 78 719.8898 cm
+q
+BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (ReportLab macht uns das Leben nicht leicht, da platypus.paragraph.py nicht gerade mit R\374cksicht auf sp\344tere) Tj T* (Erweiterungen geschrieben wurde.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 665.8898 cm
+q
+BT 1 0 0 1 0 41.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Alles w\344re ) Tj /F6 10 Tf (viel) Tj /F3 10 Tf ( einfacher, wenn anstelle der vielen internen Routinen \(z.B. "_leftDrawParaLine" etc.\)) Tj T* (Methoden in der Paragraph-Klasse verwendet w\374rden. Eine Erweiterung der Funktionalit\344t k\366nnte dann im) Tj T* (Grunde durch einfaches Schreiben einer abgeleiteten Klasse erfolgen, bei der im Wesentlichen nur) Tj T* ("breakLines" \374berschrieben werden m\374sste.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 635.8898 cm
 q
 BT 1 0 0 1 0 17.17 Tm -0.086744 Tw 12 TL /F3 10 Tf 0 0 0 rg (Das zweite Problem bei ReportLab 2.x ist die nicht durchg\344ngige Verwendung von Unicode. Stattdessen wird) Tj T* 0 Tw (mal mit Unicode, mal mit UTF8 und mal mit noch anderen Byte-Codierungen gearbeitet.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 679.8898 cm
+1 0 0 1 78 605.8898 cm
 q
 BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Aus diesem Grunde wird nun eine eigene Paragraph Implementierung genutzt, bei der gegen\374ber ReportLab) Tj T* (gro\337e Teile des Codes von Grund auf neu geschrieben wurden.) Tj T* ET
 Q
@@ -946,10 +964,10 @@ xref
 0000004166 00000 n
 0000004270 00000 n
 0000009515 00000 n
-0000015066 00000 n
-0000020889 00000 n
-0000026452 00000 n
-0000027455 00000 n
+0000015065 00000 n
+0000020888 00000 n
+0000026440 00000 n
+0000028077 00000 n
 trailer
 << /ID 
  % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
@@ -959,5 +977,5 @@ trailer
  /Root 21 0 R
  /Size 30 >>
 startxref
-27507
+28129
 %%EOF

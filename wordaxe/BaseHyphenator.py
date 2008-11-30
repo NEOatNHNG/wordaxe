@@ -86,7 +86,10 @@ class BaseHyphenator(Hyphenator):
     -   minus sign (45, '\x2D')
     .   dot (46, '\x2E') (depending on its position)
     _   underscore (95, '\x5F')
-    ­   shy hyphenation character (173, '\xAD')
+    ­   shy hyphenation character (173, '\xAD').
+    
+    Optionally, hyphenation points can be added for CamelCase words
+    (CamelCase => Camel-Case).
     """
     
     stripper = Stripper() # Mit den Standard-Einstellungen
@@ -102,9 +105,10 @@ class BaseHyphenator(Hyphenator):
         if l < self.minWordLength:
             return hword
         # @TODO better use a regular expression for number/date detection
+        hyphenations = []
         for p in range(1,l-1):
             if word[p] in ["-", self.shy]:
-                hword.hyphenations.append(HyphenationPoint(p+1,9,0,u"",0,u""))
+                hyphenations.append(HyphenationPoint(p+1,9,0,u"",0,u""))
             elif word[p] in ".,":
                 if word[p-1] in "-+0123456789" and p+1<l and word[p+1] in "-+0123456789":
                     # a number or a date
@@ -113,10 +117,18 @@ class BaseHyphenator(Hyphenator):
                     # an abbreviation, for example "i.e."
                     return hword
                 else:
-                    hword.hyphenations.append(HyphenationPoint(p+1,5,0,self.shy,0,u""))
+                    hyphenations.append(HyphenationPoint(p+1,5,0,self.shy,0,u""))
             elif word[p] in "_":
-                hword.hyphenations.append(HyphenationPoint(p+1,5,0,self.shy,0,u""))
-        if hword.hyphenations:
+                hyphenations.append(HyphenationPoint(p+1,5,0,self.shy,0,u""))
+        if self.options.get("CamelCase"):
+            # add CamelCase hyphenation points
+            # TODO performance tuning
+            for p in range(2,l-2):
+                if word[p-1].islower() and word[p].isupper() and word[p+1].islower():
+                    hyphenations.append(HyphenationPoint(p,5,0,self.shy,0,u""))
+            hyphenations.sort()
+        if hyphenations:
+            hword.hyphenations = hyphenations
             return hword
         return None # unknown
         
@@ -293,16 +305,19 @@ class BaseHyphenator(Hyphenator):
         
 if __name__=="__main__":
     print "Testing BaseHyphenator:"
-    h = BaseHyphenator("DE",5)
+    h = BaseHyphenator("DE",5, CamelCase=True)
     if len(sys.argv) > 1:
         h.test(outfname="ExplicitLearn.html")
         sys.exit()
     #assert h.hyphenate("Exklusiv-Demo") == [(9,9,None)]
-    for word in ["Exklusiv-Demo", "18.10.2003", "1,2345", "i.e", "z.B.", "-0.1234", "reportlab-users", "no_data_found", "-12345", "12345-", "1-2345", "1234-5"]:
+    for word in ["Exklusiv-Demo", "CamelCase", "18.10.2003", "1,2345", "i.e", "z.B.", "-0.1234", "reportlab-users", "no_data_found", "-12345", "12345-", "1-2345", "1234-5"]:
         hyphWord = h.hyphenate(word.decode("iso-8859-1"))
-        print "%s -- %s" % (word, hyphWord.showHyphens())
+        if hyphWord is not None:
+            print "%s -- %s" % (word, hyphWord.showHyphens())
+        else:
+            print "%s -- unknown" % word
     
-    hw = HyphenatedWord("Schiffahrtskapitänsbackenzahn".decode("iso-8859-1"))
+    hw = HyphenatedWord("Schiffahrtskapitänsbackenzahn".decode("iso-8859-1"), [])
     #                   0         1         2
     #                   01234567890123456789012345678
     hw.hyphenations = [HyphenationPoint(5,8,0,u"f"+SHY,0,u""), #schif(f)-fahrt
@@ -314,8 +329,8 @@ if __name__=="__main__":
                        HyphenationPoint(22,4,1,u"k"+SHY,0,""), # bak-ken nach alten Regeln
                        HyphenationPoint(25,9,0,SHY,0,u""), # ken-zahn
                       ]
-    print "%s -- %s" % (hw.word,hw.showHyphens())
+    print "%s -- %s" % (hw,hw.showHyphens())
     while len(hw.hyphenations):
         l,r = hw.split(hw.hyphenations[0])
-        print "%s%s" % (l,r.word)
+        print "%s%s" % (l,r)
         hw=r

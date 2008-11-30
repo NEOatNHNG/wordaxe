@@ -253,7 +253,7 @@ class Hyphenator:
     These thoughts have led to the following interface for hyphenation.
     """
    
-    def __init__ (self, language, minWordLength=4, codec=None, shy=SHY):
+    def __init__ (self, language, minWordLength=4, codec=None, shy=SHY, **options):
         """
         Creates a new hyphenator instance for the given language.
         In this base class, the language arguments serves only for
@@ -265,6 +265,7 @@ class Hyphenator:
         self.minWordLength = 4
         assert isinstance(shy, unicode)
         self.shy = shy
+        self.options = options
         
         """
         self.codec = codec

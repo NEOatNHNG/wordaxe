@@ -33,13 +33,14 @@ class PyHnjHyphenator(ExplicitHyphenator):
                   minWordLength=4,
                   quality=8,
                   hyphenDir=None,
-                  purePython=False
+                  purePython=False,
+                  **options
                  ):
         """ Note:
             The purePython version does NOT use Knuth's algorithm,
             but a more simple (and slower) algorithm.
         """
-        ExplicitHyphenator.__init__(self,language=language,minWordLength=minWordLength)
+        ExplicitHyphenator.__init__(self,language=language,minWordLength=minWordLength, **options)
         if hyphenDir is None:
             hyphenDir = os.path.join(os.path.split(__file__)[0], "dict")
         self.purePython = purePython

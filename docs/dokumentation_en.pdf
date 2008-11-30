@@ -229,9 +229,9 @@ endobj
  0
  0 ]
  /Rect [ 409.06
- 667.8098
+ 613.8098
  486.85
- 679.8098 ]
+ 625.8098 ]
  /Subtype /Link
  /Type /Annot >>
 endobj
@@ -243,9 +243,9 @@ endobj
  0
  0 ]
  /Rect [ 78
- 655.8098
+ 601.8098
  159.67
- 667.8098 ]
+ 613.8098 ]
  /Subtype /Link
  /Type /Annot >>
 endobj
@@ -625,7 +625,7 @@ endstream
 
 endobj
 27 0 obj
-<< /Length 5928 >>
+<< /Length 5746 >>
 stream
 1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
 q
@@ -762,15 +762,15 @@ BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Hyphenation points have a priori
 Q
 Q
 q
-1 0 0 1 78 108.6898 cm
+1 0 0 1 78 116.6898 cm
+q
+BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (This class supports all features of ExplicitHyphenator as well.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 90.68976 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (ExplicitHyphenator) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 78.68976 cm
-q
-BT 1 0 0 1 0 17.17 Tm -0.19272 Tw 12 TL /F3 10 Tf 0 0 0 rg (Here you have to explicitly define the hyphenation for every word. Thus this class isn't of much use on its own) Tj T* 0 Tw (- only if the dictionary is quite small \(for example if more or less only fixed text templates are used\).) Tj T* ET
 Q
 Q
  
@@ -778,7 +778,7 @@ endstream
 
 endobj
 28 0 obj
-<< /Length 4062 >>
+<< /Length 4918 >>
 stream
 1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
 q
@@ -786,117 +786,141 @@ BT /F3 9 Tf 10.8 TL ET
 BT 1 0 0 1 72 54 Tm (Seite 4) Tj T* ET
 Q
 q
-1 0 0 1 78 749.8898 cm
+1 0 0 1 78 751.8898 cm
+q
+BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (This class supports supports all features of BaseHyphenator, plus:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 721.8898 cm
+q
+BT 1 0 0 1 0 17.17 Tm -0.19272 Tw 12 TL /F3 10 Tf 0 0 0 rg (Here you have to explicitly define the hyphenation for every word. Thus this class isn't of much use on its own) Tj T* 0 Tw (- only if the dictionary is quite small \(for example if more or less only fixed text templates are used\).) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 695.8898 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (PyHnjHyphenator) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 719.8898 cm
+1 0 0 1 78 665.8898 cm
 q
 BT 1 0 0 1 0 17.17 Tm -0.215276 Tw 12 TL /F3 10 Tf 0 0 0 rg (This works like the pattern-based hyphenation in TeX \(see also libhnj, pyhnj\). The implementation can use the) Tj T* 0 Tw (pyhnj C-library or use pure Python, if the argument purePython=True is supplied to the constructor.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 693.8898 cm
+1 0 0 1 78 639.8898 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (wordaxe.plugins.PyHyphenHyphenator) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 651.8898 cm
+1 0 0 1 78 597.8898 cm
 q
 BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (This class also works like the pattern-based hyphenation in TeX, but it uses a different implementation and) Tj T* /F6 10 Tf (works much better) Tj /F3 10 Tf (! To use it, you need to have the pyhyphen library installed \(see ) Tj (http://pypi.python.\255) Tj T* (org/pypi/PyHyphen/) Tj (\).) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 625.8898 cm
+1 0 0 1 78 579.8898 cm
+q
+BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (This class supports all features of ExplicitHyphenator as well.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 553.8898 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (BaseHyphenator) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 607.8898 cm
+1 0 0 1 78 535.8898 cm
 q
 BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (This class should work for all languages. It hyphenates only after the following characters:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 572.6898 cm
+1 0 0 1 78 500.6898 cm
 q
 0 0 0 rg
 BT 1 0 0 1 36 30.168 Tm /F5 8 Tf 8.8 TL (    '-'   minus \(45, '\\x2D'\)) Tj T* (    '.'   dot \(46, '\\x2E'\) \(but not if the dot is between digits\)) Tj T* (    '_'   underscore \(95, '\\x5F'\)) Tj T* (    '\255'   SHY hyphenation character \(173, '\\xAD'\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 542.6898 cm
+1 0 0 1 78 482.6898 cm
+q
+BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (When the argument CamelCase=True is given to the constructor, CamelCase words will be hyphenated, too.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 78 452.6898 cm
 q
 BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Remarks) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 516.6898 cm
+1 0 0 1 78 426.6898 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Performance) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 498.6898 cm
+1 0 0 1 78 408.6898 cm
 q
 BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The DCWHyphenator is quite slow, due to the rekursive nature of the algorithm.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 468.6898 cm
+1 0 0 1 78 378.6898 cm
 q
 BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Since the word length is bounded, the run time when used with ReportLab is proportional to the number of) Tj T* (lines, because only the last word of each line will be handled by the hyphenator.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 450.6898 cm
+1 0 0 1 78 360.6898 cm
 q
 BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (For the DCWHyphenator you can cache the results instead of using it directly, using the following code:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 415.4898 cm
+1 0 0 1 78 325.4898 cm
 q
 0 0 0 rg
 BT 1 0 0 1 36 30.168 Tm /F5 8 Tf 8.8 TL (import wordaxe) Tj T* (from wordaxe.DCWHyphenator import DCWHyphenator) Tj T* (hyph = DCWHyphenator\("DE"\)) Tj T* (wordaxe.hyphRegistry ["DE"] = wordaxe.Cached\(hyph, 1000\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 389.4898 cm
+1 0 0 1 78 299.4898 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Extensions) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 371.4898 cm
+1 0 0 1 78 281.4898 cm
 q
 BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Other hyphenation libraries can easily integrated with the help of ctypes or SWIG.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 341.4898 cm
+1 0 0 1 78 251.4898 cm
 q
 BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (To do this, you have to override the member function "hyphenate", which receives a Unicode-word as input) Tj T* (and has to return a HyphenatedWord object or None.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 315.4898 cm
+1 0 0 1 78 225.4898 cm
 q
 BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Notes on ReportLab) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 297.4898 cm
+1 0 0 1 78 207.4898 cm
 q
 BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The code in platypus/paragraph.py is hard to read and therefore it is quite hard to extend the functionality.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 78 255.4898 cm
+1 0 0 1 78 165.4898 cm
 q
 BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Since I was not able to add working hyphenation support to that code in case of paragraph splitting, I decided) Tj T* (to start a new Paragraph implementation which a lot of code rewritten from scratch \(NewParagraph.py and) Tj T* (para_fragments.py\) and use that instead.) Tj T* ET
 Q
@@ -939,8 +963,8 @@ xref
 0000004457 00000 n
 0000009626 00000 n
 0000014903 00000 n
-0000020890 00000 n
-0000025011 00000 n
+0000020708 00000 n
+0000025685 00000 n
 trailer
 << /ID 
  % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
@@ -950,5 +974,5 @@ trailer
  /Root 22 0 R
  /Size 30 >>
 startxref
-25063
+25737
 %%EOF

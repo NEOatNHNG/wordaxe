@@ -168,9 +168,10 @@ class DCWHyphenator(ExplicitHyphenator):
                   qNeben=5,
                   qVorsilbe=5,
                   qSchlecht=3,
-                  hyphenDir=None
+                  hyphenDir=None,
+                  **options
                  ):
-        ExplicitHyphenator.__init__(self,language=language,minWordLength=minWordLength)
+        ExplicitHyphenator.__init__(self,language=language,minWordLength=minWordLength, **options)
 
         # Qualitäten für verschiedene Trennstellen
         self.qHaupt=qHaupt

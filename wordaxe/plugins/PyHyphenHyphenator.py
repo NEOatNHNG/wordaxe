@@ -43,8 +43,9 @@ class PyHyphenHyphenator(ExplicitHyphenator):
                   minWordLength=4,
                   quality=8,
                   hyphenDir=None,
+                  **options
                  ):
-        ExplicitHyphenator.__init__(self,language=language,minWordLength=minWordLength)
+        ExplicitHyphenator.__init__(self,language=language,minWordLength=minWordLength,**options)
         if hyphenDir is None:
             hyphenDir = os.path.join(os.path.split(__file__)[0], "..", "dict")
         fname = os.path.join(hyphenDir, "hyph_%s.dic" % language)

@@ -261,6 +261,9 @@ bei denen der Wortschatz so klein ist, dass die Trennung für alle anfallenden Wo
 (zumindest die langen) vorab festgelegt werden kann (z.B. wenn praktisch nur feste
 Textbausteine verwendet werden).
 
+Mit den Methoden add_entry, add_entries sowie add_entries_from_file können solche
+Trennungen genau vorgegeben werden (siehe Testskript special_words.py).
+
 === PyHnjHyphenator ===
 
 Diese Klasse funktioniert so wie die Silbentrennung in TeX, basierend auf Mustern

@@ -108,5 +108,7 @@ class PyHyphenHyphenator(ExplicitHyphenator):
     
 if __name__=="__main__":
     h = PyHyphenHyphenator("de_DE",5)
+    h.add_entries({u"wordaxe":   u"word8axe",
+                 })
     h.test(outfname="PyHyphenLearn.html")
     

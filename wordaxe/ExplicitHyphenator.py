@@ -9,6 +9,8 @@ __license__="""
 
 __version__=''' $Id: __init__.py,v 1.2 2004/05/31 22:22:12 hvbargen Exp $ '''
 
+import codecs
+
 from wordaxe.hyphen import SHY, HyphenatedWord
 from wordaxe.BaseHyphenator import BaseHyphenator
 from wordaxe.hyphrules import decodeTrennung
@@ -81,7 +83,33 @@ class ExplicitHyphenator(BaseHyphenator):
             
     def add_entries(self, mapping, encoding=unicode):
         for word, trennung in mapping.items():
+            self.add_entry(word, trennung, encoding)
+            
+    def add_entries_from_file(self, filename, encoding=None):
+        """
+        Add entries from a text file (interpreting the file
+        using the given encoding). If encoding is not given
+        or None, try to extract the encoding from a line
+        near the start of the file like
+        # -*- coding: iso-8859-1 -*-
+        """
+        if encoding is None:
+            import re
+            frag = open(filename,"rt").read(1000)
+            m = re.search(r"-\*- coding: ([^ ]+) -\*-", frag)
+            if m is not None:
+                encoding = m.group(1)
+            else:
+                raise ValueError("Encoding not specified and not found in file")
+        fh = codecs.open(filename, "rt", encoding)
+        for line in fh:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            word, trennung = line.split()
             self.add_entry(word, trennung)
+        fh.close()
+        
         
     def hyph(self, word):
         #print "ExplicitHyphenator hyph", word

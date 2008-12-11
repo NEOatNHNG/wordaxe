@@ -262,6 +262,9 @@ Thus this class isn't of much use on its own - only if the dictionary
 is quite small (for example if more or less only fixed text templates
 are used).
 
+The hyphenations can be defined using the methods add_entry, add_entries 
+and add_entries_from_file (see test script special_words.py).
+
 === PyHnjHyphenator ===
 
 This works like the pattern-based hyphenation in TeX (see also libhnj, pyhnj).

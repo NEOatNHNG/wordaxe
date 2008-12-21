@@ -107,16 +107,16 @@ class BaseHyphenator(Hyphenator):
         # @TODO better use a regular expression for number/date detection
         hyphenations = []
         for p in range(1,l-1):
-            if word[p] in ["-", self.shy]:
+            if word[p] in [u"-", self.shy]:
                 hyphenations.append(HyphenationPoint(p+1,9,0,u"",0,u""))
             elif word[p] in ".,":
-                if word[p-1] in "-+0123456789" and p+1<l and word[p+1] in "-+0123456789":
+                if word[p-1] in u"-+0123456789" and p+1<l and word[p+1] in u"-+0123456789":
                     # a number or a date
                     return hword
-                elif l<=3 or (word[p]=="." and word[-1]=="."):
+                elif l<=3 or (word[p]==u"." and word[-1]==u"."):
                     # an abbreviation, for example "i.e."
                     return hword
-                else:
+                elif p+1<l and word[p+1] not in [u'.', u'\xA0']:
                     hyphenations.append(HyphenationPoint(p+1,5,0,self.shy,0,u""))
             elif word[p] in "_":
                 hyphenations.append(HyphenationPoint(p+1,5,0,self.shy,0,u""))

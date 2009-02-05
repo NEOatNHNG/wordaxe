@@ -6,7 +6,7 @@ from distutils.core import setup
 
 setup(
     name = "wordaxe",
-    version = "0.3.0",
+    version = "0.3.1",
     description = "Provide hyphenation for python programs and ReportLab paragraphs.",
     long_description = "Provide hyphenation for python programs and ReportLab paragraphs.",
     author = "Henning von Bargen",
@@ -37,16 +37,22 @@ def fileHash(path):
 setupCommand = sys.argv[-1]
 
 if setupCommand == "install":
-    from reportlab.pdfbase import rl_codecs
-    src = rl_codecs.__file__
-    if src.endswith(".pyc"):
-        src = src[:-1]
-    new = "wordaxe/rl/rl_codecs.py"
-    if fileHash(src) != fileHash(new):
-        bak = src + ".bak"
-        print "backing up %s -> %s" % (src, bak)
-        shutil.copy2(src, bak)
-        print "copying %s -> %s" % (new, src)
-        shutil.copy2(new, src)
-    else:
-        print "no update of '%s' needed" % src
+    try:
+        import reportlab
+        if reporlab.Version <= "2.3":
+            from reportlab.pdfbase import rl_codecs
+            src = rl_codecs.__file__
+            if src.endswith(".pyc"):
+                src = src[:-1]
+            new = "wordaxe/rl/rl_codecs.py"
+            if fileHash(src) != fileHash(new):
+                bak = src + ".bak"
+                print "backing up %s -> %s" % (src, bak)
+                shutil.copy2(src, bak)
+                print "copying %s -> %s" % (new, src)
+                shutil.copy2(new, src)
+            else:
+                print "no update of '%s' needed" % src
+    except ImportError:
+        print "Note: ReportLab is not properly installed."
+        

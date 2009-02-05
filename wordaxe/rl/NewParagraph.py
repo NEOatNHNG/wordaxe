@@ -1041,6 +1041,32 @@ class Paragraph(Flowable):
         #print "bestSolution for", word, "returns:", HVBDBG.s(bestSolution)
         return bestSolution
 
+            
+    def getPlainText(self,identify=None):
+        """Convenience function for templates which want access
+        to the raw text, without XML tags.
+        
+        Note: will only get the first part if a paragraph is splitted.
+        This is not perfect, but should work good enough to be used for the TOC.
+        """
+        text = []
+        
+        if hasattr(self, "_lines"):
+            lines = getattr(self, "_lines")
+            for line in lines:
+                if line is not lines[0]:
+                    text.append(" ")
+                for frag in line.fragments:
+                    if hasattr(frag, "text"):
+                        text.append(getattr(frag, "text"))
+                
+        else:
+            for frag in self.frags:
+                if hasattr(frag, "text"):
+                    text.append(getattr(frag, "text"))
+        
+        return "".join(text)
+        
 
 
 class ParagraphAndImage(Flowable):

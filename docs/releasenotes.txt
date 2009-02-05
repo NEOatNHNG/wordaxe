@@ -1,6 +1,11 @@
-Release Notes for wordaxe 0.3.0
+Release Notes for wordaxe 0.3.1
 
-H. von Bargen, October 26th, 2008
+H. von Bargen, February 2009
+
+Release 0.3.1
+
+Tested with ReportLab 2.3.
+With wordaxe 0.3.1 and ReportLab 2.3, multibuild should work.
 
 Release 0.3.0
 

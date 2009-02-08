@@ -455,6 +455,14 @@ class Paragraph(Flowable):
                 text = unicode(text, encoding)
             if textCleaner: text = textCleaner(text)
             self.frags = list(self.parse(text, style, bulletText))
+            
+    def cleanup(self):
+        """ 
+        This is called to cleanup internal attributes when
+        multibuild is called.
+        """
+        if hasattr(self,"_lines"): delattr(self,"_lines")
+        if hasattr(self,"_unused"): delattr(self,"_unused")
 
     def parse(self, text, style, bulletText):
         """
@@ -491,6 +499,12 @@ class Paragraph(Flowable):
     def wrap(self, availW, availH):
         """
         """
+
+        # Take care for multibuild            
+        mbe=self._doctemplateAttr('_multiBuildEdits') 
+        if mbe is not None:
+            mbe((self.cleanup,))
+
         #print id(self), "wrap", availW, availH
         if hasattr(self, "_lines"):
             height = sum([line.height for line in self._lines])

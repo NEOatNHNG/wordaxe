@@ -39,7 +39,7 @@ setupCommand = sys.argv[-1]
 if setupCommand == "install":
     try:
         import reportlab
-        if reporlab.Version <= "2.3":
+        if reportlab.Version <= "2.3":
             from reportlab.pdfbase import rl_codecs
             src = rl_codecs.__file__
             if src.endswith(".pyc"):

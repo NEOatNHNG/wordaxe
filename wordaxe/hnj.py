@@ -123,7 +123,7 @@ class PyHnjHyphenator(BaseHyphenator):
             loesung = loesungen[0]
             #hword.info = ("HYPHEN_OK", loesung)
             if not loesung:
-                #hword.info = ("NOT_HYPHENATABLE", aWord)
+                pass #hword.info = ("NOT_HYPHENATABLE", aWord)
         else:
             #hword.info = ("UNKNOWN", aWord)
             loesung = []

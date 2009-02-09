@@ -1080,6 +1080,10 @@ class Paragraph(Flowable):
                     text.append(getattr(frag, "text"))
         
         return "".join(text)
+
+    def minWidth(self):
+        """Attempt to determine a minimum sensible width"""
+        return max([frag.width for frag in self.frags])
         
 
 

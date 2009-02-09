@@ -87,7 +87,6 @@ def doLayout (title, data, colWidths, outPDF):
     colWidths = [w*mm for w in colWidths]
     if sum(colWidths) > pagesize[0]:
         raise ValueError, "Overall column width too wide!"
-
     tabContent = [header]
     for txt in data:
         row = []
@@ -182,6 +181,48 @@ class ShyTestCase(unittest.TestCase):
         ["<para>Kapit\xE4ns\xADm\xFCtzen\xADschirm\xADband</para>",
         ]
         doLayout ("A word containing shy characters", testdata, colWidths, outPDF)
+
+
+class AutoColumnWidthTestCase(unittest.TestCase):
+    "Testing hyphenation within a table with no column widths specified."
+
+    def test(self):
+        outPDF = "test_autocolwidths.pdf"
+
+        # Column widths in mm
+        colWidths = None
+
+        # Some test data in German.
+        testdata = \
+        ["<para>Mit <i>Silbentrennungsverfahren</i> werden extrem lange W\xF6rter, die im deutschen Sprachgebrauch allt\xE4glich sind, automatisch in kleinere Bestandteile zerlegt, wobei die Lesbarkeit nach M\xF6glichkeit erhalten bleiben sollte.</para>",
+         "<para>Dieser Absatz hat nur sehr kurze Wörter.</para>",
+         "<para>Der hier erst recht!</para>",
+         "<para>Der Bundeskanzler arbeitet im <font size='12'>Bundeskanzler</font>amt.</para>",
+        ]
+        
+        pagesize = pagesizes.portrait(pagesizes.A4)
+
+        tablestyle = TableStyle([('VALIGN', (0,0), (-1,-1), 'TOP'),
+                                 ('BOX', (0,0), (-1,-1), 1, colors.black),
+                                 ('BACKGROUND', (0,0), (-1,0), colors.orange),
+                                 ('INNERGRID', (0,1), (-1,-1), 0.5, colors.black),
+                                 ('LEFTPADDING', (0,0), (-1,-1), 3),
+                                 ('RIGHTPADDING', (0,0), (-1,-1), 3),
+                                ])
+
+        doc = SimpleDocTemplate(outPDF, title="Hyphenation for styled text paragraphs",
+                                pagesize=pagesize, allowSplitting=1)
+        story = []
+    
+        header = ["Col%d" % (i+1) for i in range(4)]
+        tabContent = [header]
+        row = [makeParagraphs(txt.decode("iso-8859-1").encode("utf8"),cellStyle) for txt in testdata]
+        tabContent.append(row)
+        row = [makeParagraphs(("Zeile 2 Spalte %i" % (i+1)).decode("iso-8859-1").encode("utf8"),cellStyle) for i in range(4)]
+        tabContent.append(row)
+        table = LongTable(tabContent, colWidths=colWidths, style=tablestyle, repeatRows=1)
+        story.append(table)
+        doc.build(story,onFirstPage=myFirstPage,onLaterPages=myLaterPages)
 
 
 if __name__ == "__main__":

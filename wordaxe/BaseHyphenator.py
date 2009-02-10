@@ -112,7 +112,7 @@ class BaseHyphenator(Hyphenator):
             elif word[p] in ".,":
                 if word[p-1] in u"-+0123456789" and p+1<l and word[p+1] in u"-+0123456789":
                     # a number or a date
-                    return hword
+                    pass
                 elif l<=3 or (word[p]==u"." and word[-1]==u"."):
                     # an abbreviation, for example "i.e."
                     return hword

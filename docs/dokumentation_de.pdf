@@ -1,6 +1,8 @@
 %PDF-1.3
 %“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+% 'BasicFonts': class PDFDictionary 
 1 0 obj
+% The standard fonts dictionary
 << /F1 2 0 R
  /F2 3 0 R
  /F3 4 0 R
@@ -8,27 +10,34 @@
  /F5 12 0 R
  /F6 13 0 R >>
 endobj
+% 'F1': class PDFType1Font 
 2 0 obj
+% Font Helvetica
 << /BaseFont /Helvetica
  /Encoding /WinAnsiEncoding
  /Name /F1
  /Subtype /Type1
  /Type /Font >>
 endobj
+% 'F2': class PDFType1Font 
 3 0 obj
+% Font Times-Bold
 << /BaseFont /Times-Bold
  /Encoding /WinAnsiEncoding
  /Name /F2
  /Subtype /Type1
  /Type /Font >>
 endobj
+% 'F3': class PDFType1Font 
 4 0 obj
+% Font Times-Roman
 << /BaseFont /Times-Roman
  /Encoding /WinAnsiEncoding
  /Name /F3
  /Subtype /Type1
  /Type /Font >>
 endobj
+% 'Annot.NUMBER1': class PDFDictionary 
 5 0 obj
 << /A << /S /URI
  /Type /Action
@@ -43,6 +52,7 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Annot.NUMBER2': class PDFDictionary 
 6 0 obj
 << /A << /S /URI
  /Type /Action
@@ -57,6 +67,7 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Annot.NUMBER3': class PDFDictionary 
 7 0 obj
 << /A << /S /URI
  /Type /Action
@@ -71,13 +82,16 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'F4': class PDFType1Font 
 8 0 obj
+% Font Times-BoldItalic
 << /BaseFont /Times-BoldItalic
  /Encoding /WinAnsiEncoding
  /Name /F4
  /Subtype /Type1
  /Type /Font >>
 endobj
+% 'Annot.NUMBER4': class PDFDictionary 
 9 0 obj
 << /A << /S /URI
  /Type /Action
@@ -92,7 +106,9 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Page1': class PDFPage 
 10 0 obj
+% Page dictionary
 << /Annots [ 5 0 R
  6 0 R
  7 0 R
@@ -113,6 +129,7 @@ endobj
  /Trans <<  >>
  /Type /Page >>
 endobj
+% 'Annot.NUMBER5': class LinkAnnotation 
 11 0 obj
 << /Border [ 0
  0
@@ -130,21 +147,27 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'F5': class PDFType1Font 
 12 0 obj
+% Font Courier
 << /BaseFont /Courier
  /Encoding /WinAnsiEncoding
  /Name /F5
  /Subtype /Type1
  /Type /Font >>
 endobj
+% 'F6': class PDFType1Font 
 13 0 obj
+% Font Times-Italic
 << /BaseFont /Times-Italic
  /Encoding /WinAnsiEncoding
  /Name /F6
  /Subtype /Type1
  /Type /Font >>
 endobj
+% 'Page2': class PDFPage 
 14 0 obj
+% Page dictionary
 << /Annots [ 11 0 R ]
  /Contents 25 0 R
  /MediaBox [ 0
@@ -162,6 +185,7 @@ endobj
  /Trans <<  >>
  /Type /Page >>
 endobj
+% 'Annot.NUMBER6': class PDFDictionary 
 15 0 obj
 << /A << /S /URI
  /Type /Action
@@ -176,6 +200,7 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Annot.NUMBER7': class PDFDictionary 
 16 0 obj
 << /A << /S /URI
  /Type /Action
@@ -190,7 +215,9 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Page3': class PDFPage 
 17 0 obj
+% Page dictionary
 << /Annots [ 15 0 R
  16 0 R ]
  /Contents 26 0 R
@@ -209,6 +236,7 @@ endobj
  /Trans <<  >>
  /Type /Page >>
 endobj
+% 'Annot.NUMBER8': class PDFDictionary 
 18 0 obj
 << /A << /S /URI
  /Type /Action
@@ -217,13 +245,15 @@ endobj
  0
  0 ]
  /Rect [ 163.27
- 491.8098
+ 461.8098
  319.4
- 503.8098 ]
+ 473.8098 ]
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Page4': class PDFPage 
 19 0 obj
+% Page dictionary
 << /Annots [ 18 0 R ]
  /Contents 27 0 R
  /MediaBox [ 0
@@ -241,7 +271,9 @@ endobj
  /Trans <<  >>
  /Type /Page >>
 endobj
+% 'Page5': class PDFPage 
 20 0 obj
+% Page dictionary
 << /Contents 28 0 R
  /MediaBox [ 0
  0
@@ -258,21 +290,26 @@ endobj
  /Trans <<  >>
  /Type /Page >>
 endobj
+% 'R21': class PDFCatalog 
 21 0 obj
+% Document Root
 << /Outlines 29 0 R
  /PageMode /UseNone
  /Pages 23 0 R
  /Type /Catalog >>
 endobj
+% 'R22': class PDFInfo 
 22 0 obj
 << /Author (Henning von Bargen)
- /CreationDate (D:20000101000000-01'00')
+ /CreationDate (D:20090212212931-01'00')
  /Keywords ()
  /Producer (ReportLab http://www.reportlab.com)
  /Subject (\(unspecified\))
  /Title (wordaxe Anleitung \(deutsch\)) >>
 endobj
+% 'R23': class PDFPages 
 23 0 obj
+% page tree
 << /Count 5
  /Kids [ 10 0 R
  14 0 R
@@ -281,657 +318,57 @@ endobj
  20 0 R ]
  /Type /Pages >>
 endobj
+% 'R24': class PDFStream 
 24 0 obj
-<< /Length 5186 >>
+% page stream
+<< /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Length 2079 >>
 stream
-1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
-q
-Q
-q
-1 0 0 1 78 741.8898 cm
-q
-BT 1 0 0 1 0 9.832 Tm 22 TL /F2 18 Tf 0 0 0 rg (wordaxe Silbentrennung) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 723.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Henning von Bargen, 26.10.2008, Release 0.3.0) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 693.8898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (\334bersicht) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 663.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Der fr\374here Name der wordaxe-Bibliothek war "deco-cow" und stand f\374r "decomposition of compound) Tj T* (words".) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 645.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Die Bibliothek besteht aber genau genommen aus drei verschiedenen Programmteilen:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 615.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (1. eine allgemeine \(erweiterbare\) Klassenbibliothek zur Unterst\374tzung von Silbentrennung in Python-) Tj T* (Programmen) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 597.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (2. ein spezieller Silbentrennungsalgorithmus, basierend auf der Zerlegung von zusammengesetzten W\366rtern) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 579.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (3. eine Silbentrennungserweiterung zur ) Tj (ReportLab) Tj ( PDF Bibliothek) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 549.8898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Bezugsquelle) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 531.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Die wordaxe Bibliothek wird auf SourceForge verwaltet \() Tj (http://deco-cow.sourceforge.net) Tj (\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 489.8898 cm
-q
-BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Das jeweils aktuelle Release der Software kann aber \374ber die entsprechende SourceForge ) Tj (Download-Seite) Tj T* (heruntergeladen werden. Die allerneueste in Entwicklung befindliche Version wird im Sourceforge Sub\255) Tj T* (version-Repository verwaltet.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 459.8898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Lizenz) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 429.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Die wordaxe Silbentrennungsbibliothek kann wahlweise unter einer der beiden Open-Sourcen Lizenzen) Tj T* ("Apache 2.0 License" oder "2-Clauses BSD-License" verwendet werden.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 411.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Der genaue Text liegt der Bibliothek bei \(Datei license.txt\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 381.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Zu den Lizenzen f\374r die pyHnj Bibliothek von Danny Yoo zur HNJ-Silbentrennung, und f\374r die ReportLab) Tj T* (PDF Bibliothek siehe die entsprechenden Webseiten.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 351.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm -0.199627 Tw 12 TL /F3 10 Tf 0 0 0 rg (Die "dictionary files" mit der Endung ) Tj (.dic) Tj ( sind von der OpenOffice Distribution \374bernommen, sie stehen unter) Tj T* 0 Tw (der GNU LGPL Lizenz.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 321.8898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Installation) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 295.8898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (ReportLab 2.1 oder 2.2) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 265.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (wordaxe Release 0.3.0 wurde mit Python 2.5 und ReportLab 2.2 getestet, sollte jedoch problemlos auch mit) Tj T* (Python 2.4 funktionieren, da keine neuen Features von Python 2.5 verwendet werden.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 235.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (ReportLab 2.2 kann von ) Tj (www.reportlab.org) Tj ( heruntergeladen und installiert werden \(hier wird nicht beschrie\255) Tj T* (ben, wie das geht\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 217.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (wordaxe funktioniert auch mit dem etwas \344lteren ReportLab 2.1.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 199.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Hinweise zu noch \344lteren ReportLab-Versionen:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 157.8898 cm
-q
-BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (M\366glicherweise funktioniert wordaxe Release 0.3.0 auch mit ReportLab 2.0. Ansonsten kann in diesem Fall) Tj T* -0.194651 Tw (auch Release 0.2.2 verwendet werden, was aber bei der Installation etwas schwieriger ist \(man musste da noch) Tj T* 0 Tw (einige Dateien in der ReportLab-Installation \374berschreiben und die Installationsanleitung war nicht korrekt\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 115.8898 cm
-q
-BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (F\374r ReportLab 1.19 sei auf Release 0.1.1 verwiesen \(nicht empfohlen\). Bei einer Umstellung von ReportLab) Tj T* -0.160901 Tw (1.x auf 2.x ist \(unabh\344ngig von wordaxe\) zu beachten, dass bestehender Code evtl. angepasst werden muss, da) Tj T* 0 Tw (als "paragraph encoding" immer UTF8 benutzt werden muss.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 89.88976 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Installation wordaxe Schritt f\374r Schritt) Tj T* ET
-Q
-Q
- 
-endstream
+GatU4gN)"=&:I>Srh55tB?S@eh")<%+k^.>DC3!'.DLg<,>B_KaNV`XI/S5L,X>*?YtMV7!fX!0kOe$,ps>d#hn:Wt\=CIUbQg@_q%EUV2h:]]]U;!6pAOfn:[Zc:*Z.[\4Rg&+A3-Chh,![I^V+OM:&8s)#!p%K>g*9=-[]^UrTP0Ef"$gZ"2^$k6W@*];MC!8_#,.qIrSLRrQK$'s*(M2cQBJj^G=LJ^Xk==NiYbd_gS]G;WntJ3Qs2,L!UD'HIHs1N%#*dd.@+*hr`0sHGH#,2scTq4-OLk##0;Zqu&g:g;l]l>A]?0f^d(bTjOLJV7u>X#75-upEDt\kdq1Wm\L=jRG.l5?qo><7(C=MMgX?36:G:`T[tJS?N$1lE[.]^7-7-]+6d#NKL=@5][i_[_c,L+OpHD`LM/4c('N_5#[:0qCS#+95SODHN=tY.hhsm3KSmMCW:O,L/@-a'<%hJSoaghE":2^H-l%>)dhjn8ceC8*CQoTW-oBepJDX:6%'"7_f;?pa7F;EO)$%8t.LJ+M#:.:[BTl\D[lDn-TkXsP3$"Um7Go?lZbh^?1aN-jc5Dba\X#.q$?H]N0ToO/PS1s`dI8[O']V6Y9jsR@0cID<90iGugE2D3je+bunar&2q@uCogoj"Q%iGo@`S"m/jk=%!Yl"bKY@`-7D"Vmh^saOhit=:>Cq^^UmoEZk"*/fpV:CI:Y7sm$&DlK%?Jm@^8`^:`Mq"IIDO5W?XBiNP\>U^m1[amu:O<FAkrZM*d4,rbaao*Ke+P2CJT"(EV?Xu0Fc"j&5-s`*?Wp>lKKGl,W?YYfr#S]>L_"*oEKLfRYn;$p_H"<NBeH.J%<H)bKF-+^\.`@%89SC#Rbg0bU^F7>K`t*c([rATf5bkt1=&9l8en2P*>&522F3Ve1+ooU\4\"#']Em_*,b0"QY3qS:=A?25OL4>cggK];I7NUW_KOZi..)&]%J,HT2b*IE&n]b,"W)]6J-kIW`qQl6^/#"LD?h,R84!_q`D>Nlb$C-"sED]oHPA2fR]P7mf_Iu.J4E4E-ZNTh>YL+AqJYRkgj;>Vq#D8m1AFT?m1dP>8L\B2bGR?.m]/T%QI6Iqd>I5])Lc@G=Opk[=DpDZ1S[EosB$mVnVPFakD55TKU0LH1#eJh>?*@9n:RG5dGT,;hSH.CWJ2+Y9<mq-t$d>(`KR,G)6"4A!54+H2_nH$L#C=KtNsI/pM[T<1HUM4\Q)9=ebUZ79oefUj.!aC+b7Z^h&<40kij'Q\6X+Lp:-<KcA#]\LOMKEt048.&()iqs-4gm,8gho_/5"\:4>F\cSfn'>]5n*2*nX.[h[4<3WiK[Y!b[nSmR$*Q&t`[Kb:EZEprM#$#TVe_')mfrgX9`WcJ0JgA,t>E3=Vaj:X0i>^=NjUPZ)Yrj>'VD]1NMZd'A%o^^#S/PEoTBW'jbNfN@YUn9E-e&T*k7@s0F$g?p(.B1&Y_=El@e/lrnXkLbkb"08B$=#@fqjkhlh/u\mQ`6gNuD4kqkr86P:'!9;7O%&,]5Hgl`r`)?Dr)h=<q'ZUGmptT/BV;7'f-PgVOO0)#,J<`a%s+\Y_>s][t4T\hHj)qZ,>%dT#EJ+:TTNb'G`a=qJ7SiWNg?$9Z'\#SO"u2J9#3-FtWk0f+=A;7?o#LeZ#6*m!RXUYHs(&&`?Dd\UH5'`P0NHb75akHO-c.qNa1'SYO+8RiSp$U`%.&]s</S@B)!6f1J5]4uOO6h.ORLhDC2)^;ii1/Rl-=!:3V,s!e=1m!e4O#*J[[Nln"WK9-n:"?,`Ag4clNhs5Wlje]'OfBLB-(k[Io&3WZJ'&%^;BOu&_n1D$5'OQgG]ui0pkQ<;,I!]']mL'B:RMFPb\ji@-(2Jj8S2eKi(H9h>:oH"[Wh9V0'T'M_#'9l!n4O5."<'H(sYusg+2.S]a&1$T_B(Q6A[C)P,h]N=&b]a'qK(^7%+I".CR5qs7O1kCNrQ2$$^Ae%g6aR/,F[p;N*+jdR7']513R?/SJ3m,rDGLnjodj6\Bj-U!.-_ZChP.L%d68"f>Ok`hWRg59!;MNnZ+bf%(L:p$kORi;'^/!1tC,'*~>endstream
 
 endobj
+% 'R25': class PDFStream 
 25 0 obj
-<< /Length 5491 >>
+% page stream
+<< /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Length 2270 >>
 stream
-1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
-q
-BT /F3 9 Tf 10.8 TL ET
-BT 1 0 0 1 72 54 Tm (Seite 2) Tj T* ET
-Q
-q
-1 0 0 1 78 751.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (1. Das ZIP-Archiv wordaxe-0.3.0.zip von der SourceForge Seite \(siehe ) Tj (Bezug) Tj (\) herunterladen.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 721.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (2. Das ZIP-Archiv wordaxe-0.3.0.zip im Wurzelverzeichnis C:\\ entpacken \(innerhalb des Archivs liegen alle) Tj T* (Dateien in einem Verzeichnis "wordaxe-0.3.0"\). Dadurch wird die folgende Verzeichnisstruktur angelegt:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 607.4898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 109.368 Tm /F5 8 Tf 8.8 TL (C:) Tj T* (    wordaxe-0.3.0) Tj T* (        docs) Tj T* (        htdocs) Tj T* (            css) Tj T* (            examples) Tj T* (            icons) Tj T* (            images) Tj T* (        tests) Tj T* (        wordaxe) Tj T* (            dict) Tj T* (            plugins) Tj T* (            rl) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 589.4898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (3a. Auf der Kommandozeile ausf\374hren:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 571.8898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 12.568 Tm /F5 8 Tf 8.8 TL (cd /d c:\\wordaxe-0.3.0) Tj T* (setup.py install) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 529.8898 cm
-q
-BT 1 0 0 1 0 29.17 Tm -0.009441 Tw 12 TL /F3 10 Tf 0 0 0 rg (3b. Alternativ: Eine Sicherheitskopie der Datei reportlab\\pdfbase\\rl_codecs.py von der ReportLab Installation) Tj T* 0 Tw (anlegen; anschlie\337end die Datei ersetzen durch die mitgelieferte angepasste Version in) Tj T* (c:\\wordaxe-0.3.0\\wordaxe\\rl\\rl_codecs.py.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 499.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F6 10 Tf 0 0 0 rg (Beachte:) Tj /F3 10 Tf ( Dadurch werden nur zwei Zeilen in der Datei ge\344ndert, die das "scheue Minuszeichen" SHY) Tj T* (betreffen.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 469.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Die neue Bibliothek zum Python-Path hinzuf\374gen, zum Beispiel durch Anlegen einer entsprechenden Datei) Tj T* (wordaxe.pth im Verzeichnis c:\\python25\\lib\\site-packages, die nur die folgende Textzeile enth\344lt:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 461.0898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 3.768 Tm /F5 8 Tf 8.8 TL (c:\\wordaxe-0.3.0) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 443.0898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (4. Anschlie\337end sicherstellen, dass "import wordaxe" keine Fehlermeldung erzeugt.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 413.0898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (5. ReportLab funktioniert genau so wie vorher; Unterschiede k\366nnen h\366chstens auftreten, wenn innerhalb der) Tj T* /F6 10 Tf (eigenen) Tj /F3 10 Tf ( Programme oder Texte das SHY-Zeichen verwendet wird.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 383.0898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Verwendung) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 329.0898 cm
-q
-BT 1 0 0 1 0 41.17 Tm -0.539492 Tw 12 TL /F3 10 Tf 0 0 0 rg (Um die Silbentrennung mit dem DCW-Algorithmus \(Zerlegung von zusammengesetzten W\366rtern\) f\374r deutsch\255) Tj T* 0 Tw (sprachige Texte in Aktion zu sehen, kann man zum Beispiel das Skript "test_hyphenation.py" im Unterver\255) Tj T* (zeichnis rl aufrufen. Es erzeugt dann zwei PDF-Dateien, test_hyphenation-plain.pdf und test_hyphenation_\255) Tj T* (styled.pdf.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 311.0898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Auch dieses Dokument selbst wurde mit automatischer Silbentrennung erzeugt \(siehe Skript buildDoku.py\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 281.0898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Um die Silbentrennung in eigenen Programmen zu verwenden \(am Beispiel des DCW-Algorithmus f\374r) Tj T* (Deutsch\), gen\374gt es, wenige sehr einfache \304nderungen am vorhandenen Programm vorzunehmen:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 263.0898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Die folgenden Zeilen hinzuf\374gen:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 236.6898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 21.368 Tm /F5 8 Tf 8.8 TL (from wordaxe import hyphRegistry) Tj T* (from wordaxe.DCWHyphenator import DCWHyphenator) Tj T* (hyphRegistry['DE'] = DCWHyphenator\('de',5\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 218.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Die folgenden Strings suchen und ersetzen:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 183.4898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 30.168 Tm /F5 8 Tf 8.8 TL (Suchen                            Ersetzen durch) Tj T* (reportlab.platypus.paragraph      wordaxe.rl.paragraph) Tj T* (reportlab.platypus.xpreformatted  wordaxe.rl.xpreformatted) Tj T* (reportlab.lib.styles              wordaxe.rl.styles) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 165.4898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Die Silbentrennung einschalten. Dazu im verwendeten ParagraphStyle zwei Attribute setzen:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 130.2898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 30.168 Tm /F5 8 Tf 8.8 TL (stylesheet = getSampleStyleSheet\(\)) Tj T* (myStyle = stylesheet["BodyText"]) Tj T* (myStyle.language = 'DE') Tj T* (myStyle.hyphenation = True) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 104.2898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Verwendung eines Hyphenators) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 86.28976 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Selbstverst\344ndlich kann die Silbentrennung auch unabh\344ngig von ReportLab verwendet werden.) Tj T* ET
-Q
-Q
- 
-endstream
+GatU4gMYcc(4?^TJ(W+@jMGLsh45`#FrV_q;o#;O)k<-]5`$_*NlWA*S?ZRPIFfP*7U8^L=9]2%1RrktC[F:YWJ)GOrLTg,I8=d"IIc-75:+)1Fm8l]ICt(.lCZ\3gffIch,;E8Y*SS4?_0#d;\-(-e/Sd/"LZS>rdT%iPM>gRGKP6tO9Rl*)\+NV0YB1!YMJGgrd[dR=$A^`IZ#eeglJ%(e+`&Q/ElCQG8F>,'$CN+b]FPJ(De[,j8%Ouk4F`aMM.j(B(\RIApPf&F=h/A;T+0WLWsV>Yd<n9E(7+Z<Z.Tp0G;O_M.&W-p+p.PKA&<=-c@0,qI9+a,S'skjWmm4TF^LCJ:o\'311/.Lnmp8a'g_mbQX8e'pM6D_fD+i@MMN,-8\'KTi<;5&h3diF`*s`^Cd!@K+S_5e"bD)78hJh95nPi[U1SE[W>q9Kk_qI0f/:`;V,gr]^Ahc<_989Z-u4c0"k#0aE`/[gS5o>E*+<gq-e-:8bc84YH74@asP*a_q5rVbb%IHppp/@VKj?q0?Qk`Ni]&8m(c7`'P@C016R7p7<2iI0'%k[aWoAZ;HJq9n?PrQ+(Sn0o]XFm*TMUndPOp##&ki>6<d-9cCc+lTk[HP)cR,d'GYJgG6AVDLu(TX!C74UTb,6+?N('/'F)d[FfBe7SE!_Pc-.#m8K]H32"KTGh/Y8-r@[Y7S'U&\g0U7(c<JZ[G'W+07nahP>2V4_X-dN[LrXi^HV(i9PAhKEGr-OsKa7aNI%0&]8V,OF_6-1FA*oU<CA<CW:aIY(5N>BkM4k\NV_\=^*R@AW66fnHkXDHP]T>_fP"RME)J[ERcU0+r#-JMlJrb]*m+#PC-[T+k\lN^\Qd:n*:N$&VV77<",W;AbiMKZ#NQ)86fd?qH><F,)YDcj*a!UO:_0(A/Bli^j&OF5P8>!,<IZqni:)&Csd-/r.f/X]VUW%>$6<!.BIjE0b^tldR`Qh`3E?[1PM`EA*8p=&XcIBg=BOZjq>$+9fPlKMj?OL!:A]_7)=!][C'K*@g,1hFaiWQecX@$2-eB;j9XS*;[J*u[3HU3`a!4G-#^>Q`EH<=d@o3LT3pYre6eH:QdOr(O[dI$g;lNHV=G_9MSED/3LRd>2I-@\iK]245&iY@LG+;7p:$3P)F>V]maY.?rPk"["97@XXSMBoKB7\"Q^1\Ku&T5jZ0FS39u0pu3&B-EB[",NX;91=S,6"'P@Ep94\%j%SZU(f$A4QuG7(fV3gr,!&k:0!rS9Yh1UnNI<!FPG"pH54b\cV5Qk8uOlghs"sS__`+)S2,mmG(PJc?V=90VPm#)QuN4&D7VdGB@8[0HGC2lCKRI7NPW/oY!5R#W)0TBoTGu8])Juh^h']jftBe%*hTF[+/pL781%h##b>$O7NgJWBhC<+^0FnhZV4"*VmaD9p_=IGR.26c(^jPe)BnIKr?r)&iHf3U@[N:UAI"-H25k?<me'Vc[FhN,PQEn(+tZFfq7L`%_80)Ynj]>9+UX2X@7PXR=E?'86OfWG^;Wl.[_$.*#16h(EJQpr\*Z**Jtj!6PI<$LoW_NG![kmWe+C8AgPb/%Hqq:C0(L9P0GR=(JrRCch^V)'o9>&e2qPsgpKo*Y=12qY"_RY$Ci3)hK1mWP!\h(H=g#-*2-C8N\JOMdg92-o])4,.4LR#%pdh1sdsbRBmGTj@S=gpYETsVMNmepW40Yg-au>i0)^h/2*>"R9gg"odkWCq>@<.pa&2tRKaNt&"2)hunTSb7.Vr_)C]]&`clLZT;b?I1#_hD)7:/@6fg\hqrL7>;gW)dt1V/+\0d-5oU'D`m?YfA@u;k9bc[R84j`,tc[bTs?=RlPP:UPI!>>&kt=X4Jg3fC*Pup=Ge'O)P#ppXQB3o1^LeSG.WAg3ER)-/KGLHt9T`Z[rPM\d")/C(d[D]T8Y(b13rLo)'_h+-gH1q0]9fjm.T&D[%8IbWOu&K6=+[i&?]IG=t^ZS!E/Cs,OX.RV<%c&Q.Z_b0#8[0^a3],E&Sf>=Xq$[0c6p??/!<fiK.)+6!jk[\`a`*0;(\QM"q,S6r+)`#b58j2q?9@r#1/:'1PIgjU+PaooZbo?)CcR2NPb4ufH0r%r))Ls\ng8oNV9k-_rBf3.aaNO\NQmRAkGjiq6E`u@^d^%JMYLFr8SMV=.rh+GaMV<W,e;E#nAXh)]*2]eESgs)UeN=saXACtPDKDtlWPEG1/%m59,2nT8L76.:dkZK(<A?3SP]:Psh/4ZV_CqMW=\m+9IhFatYr<jKQnK%~>endstream
 
 endobj
+% 'R26': class PDFStream 
 26 0 obj
-<< /Length 5764 >>
+% page stream
+<< /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Length 2581 >>
 stream
-1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
-q
-BT /F3 9 Tf 10.8 TL ET
-BT 1 0 0 1 72 54 Tm (Seite 3) Tj T* ET
-Q
-q
-1 0 0 1 78 739.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Beim Konstruktor muss neben einem Sprachcode vor allem eine minimale Wortl\344nge angegeben werden.) Tj T* (K\374rzere W\366rter werden gar nicht betrachtet.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 722.2898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 12.568 Tm /F5 8 Tf 8.8 TL (from wordaxe.DCWHyphenator import DCWHyphenator) Tj T* (hyphenator = DCWHyphenator\('de',5\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 692.2898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Nun k\366nnen W\366rter \(Unicode\) getrennt werden. Zur\374ckgeliefert wird entwender None \(unbekanntes Wort\)) Tj T* (oder ein HyphenatedWord, d.h. ein Wort mit Angabe der m\366glichen Trennstellen und ihrer Qualit\344t.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 604.2898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 82.968 Tm /F5 8 Tf 8.8 TL (hword = hyphenator.hyphenate\(u"Donaudampfschiffahrt"\)) Tj T* (print "M\366gliche Trennstellen", hword.hyphenations) Tj T* (# Trenne an der 2. m\366glichen Trennstelle:) Tj T* (left,right = hword.split\(hword.hyphenations[1]\)) Tj T* (# liefert: \(u'Donau\\xad', HyphenatedWord\(u'dampfschiffahrt'\)\)) Tj T* (# Der linke Teil ist wieder ein Unicode-Objekt \(hier: Donau-\),) Tj T* (# der rechte Teil ist das \374briggebliebene HyphenatedWord, das) Tj T* (# in die n\344chste Zeile kommen soll.) Tj T* (print left) Tj T* (print right.hyphenations) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 574.2898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Klassen f\374r die Silbentrennung) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 520.2898 cm
-q
-BT 1 0 0 1 0 41.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Zur Verwendung der Klassen siehe auch die jeweiligen Quelltexte, die jeweils Testcode mit Aufruf des) Tj T* (Konstruktors enthalten. Der Testcode kann aufgerufen werden, um zu sehen, wie die jeweilige Klasse mit) Tj T* (Worten umgeht. Die Worte k\366nnen auf der Kommandozeile eingegeben werden. Es bietet sich an, dabei) Tj T* (au\337erdem die Option -v anzugeben.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 502.2898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Beispiel:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 493.4898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 3.768 Tm /F5 8 Tf 8.8 TL (c:\\python25\\python wordaxe\\DCWHyphenator.py -v Silbentrennung) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 467.4898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (DCWHyphenator) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 425.4898 cm
-q
-BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse basiert auf der Zerlegung von zusammengesetzten W\366rtern, inspiriert durch die Publikationen) Tj T* (der TU Wien zur "sicheren sinnentsprechenden Silbentrennung f\374r die deutsche Sprache", siehe ) Tj (http://www.\255) Tj T* (ads.tuwien.ac.at/research/SiSiSi/) Tj (.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 407.4898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Die Implementierung hat jedoch nichts zu tun mit dem Closed Source Produkt "SiSiSi".) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 377.4898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Der Algorithmus funktioniert wie folgt: Ein gegegebenes zusammengesetztes Wort wird zun\344chst in die) Tj T* (Einzelw\366rter zerlegt.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 335.4898 cm
-q
-BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Dazu wird die Datei DE_hyph.ini verwendet. Sie enth\344lt Wortst\344mme, teilweise versehen mit zus\344tzlichen) Tj T* (Annotationen wie NEED_SUFFIX, NO_SUFFIX etc. Au\337erdem sind dort m\366gliche Vorsilben und Suffixe) Tj T* (hinterlegt.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 317.4898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Aufgrund der Komplexit\344t des Zerlegungsverfahrens ist es vergleichsweise langsam:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 239.4898 cm
-q
-BT 1 0 0 1 0 65.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Das Wort wird von links nach rechts betrachtet. Es wird zerlegt in ein Tupel \(L,R\), wobei nat\374rlich) Tj T* (verschiedene Aufteilungen m\366glich sind, z.B. bei "Trennung" \("T", "rennung"\), \("Tr", "ennung"\), \("Tre",) Tj T* ("nnung"\), usw. Immer wird gepr\374ft, ob der linke Teil zu einer der bekannten Vorsilben, Wortst\344mme bzw.) Tj T* (Endungen aus der Datei DE_hyph.ini passt. Falls ja, wird mit dem Restwort analog weitergemacht. Andern\255) Tj T* (falls, oder wenn die Kombination keinen Sinn ergibt \(z.B. Vorsilbe + Suffix ohne Wortstamm dazwischen\)) Tj T* (wird abgebrochen.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 209.4898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Im Prinzip handelt es sich dabei um ein rekursives Verfahren, was aber im Programm nicht rekursiv, sondern) Tj T* (mit Hilfe von Listen umgesetzt wurde.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 191.4898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Die besonderen Eigenschaften dieses Verfahrens sind:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 173.4898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Es werden nur dem Programm bekannte Wortst\344mme erkannt.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 143.4898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Dadurch werden m\366gliche Trennstellen evtl. \374bersehen, denn unbekannte W\366rter werden grunds\344tzlich nicht) Tj T* (getrennt.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 125.4898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Andererseits kann es so auch nicht zu falschen Trennungen kommen.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 83.48976 cm
-q
-BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Wenn ein zusammengesetztes Wort auf mehr als eine Art interpretiert werden kann, werden nur die Trenn\255) Tj T* (stellen ber\374cksichtigt, die bei allen Zerlegungen gleich sind. Dadurch kann es nicht zu sinnentstellenden) Tj T* (Trennungen kommen.) Tj T* ET
-Q
-Q
- 
-endstream
+GatU4gMRrj&q(:PIjetO,4@!ulRj-DLLb42Jn1(i=@j92/I%H.l=SPjerjjmdF[h9p-fcfQ=^4$L<XMaWDcfPh51SX[/KGr9!?9WIbU`CLW4CMpOXHGhpK^Dq6U)bJ*,q*FQo\UJl+CZnTK3#YX<hT8Z?t_Q'9]\U[^8]s37bEkYJ1ENbI(Y$q@#8&MC4=B\2CRLI$:.8$OZ7r6=U:^A>_HR#%37V+TuhVQDZM_I\JMgfi-H.Q'eoAP./>,A-Hs$ROV=?6fg]H&>Lr<@SVQ?S^Z)8[m=#OX,KbOl*p:-BpQilu0V/FGE#cQ3KDth8-ldC!&jY#t%n@@RjA]pd-?6Yikglk<#6-ZfQSred`,E!Se4^K+S3*IbUb4,;:UODpD(CdOI&HG`]c7DdRtn^5Sm(N.afin;DGoCL?)G\mKZJ9U[V$q4cE3S/jD8E4Kc`?]En=>gn:Ue/AU1+It>R!D3K2E^gYfPZk[K)"][E*/<,jP)5?C#nL+[KI!s08KD:;q[Ba#1ikgF$\>G.q>bI3BkG!d'VNTa).H%eU+hB*5J\;S%nEgF,c6`L6coU&$%`S$a)%#`&o?!\l]>(^Yi]FJ''5KQa.kl/ka`Fd;(&k9&H.t@NrX'l),u)X+OIXD[)bUs0'@BnX8-#=`\k2T=;h?V)unQ8[c:Jb7K/&<:k_<<2ucdWjc&a)FFo,V?.GDW3Hm'M+sb=7jl(C)O>S-;o^DL'[VYnrb'795E*mkA-BeZH^1coQOf.rDIPEk;3U.OV-;#rLY>bfWb:Jek/P>lQr%S'r(Co'98t%:$=2(2p[C-S)/OjclDb^Xn-0FD*I\N"@CfD)DQu$4N93`Dc8Xd1GMZFcF`HdU^=dfCcRjCY1(H9?SDoa1#_f-W*@=QokSA_1q%g$baO,>4NTHWYKn_6H6$NoS+3-l\7<!%i'hW?j[C-^tAYQ;H2d40a"5bFn3jMu+$+I,Z%8MF?/Ze4%*9s+JqMD4WV#;)KoE3cl/AJ%;qI&lbIT?g4qa,-9FD06c?,psHf"]^ET<:AqKK3RN$`:gd'Zm\^aSWeb%p]koq26+$PDm$;(1;ri3N?lA5f;e%7EiX!`D]sK4:P94a[:]qN][t-d`mRgXZmEKh5_N_R:8OsD6TTA%6XH=0b<@JF5kOUgCY-*]ltB,Z?Tc^KqPSFV]2UPr3d+<fZ5`F2W1DaPGbB0(XsT@oG8Fo'e$&bN)X1e<dh.5oG=LPpdCM7RmT?uS`.1-EI5Weo]i&`bT_MsM5'U5.J,$=pj\af!/6`d,.ZcT&Ihf<(8s@>PF6akYX`H#&,":/Ceo&*>K2G5cI`?::F&V5W5BG>iKeGqof6$&Ja.MRRP'j4%#1F4=MURlZmHfuD/,+/!L])D$$"`NU2m,L18bB).mJTJufX^+oq>"d5$7;<mIm`qV"tiCYl9NPpiQ_o1&[;'.:@ZYUZ2H*0HP]J4q#oX?9tH!'Km/',SVr1h<<tCRk7siTWo9V9\0c39rg%(qL3/a_@A%DA&-[n/L#J#d-?k5@R!aL%j')1,M)(i2%(/h$>VA(FWmG4<k#i=j9AcD=E=qc,6eY&S.:cSThUZu.prZ?67gd;<A[8>diS)cN\@h*MIkiAS@/%Yqc*#I''j]_pah9RI_h%66ScbAkG"UX#fS.7h\#^BsE489gR%VGDZ`qDMIih7tiH=.kOA!!rYI)S[R4KE)pGY%_J)5Ub]m]LU(;9`Er^kP_!jnn#bspF&<\I^eo\=)$.\Ah0V;C>*\U)nY)acHPMJ)gaR#Ybs))e1)<oEmCWKas2DQ8X!9!$^A[U)[:%O4gpiJoL/9^kLRQ]?6G%N^rA9cfgdSRS(`>l@b\id$AI;lDmlrS6EK>HkYgPaTa9Eh"do!YtO6o`rD[RLHb[c>^LREKoa-0L;@7+[i"?JJ_;jO>(20OSUrGBH=_qL_"6ZbGs41'oas5?_\OtgN^s3i;OQCAUSK,1RHirJ<H/fe!>E=jO-9&+PS?7qWMc&B;>etV2ZS#hHP:n]%1aScuctTW7W&mfXusDrd`$\[R<UeYd\kb>P][MKhYPjqu_gl`UOOD,Zt8LUVQ"_VAp-m#<rId:>)926#\+A06^]8DQn,\$Frh<G),r(k&?QRZMaH!=$G$hb:KA=f!=oYKahd3]i*XCo[ZsYgFK/"JL9EVUM8;iG_37L<9H1h3W_pN>,%,ZJAc)^Q[E--YmP&?)S*rJcoi^?<s]+V_0E'@NsFHB,/]EUh_hDCkc^BZ[e>j$n[hEUd\k/J,]0M`I@[99Nq.;An+L>iB,g)7(7*qQ)clcjKp]1u+j6?,5HW8*UZJ76m/Dr8>RcRO6TR/tY;N%SVX.lL1k,3Z<kTjh4/IRf6Ca>'V$EUl,k#"O'MmDfF5bBZ=gRq4nq/T(>iiFu>="mM/Caurj%_e7Bi!qOSdDW)Th,%s)5fc$]ESa5UNiIRfZhHoU)Fb"m\BK8Hjka^s&WQT@3@QD&*P4'hl2S1Mkr#>=2$HF;?/S-Yq+=)!BIdDg*)q8,IpbNWj!\7`@!LF$;O$mGQW#,&:Qq$M`I<AnbRpT"10=KKkHBT-/"1q_C[ch$F'1#g&D%2/WuJ~>endstream
 
 endobj
+% 'R27': class PDFStream 
 27 0 obj
-<< /Length 5493 >>
+% page stream
+<< /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Length 2349 >>
 stream
-1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
-q
-BT /F3 9 Tf 10.8 TL ET
-BT 1 0 0 1 72 54 Tm (Seite 4) Tj T* ET
-Q
-q
-1 0 0 1 78 739.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm -0.029534 Tw 12 TL /F3 10 Tf 0 0 0 rg (Trennstellen werden mit einer Priorit\344t versehen, die dann vom aufrufenden Programm ber\374cksichtigt werden) Tj T* 0 Tw (kann, um gute Trennstellen \(an Wortgrenzen\) zu bevorzugen.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 721.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse unterst\374tzt auch alle Features von ExplicitHyphenator.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 695.8898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (ExplicitHyphenator) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 677.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse unterst\374tzt alle Features von BaseHyphenator, plus:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 623.8898 cm
-q
-BT 1 0 0 1 0 41.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Bei dieser Klasse kann man f\374r jedes Wort einzeln vorgeben, wie es getrennt werden soll. Damit eignet sich) Tj T* (diese Klasse allenfalls f\374r bestimmte Anwendungsbereiche, bei denen der Wortschatz so klein ist, dass die) Tj T* -0.519601 Tw (Trennung f\374r alle anfallenden Worte \(zumindest die langen\) vorab festgelegt werden kann \(z.B. wenn praktisch) Tj T* 0 Tw (nur feste Textbausteine verwendet werden\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 597.8898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (PyHnjHyphenator) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 555.8898 cm
-q
-BT 1 0 0 1 0 29.17 Tm -0.066744 Tw 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse funktioniert so wie die Silbentrennung in TeX, basierend auf Mustern \(vergleiche libhnj, pyhnj\).) Tj T* 0 Tw (Die Implementierung kann die pyhnj C-Bibliothek verwenden \(das ist die Voreinstellung\) oder aber Pure) Tj T* (Python, wenn das Argument purePython=True beim Konstruktor angegeben wird.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 529.8898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (wordaxe.plugins.PyHyphenHyphenator) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 487.8898 cm
-q
-BT 1 0 0 1 0 29.17 Tm -0.342458 Tw 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse funktioniert ebenfalls so \344hnlich wie in TeX, verwendet jedoch eine andere Implementierung und) Tj T* 0 Tw /F6 10 Tf (funktioniert wesentlich besser) Tj /F3 10 Tf (! Um diese Klasse verwenden zu k\366nnen, muss die pyhyphen-Bibliothek) Tj T* (installiert sein \(siehe ) Tj (http://pypi.python.org/pypi/PyHyphen/) Tj (\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 469.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse unterst\374tzt auch alle Features von ExplicitHyphenator.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 443.8898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (BaseHyphenator) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 425.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Diese Klasse funktioniert mit jeder Sprache. Getrennt wird nur nach den folgenden Zeichen:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 390.6898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 30.168 Tm /F5 8 Tf 8.8 TL (    '-'   Minuszeichen \(45, '\\x2D'\)) Tj T* (    '.'   Punkt \(46, '\\x2E'\) \(aber z.B. nicht bei Punkten zwischen Ziffern\)) Tj T* (    '_'   Unterstrich \(95, '\\x5F'\)) Tj T* (    '\255'   SHY hyphenation character \(173, '\\xAD'\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 360.6898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Wenn beim Konstruktor das Argument CamelCase=True angegeben wird, dann werden auch CamelCase-) Tj T* (W\366rter getrennt.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 330.6898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Anmerkungen) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 304.6898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Performance) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 274.6898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Der DCWHyphenator ben\366tigt aufgrund des verwendeten \(im Prinzip rekursiven\) Algorithmus relativ lange) Tj T* (f\374r die Trennung eines Wortes.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 232.6898 cm
-q
-BT 1 0 0 1 0 29.17 Tm -0.197151 Tw 12 TL /F3 10 Tf 0 0 0 rg (Da die Wortl\344nge in der Praxis begrenzt ist, ergibt sich beim Einsatz mit ReportLab eine Laufzeit proportional) Tj T* 0 Tw -0.079689 Tw (zur Anzahl der \(Zeilen minus Abs\344tze\), denn es wird jeweils das letzte Wort einer Zeile gepr\374ft \(au\337er bei der) Tj T* 0 Tw (letzten Zeile im Absatz\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 202.6898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Speziell f\374r den DCWHyphenator bietet es sich an, diesen nicht direkt zu verwenden, sondern die Ergebnisse) Tj T* (wie folgt zu cachen:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 167.4898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 30.168 Tm /F5 8 Tf 8.8 TL (import wordaxe) Tj T* (from wordaxe.DCWHyphenator import DCWHyphenator) Tj T* (hyph = DCWHyphenator\("DE"\)) Tj T* (wordaxe.hyphRegistry ["DE"] = wordaxe.Cached\(hyph, 1000\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 141.4898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Erweiterungsm\366glichkeiten) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 111.4898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Andere Silbentrennungsbibliotheken, z.B. von Duden, k\366nnen mit Hilfe von ctypes oder mit SWIG leicht) Tj T* (eingebaut werden.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 81.48976 cm
-q
-BT 1 0 0 1 0 17.17 Tm -0.338701 Tw 12 TL /F3 10 Tf 0 0 0 rg (Dazu muss die Member-Funktion "hyphenate" \374berschrieben werden, die ein Unicode-Wort als Eingabe erh\344lt) Tj T* 0 Tw (und eine HyphenatedWord-Instanz zur\374ckliefern muss.) Tj T* ET
-Q
-Q
- 
-endstream
+Gb!#\CN%tI')`jos'_?LOUHjY7I!mG+8fr4-@f;NomQ&@TVN=1(:dtB9A@mun!W9)@U)Pu0.q3R7$bBqo@c!5B'<+t5HasT`H4;@dqb<*/r^\.qMnA3:NSICqrWsKDsWo_,J2HFL=Hp.];:`XQ[1V(;sRIT,KN*CnH4cc\,1W^;X1AO)L*K>3#iC$\5M89k-tN6*O)IQ*N.@,ofU<DZA*e5B"/kiULSdq8?K-48nCI[O\kZqoGkVTBh1c@1u2i5BPAfbmi-Qe3YP/[g,,.Jk(-G&R)B^"$_8r(ifc;^$$?g"1_k>r%K+m/PI%*JTdaPSNcj!Sed=1dPfFL#n@E&NU_P;h9=,#qF<f;rKJkj/4skT>LI+".L$3*4]'el]lBOY]4YE(!A:f8eJdfD7A`11/O3GVZj4TRsQq>mR0Y%r:!hniC3K<)nRZHbK;$p!k%iX+Cp%B9VBDZ)5?WcQZ!8C]Q;WU3(K>IR=/2&2f*b8_q>+<qgc[Iie@Fok^6Jjq>ijk-Zcj]Cqm:;S]$p6,o<)!m4%KdSR%.fI7(s"`P;o\MEY`710(kuOS>KW*WEp,8,E[+Q#&4='MVD[6?$qEW9n<m9+V]moPNe-aWon6Sl<L=q""@S&(<ai:1:c!mWCfiT"#%dt>[#/69aikmp+Il`<PTn(nm\o#_D)0f:J_Wko]oKms;'[O4'hGE#*_SW:N6UB2:n^T:KHQZ1!ma4GM)o.)ki%bImbe\kV`IotR;JKJP$-o#Sjjo^B/:!;Hj,?\D6V'T&i_m3QkmB_*XL7(pGrF@j-&'ecb_4HrY!H<pHfb2DV&68?O/=Bp<Jm!KhgY)Kgb!&'<g:pWjmB1&lnJ@'DrC3qW]YU/:+=X9j3r!Hj&EL<a)@#9.FO/M!glJ4jTX?I7t@OHW0S[3S^]#We]W&U"A,<7GZ?d=m>YcrdhB'i/'n*!16/GJW'],3Tpmb>8^-qn0MrQo<J&qZ6;L*n8Q[LKg%;Q1rg:q$6u#p'ZoT;4b-A[ppCdX!f9`K5K@I`@Ru8&(2d!n9'm5%pi%j`O\EtsXD3Eo'''lWS)*pfJcmYT&k!j2&l-b\b(UEI<s.Am%@AkmE-AI91EGVZRo4&Q<du+T>]?FXoLf7R3a^i@Lm,#qNn!ZQORPbe9)fKb@.XWK_>t7(nB:o$/3](aM;R%ib$C6VIb4#ts"6o',R&`#0AM"-'aidF6Dq]BQ<6E9#o5,K"F-YJhLD]j%?R)dpIfR2%E2,I8/\H9S;e_%:Ml)0I7IXRC9[XP53PgXg1XET(Ndo`Zglkf>`BcD(]5g^K:0I5%_JLD1a`1[oJBjO&u<?/EkjU,n'gRm:5c5E0T*WKF8UOPM0sLXq&b1XB%(`jS%$-7qkfH3JAdEK2]A-&;(t:>%fKB$'ZbFVHE",V/(Gi#_?*+)Z4*W@[Rjf?j7IO(YA@s`i:Y4X3,X5e?CY?rBZT<HM]nlbq"Od*H[L:..aL#,Ag#Ih[H[X#o%^p+5<5^:C:?:;rIu?SIJn3D(%uXjcI?MH"iY>nm;)&pcAa2h);%6c=Fec5(4=G[^D*?hS:6[QW&18nrPFLb\(BXB[ibWAbOVqNGs^8=?pb3[]*#5rJ%"[_X7>hNnbgt0j,V7]"i!!r_*nonkQ:6)MF!I'gVlQ\Fq?R&lMVf>kO4dE2#C?3W!Dq9lg/V-kk'B;G&18?f!UpRle%V_KjNHPkE)_3^jfY?0cc2!MaX==T8A3#r&q'?\?8JXnFGRV9,+lt`PJt".N4?ZAReIt.+ECZjp!FT;mG&tPdFQS3g5W5I6NQU*gN("I4Rd:j($J@f6:<ij]iD_?Ca_i0oCeRi(\AVh:I)3XhF.9i:bq.[5Y=UYj.#P/1fo*3k&%;n16?u`6R5:(d?;oa_<L%'JR9gl/ES7M=*<b6I$t&&%2[l6N"VGk^R]k$cpO7C6W(C,6oGQ@iMicW:3JtJn8Kc:KemWaM*H1/^`6.ZS*FZ@WKn/[T#A^=Uoik:Y;)g1lDM%OJp2\aK\X).&hV2Z!bQYnqlN=KJ#bIh/"&=&ZRr!+/'T**`6(r_4I\f!fjahfLYY&eaUQun.e&3!,1#+HNc_*)@"GYagH0r3#Z[#l@,Ogk)$^DU@GqV$!0\4WZ%#T9l]:"a(E.bFiX.ZNrS"e*>pX]W,+r4q175"HK[2V02FDGf&rG#l,VrGV"O0HlJ54cW9!O3ha@`@lS\X12uNtoX47T<_0f]\[W+m0cJcY!\o&`8hu!rh[j@%$;R;`..-0f;`Qo#,ma.sTo`$Q1cAH5E3J_7q\kQ`Efm:rWggt@X[2k2do0:B2+medDXAbe@c:GTgHh[,-AEPgKhZE?]+:Ri+?,0h.'to%e-W50iUA~>endstream
 
 endobj
+% 'R28': class PDFStream 
 28 0 obj
-<< /Length 1578 >>
+% page stream
+<< /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Length 1021 >>
 stream
-1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
-q
-BT /F3 9 Tf 10.8 TL ET
-BT 1 0 0 1 72 54 Tm (Seite 5) Tj T* ET
-Q
-q
-1 0 0 1 78 749.8898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Hinweise zu ReportLab) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 719.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (ReportLab macht uns das Leben nicht leicht, da platypus.paragraph.py nicht gerade mit R\374cksicht auf sp\344tere) Tj T* (Erweiterungen geschrieben wurde.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 665.8898 cm
-q
-BT 1 0 0 1 0 41.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Alles w\344re ) Tj /F6 10 Tf (viel) Tj /F3 10 Tf ( einfacher, wenn anstelle der vielen internen Routinen \(z.B. "_leftDrawParaLine" etc.\)) Tj T* (Methoden in der Paragraph-Klasse verwendet w\374rden. Eine Erweiterung der Funktionalit\344t k\366nnte dann im) Tj T* (Grunde durch einfaches Schreiben einer abgeleiteten Klasse erfolgen, bei der im Wesentlichen nur) Tj T* ("breakLines" \374berschrieben werden m\374sste.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 635.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm -0.086744 Tw 12 TL /F3 10 Tf 0 0 0 rg (Das zweite Problem bei ReportLab 2.x ist die nicht durchg\344ngige Verwendung von Unicode. Stattdessen wird) Tj T* 0 Tw (mal mit Unicode, mal mit UTF8 und mal mit noch anderen Byte-Codierungen gearbeitet.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 605.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Aus diesem Grunde wird nun eine eigene Paragraph Implementierung genutzt, bei der gegen\374ber ReportLab) Tj T* (gro\337e Teile des Codes von Grund auf neu geschrieben wurden.) Tj T* ET
-Q
-Q
- 
-endstream
+Gasam;/_pX&:Uh4s)?*oSJiCR$06)3S$cELFY-g),#'ChL_hbh2U.Cl^U"$<>M#`=!bD1UhgOC+kJ;ZicbAQG>f:S>n\@5AGQD./"qXSh.R$&mFaR`oHl1V?JK)"$[-ff\K]b%bO91pWj;MHO!qB'B5M1$am4I/A#XX%-7aX2i`,,RZKB%Zg(RhE$"5!:BE8X$p[_SaUL,UeG#54/s31"Gc6W#?;.7^ne,!jnSe7,8".A40*<(dp!@h31#(so.K0."XA"ftRu-r+V%EWP&#T9h##+%rSajU/0#aB1cuE]N`D+P1I5","^p7;CfnY1k3NKr4efTemEef[eL3S?Hsn$^ANFFT8&s,s.^u3]f]QA>gnIUE(LDUY26#CG+2Z'iK@fa,4W"ZK+j1;=m?+:6O4/kRp1tk"?/k+?c*DW?n!XV6q;fLZi>Hj\0Tm>.GB3/<d/=]%*Z<QD%h<6GYP7n*!\nS^e*EQ-hmm`3pfO9!408A1]RZPi4EDCQeE7h4sR#bSYR0/,u""W*jI]8HbOMCbfac3DUXdAuuMbN+WpE'$=.YTFeo[01a\[M@rScJ`hW"'(g6Pes`)#RBq#h>j2.-EM5$3>Mg$:;qgL;lFAu<kpX)2]d+\h9C.pf/]mrE3E,!t-R@,.MV?tu"4IFV0g!6.2Jm-^81`rX;@fgr58jhp7lh9+??BmG;\TP)eoJLkC/j[fJfm"(QsPojP)Lld,at#;5U[F[Ss`nYOP@^dJ4EQeFACg7$e;OUe4V'mPpp"Pg=9#e%7S2VFMMknc>b[s7UZiJ)Fk.CQ:&0GAWgP39A9-\\bd>UdWXj@$uZHq%(d_D)8c-=3_"_!ZC=H=4D:U7MSp;Ga^t>C0Ig1BH_rfP$Je$2M85(MG!V@g%jS&!?$*@!f`+n`R]_:19WU@3M&X-`\2RTh[R4727u_^d=X<[c.eFoM\@4-H'GV3PVV%RgXJ49M]m!2*[+%(pjm[=H=jDCZ7#6u[G#LZ&e(aA.+kS4gY^ST'`..!$j.ehGp)@<~>endstream
 
 endobj
+% 'R29': class PDFOutlines 
 29 0 obj
 << /Count 0
  /Type /Outlines >>
@@ -939,43 +376,43 @@ endobj
 xref
 0 30
 0000000000 65535 f
-0000000075 00000 n
-0000000171 00000 n
-0000000289 00000 n
-0000000408 00000 n
-0000000528 00000 n
-0000000725 00000 n
-0000000929 00000 n
-0000001162 00000 n
-0000001287 00000 n
-0000001483 00000 n
-0000001761 00000 n
-0000001951 00000 n
-0000002068 00000 n
-0000002190 00000 n
-0000002445 00000 n
+0000000113 00000 n
+0000000271 00000 n
+0000000436 00000 n
+0000000603 00000 n
+0000000784 00000 n
+0000001022 00000 n
+0000001267 00000 n
+0000001529 00000 n
+0000001720 00000 n
+0000001943 00000 n
+0000002282 00000 n
+0000002501 00000 n
 0000002663 00000 n
-0000002877 00000 n
-0000003141 00000 n
-0000003351 00000 n
-0000003606 00000 n
-0000003840 00000 n
-0000003936 00000 n
-0000004166 00000 n
-0000004270 00000 n
-0000009515 00000 n
-0000015065 00000 n
-0000020888 00000 n
-0000026440 00000 n
-0000028077 00000 n
+0000002833 00000 n
+0000003148 00000 n
+0000003407 00000 n
+0000003648 00000 n
+0000003972 00000 n
+0000004209 00000 n
+0000004510 00000 n
+0000004791 00000 n
+0000004929 00000 n
+0000005185 00000 n
+0000005329 00000 n
+0000007553 00000 n
+0000009968 00000 n
+0000012694 00000 n
+0000015188 00000 n
+0000016356 00000 n
 trailer
 << /ID 
  % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
- [(k\)\031\235K\352\201^\270\255&t\325~\237\037) (k\)\031\235K\352\201^\270\255&t\325~\237\037)] 
+ [(\203\332\244\274B;\273&\367g\267\235o\007\031g) (\203\332\244\274B;\273&\367g\267\235o\007\031g)] 
 
  /Info 22 0 R
  /Root 21 0 R
  /Size 30 >>
 startxref
-28129
+16408
 %%EOF

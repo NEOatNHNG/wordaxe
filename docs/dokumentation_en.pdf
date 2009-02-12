@@ -1,6 +1,8 @@
 %PDF-1.3
 %“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+% 'BasicFonts': class PDFDictionary 
 1 0 obj
+% The standard fonts dictionary
 << /F1 2 0 R
  /F2 3 0 R
  /F3 4 0 R
@@ -8,27 +10,34 @@
  /F5 14 0 R
  /F6 15 0 R >>
 endobj
+% 'F1': class PDFType1Font 
 2 0 obj
+% Font Helvetica
 << /BaseFont /Helvetica
  /Encoding /WinAnsiEncoding
  /Name /F1
  /Subtype /Type1
  /Type /Font >>
 endobj
+% 'F2': class PDFType1Font 
 3 0 obj
+% Font Times-Bold
 << /BaseFont /Times-Bold
  /Encoding /WinAnsiEncoding
  /Name /F2
  /Subtype /Type1
  /Type /Font >>
 endobj
+% 'F3': class PDFType1Font 
 4 0 obj
+% Font Times-Roman
 << /BaseFont /Times-Roman
  /Encoding /WinAnsiEncoding
  /Name /F3
  /Subtype /Type1
  /Type /Font >>
 endobj
+% 'Annot.NUMBER1': class PDFDictionary 
 5 0 obj
 << /A << /S /URI
  /Type /Action
@@ -43,6 +52,7 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Annot.NUMBER2': class PDFDictionary 
 6 0 obj
 << /A << /S /URI
  /Type /Action
@@ -57,6 +67,7 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Annot.NUMBER3': class PDFDictionary 
 7 0 obj
 << /A << /S /URI
  /Type /Action
@@ -71,6 +82,7 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Annot.NUMBER4': class PDFDictionary 
 8 0 obj
 << /A << /S /URI
  /Type /Action
@@ -85,6 +97,7 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Annot.NUMBER5': class PDFDictionary 
 9 0 obj
 << /A << /S /URI
  /Type /Action
@@ -99,6 +112,7 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Annot.NUMBER6': class PDFDictionary 
 10 0 obj
 << /A << /S /URI
  /Type /Action
@@ -113,13 +127,16 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'F4': class PDFType1Font 
 11 0 obj
+% Font Times-BoldItalic
 << /BaseFont /Times-BoldItalic
  /Encoding /WinAnsiEncoding
  /Name /F4
  /Subtype /Type1
  /Type /Font >>
 endobj
+% 'Annot.NUMBER7': class PDFDictionary 
 12 0 obj
 << /A << /S /URI
  /Type /Action
@@ -134,7 +151,9 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Page1': class PDFPage 
 13 0 obj
+% Page dictionary
 << /Annots [ 5 0 R
  6 0 R
  7 0 R
@@ -158,21 +177,27 @@ endobj
  /Trans <<  >>
  /Type /Page >>
 endobj
+% 'F5': class PDFType1Font 
 14 0 obj
+% Font Courier
 << /BaseFont /Courier
  /Encoding /WinAnsiEncoding
  /Name /F5
  /Subtype /Type1
  /Type /Font >>
 endobj
+% 'F6': class PDFType1Font 
 15 0 obj
+% Font Times-Italic
 << /BaseFont /Times-Italic
  /Encoding /WinAnsiEncoding
  /Name /F6
  /Subtype /Type1
  /Type /Font >>
 endobj
+% 'Page2': class PDFPage 
 16 0 obj
+% Page dictionary
 << /Contents 26 0 R
  /MediaBox [ 0
  0
@@ -189,6 +214,7 @@ endobj
  /Trans <<  >>
  /Type /Page >>
 endobj
+% 'Annot.NUMBER8': class PDFDictionary 
 17 0 obj
 << /A << /S /URI
  /Type /Action
@@ -203,7 +229,9 @@ endobj
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Page3': class PDFPage 
 18 0 obj
+% Page dictionary
 << /Annots [ 17 0 R ]
  /Contents 27 0 R
  /MediaBox [ 0
@@ -221,6 +249,7 @@ endobj
  /Trans <<  >>
  /Type /Page >>
 endobj
+% 'Annot.NUMBER9': class PDFDictionary 
 19 0 obj
 << /A << /S /URI
  /Type /Action
@@ -229,12 +258,13 @@ endobj
  0
  0 ]
  /Rect [ 409.06
- 613.8098
+ 583.8098
  486.85
- 625.8098 ]
+ 595.8098 ]
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Annot.NUMBER10': class PDFDictionary 
 20 0 obj
 << /A << /S /URI
  /Type /Action
@@ -243,13 +273,15 @@ endobj
  0
  0 ]
  /Rect [ 78
- 601.8098
+ 571.8098
  159.67
- 613.8098 ]
+ 583.8098 ]
  /Subtype /Link
  /Type /Annot >>
 endobj
+% 'Page4': class PDFPage 
 21 0 obj
+% Page dictionary
 << /Annots [ 19 0 R
  20 0 R ]
  /Contents 28 0 R
@@ -268,21 +300,26 @@ endobj
  /Trans <<  >>
  /Type /Page >>
 endobj
+% 'R22': class PDFCatalog 
 22 0 obj
+% Document Root
 << /Outlines 29 0 R
  /PageMode /UseNone
  /Pages 24 0 R
  /Type /Catalog >>
 endobj
+% 'R23': class PDFInfo 
 23 0 obj
 << /Author (Henning von Bargen)
- /CreationDate (D:20000101000000-01'00')
+ /CreationDate (D:20090212212931-01'00')
  /Keywords ()
  /Producer (ReportLab http://www.reportlab.com)
  /Subject (\(unspecified\))
  /Title (wordaxe User Guide \(english\)) >>
 endobj
+% 'R24': class PDFPages 
 24 0 obj
+% page tree
 << /Count 4
  /Kids [ 13 0 R
  16 0 R
@@ -290,645 +327,47 @@ endobj
  21 0 R ]
  /Type /Pages >>
 endobj
+% 'R25': class PDFStream 
 25 0 obj
-<< /Length 5110 >>
+% page stream
+<< /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Length 1962 >>
 stream
-1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
-q
-Q
-q
-1 0 0 1 78 741.8898 cm
-q
-BT 1 0 0 1 0 9.832 Tm 22 TL /F2 18 Tf 0 0 0 rg (wordaxe Hyphenation) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 723.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Henning von Bargen, 26 Oct 2008, Release 0.3.0) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 693.8898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Overview) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 663.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The wordaxe library was formerly called "deco-cow", which is an abbreviation for "decomposition of com\255) Tj T* (pound words".) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 645.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The library consists of three program parts:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 627.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (1\) an \(easily extendable\) class library adding hyphenation support to Python programs.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 597.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (2\) a special hyphenation algorithm, based on the decomposition of compound words \(the implementation is) Tj T* (only for the German language\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 579.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (3\) a hyphenation extension for the ) Tj (ReportLab) Tj ( PDF library.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 549.8898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Where to get it) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 531.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The wordaxe library is hosted at SourceForge \() Tj (http://deco-cow.sourceforge.net) Tj (\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 501.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The current stable Release of the software can be downloaded from the SourceForge ) Tj (download page) Tj (. There's) Tj T* (also a subversion repository where you can get the current development code.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 471.8898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Licence) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 441.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The wordaxe hyphenation library is dual-licensed. You are permitted to use and distribute wordaxe under one) Tj T* (of these open source licenses:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 423.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg ("Apache 2.0 License" or "2-Clauses BSD-License".) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 405.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (For details, see the file license.txt contained in the library.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 375.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Regarding the licenes for the ) Tj (pyHnj library) Tj ( from Danny Yoo \(HNJ hyphenation, contained in the wordaxe) Tj T* (installation\), for the ) Tj (ReportLab PDF library) Tj ( and the ) Tj (pyhyphen library) Tj ( please visit the corresponding web sites.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 345.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The dictionary files with the suffix ) Tj (.dic) Tj ( have been taken from the OpenOffice distribution, they are licences) Tj T* (under the GNU LGPL.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 315.8898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Installation) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 289.8898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (ReportLab 2.1 or 2.2) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 259.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (wordaxe Release 0.3.0 has been tested with Python 2.5 and ReportLab 2.2, but it should work equally well) Tj T* (with Python 2.4, since AFAIK none of the new features of 2.5 are used.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 229.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (ReportLab 2.2 can be obtained from ) Tj (www.reportlab.org) Tj (. The installation is easy \(though not with easy-install) Tj T* (;-\) and is not described here.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 211.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (wordaxe works with ReportLab 2.1, too.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 193.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Notes on even older ReportLab versions:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 151.8898 cm
-q
-BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Though untested, wordaxe Release 0.3.0 may work with ReportLab 2.0. Otherwise you can use 0.2.2 in this) Tj T* (case, but the installation is a little harder \(because some more files in the ReportLab installation had to be) Tj T* (overwritten and the installation guide was not correct\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 109.8898 cm
-q
-BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (For ReportLab 1.19 please use Release 0.1.1 \(not recommended\). When upgrading from ReportLab 1.x to 2.x) Tj T* (you probably have to change existing code \(independently from wordaxe\), since for 2.x all paragraph input) Tj T* (text has to be unicode or UTF8 encoded.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 83.88976 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Installating wordaxe step-by-step) Tj T* ET
-Q
-Q
- 
-endstream
+GatU4hf%7/%"9;&s+0CWFbdnpSYSi$:YY9JDHEq:O^U5B0=&j@g)S;"j>cu(O-K%MffD3=7=Z)W-1N5UnKV$U7eH6,GI3*k$b3_?_%0qY"FoE*?uZR(/Y50%rq+;;p[-QOAoj>6HuD3`RaXb#MDkA/j0$&jQqgdO&F^PRf)bYf5'>pMH3NK.d]qFKh!FS71L[-&T#'D:/:Mdi5<NI3)#r=NeFR<hdB>-^_&j\%]YQ._fa9VeK9np.0H7ebL:RqB#Jk(q21UaTU+citDs[:JE%\=Ti68n!psS,hmisMH`cJUT]ocFjg:?RSj3N&M?6feNZr7iWG./.iQ:e>XV`T]&RUQ\<0h,mpWUaj*AKmlPU]HU/#XaRjku,HhWeKbD)<i3A-.(!8?oi-e3R:]f`QkDBo6UA)9HTI!G->m9;ONZe)TH;$N<m'q.kT>6$Z4/[?7<YV0i7fFB,n/QF!?aB^uEpS(5jk8H4d!jQp"=Za3;N`^j[t+Sh"Zo.X8_7#sG9(S)+]OY<$Wp5`pSJK?5j2,!>uRdZr8/-L1\c<#IF;1J8=0L]X][;[do9>j!Q=0sfD=dd.jG15ZU+M3knF]r&<9,$Pdk7D\85G]rbI7#dbPD*M=+9Z(fRjWL(C7*`oV#cjTermc.T_g[]2%Zi%D`0UTa1*'D/6/#XdisnLAXc@jp#nhbV),"Z[(-\]a7sM.,3@VXA4;)H$k8+qoEd5U+=n3Ia_[>u1.JXs+?p@NKU-`Xi)ApX4\(>XJ"UIRLD(-m)&MYj_!in(LQ&*PkV,hB@VX7dq]idf#Z,5dg#7Ji#D[.nQe0lrA+s]U$*7F%C6a>(N,jnXj%!*b4$Yt\?9NB@a65:2EDkJG`N^0/NWEU6K(1FD7Y3u92HVV2s>/Z:+OUb<E6aG^f58589:JP(9/Q7[c?Vp_)BhD'nY%:_f_l4n=W(E!<+=SqjSFIRj9jKBF2UF,UPK++KB.n9;Ojek?K%nH1)/ubfL4?(Pr%RX2e#QpKW^"h)7l<`p0QG8CR@4-nl@VdAV+gUana)PZ8'3A=MRBNbrD[>IcT9FD5`^u9'&#4Yaso\Do7QVr]:8/&K;_gX=/iAkQL0J]MH&g%h:jj&#!]_!o4?5\R?9\/WEXiOD"&scD[Uu1S;GmQ=5!O\;-o+)7T0%`Q*.(69s-87DM]O`)shM-j0#BF`!VH7`,9V3EUF:#eB'3u/=&r>X^1I1>n'"1)^KPO\#f?ohg9(MURJch4V8`md06%HmTe_JQ*MB?Z)UXPhqrj:gXkn4qjmFBS3B6phR&I#B.K?nNY%Pk]>43*b1<B&(:?0X:aPVN]uHoi`_OTeUO#EH'Zu`@PD-/2]Ca[\A)L'%@uk$G&6J?L!@CZ4l=RGBJDWqTBc8KV:%uak5&*D.+t:(liqgW`^EFiTD>J"%,qMpGJlp=ES6_jV_5c?2QJcak3HD:elmf(O^lc)MG$1-&G)K92HIUkW]c>ah^n$<+]Q41V.TQj9CTG8Aj'fWE+/_>XDW["*+0UXN6rY.:Sbmkc!;o@5Cb"O%CC%eq(qI<1e_Ud5^`=lnI&^AHHEm9OpY1.5n!%BQctL*9L/o]5@-U=_^G#K5NX-5FqEs>L=CbEk%,dgW)SoVDWbV;XBHn&UM!2F7jtOgjDBh[$[@,Ub-DE;s1:%Kf99;hN95QY^r^R""57]L.nUTbe28WO2XJNLG?O%iH7jZ$s7q$30Tno#'-`:e<WK+Eg$5oVNpbP]O>DhbRUU`VSW6l7k^n\ue$fCQZRO6-o+0n.M-le1?oA,R!@[bOJ++3$">NBl>FtM3DFo/s+7j@H2qbV6pkis/92.0L.1g1G:FLsrPk>D!5@sH]SH]kJkCauc=+m$%GK(*_UM;HZ\c'Ie7.K:JU&<]/Li9&#X:3LO>!pT@0AVK=pSH7I?H#YtPlAYAA?P)D'jCXbY[j`=9+:fDKdu!hp0\d-5n';!ll'$StPNZns~>endstream
 
 endobj
+% 'R26': class PDFStream 
 26 0 obj
-<< /Length 5218 >>
+% page stream
+<< /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Length 2015 >>
 stream
-1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
-q
-BT /F3 9 Tf 10.8 TL ET
-BT 1 0 0 1 72 54 Tm (Seite 2) Tj T* ET
-Q
-q
-1 0 0 1 78 751.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (1. Download the ZIP archive wordaxe-0.3.0.zip from the SourceForge site.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 721.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (2. Unpack the ZIP-archive wordaxe-0.3.0.zip in the root directory C:\\ \(inside the archive, all files are in a) Tj T* (directory "wordaxe-0.3.0"\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 703.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The following directory structure will be created:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 598.2898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 100.568 Tm /F5 8 Tf 8.8 TL (C:) Tj T* (    wordaxe-0.3.0) Tj T* (        doc) Tj T* (        htdocs) Tj T* (            css) Tj T* (            examples) Tj T* (            icons) Tj T* (            images) Tj T* (        wordaxe) Tj T* (            dict) Tj T* (            plugins) Tj T* (            rl) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 580.2898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (3a. On the command line, execute:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 562.6898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 12.568 Tm /F5 8 Tf 8.8 TL (cd /d c:\\wordaxe-0.3.0) Tj T* (setup.py install) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 544.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (3b. Alternative:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 514.6898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Make a backup copy of the file reportlab\\pdfbase\\rl_codecs.py from the ReportLab Installation; then replace) Tj T* (the file with the modified version from c:\\wordaxe-0.3.0\\wordaxe\\rl\\rl_codecs.py.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 496.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F6 10 Tf 0 0 0 rg (Note:) Tj /F3 10 Tf ( This will only change two lines of code in the file, responsible for the "shy hyphen" character SHY.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 466.6898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Add the new library to the Python path, for example by creating a file wordaxe.pth in c:\\python25\\lib\\site-) Tj T* (packages, containg only one text line:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 457.8898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 3.768 Tm /F5 8 Tf 8.8 TL (c:\\wordaxe-0.3.0) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 439.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (4. Assure that "import wordaxe" doesn't create an error message.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 409.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (5. ReportLab will work as before; differences may only occur, if ) Tj /F6 10 Tf (your own) Tj /F3 10 Tf ( programs or texts use the SHY-) Tj T* (character.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 379.8898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Usage) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 337.8898 cm
-q
-BT 1 0 0 1 0 29.17 Tm -0.365315 Tw 12 TL /F3 10 Tf 0 0 0 rg (To see the hyphenation with the DCW-Algorithmus \(Decomposition of compound words\) in action for german) Tj T* 0 Tw (language text, run the example script "test_hyphenation.py" in the test subdirectory. It will produce two PDF) Tj T* (files, test_hyphenation-plain.pdf and test_hyphenation_styled.pdf.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 319.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The document you read now has also be produced with automatic hyphenation \(see the buildDoku.py script\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 289.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (To add hyphenation support to your own programs \(here using the DCW algorithm as an example\), only very) Tj T* (few modifications in your code are necessary:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 271.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Add the following lines:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 245.4898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 21.368 Tm /F5 8 Tf 8.8 TL (from wordaxe import hyphRegistry) Tj T* (from wordaxe.DCWHyphenator import DCWHyphenator) Tj T* (hyphRegistry['DE'] = DCWHyphenator\('de',5\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 227.4898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Search and replace the following strings:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 192.2898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 30.168 Tm /F5 8 Tf 8.8 TL (Search                            Replace with) Tj T* (reportlab.platypus.paragraph      wordaxe.rl.paragraph) Tj T* (reportlab.platypus.xpreformatted  wordaxe.rl.xpreformatted) Tj T* (reportlab.lib.styles              wordaxe.rl.styles) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 174.2898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Enable hyphenation. To do this, set two attributes in your ParagraphStyle:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 139.0898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 30.168 Tm /F5 8 Tf 8.8 TL (stylesheet = getSampleStyleSheet\(\)) Tj T* (myStyle = stylesheet["BodyText"]) Tj T* (myStyle.language = 'DE') Tj T* (myStyle.hyphenation = True) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 113.0898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Using a Hyphenator) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 95.08976 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Of course the wordaxe hyphenation can be used independent from ReportLab.) Tj T* ET
-Q
-Q
- 
-endstream
+GatU4>Ar7S'Rh^^s)?n_3.mu0P3#>p4L@h8(?j>NFtmf5;:$"oBotfCV!;X.IYZFl<d^%A3'[Q:O?DF2IHN:B%.V@r^M*af(@^>7#2=^J$LEm4K#L6)[s7o=TBFOZb_;Gs%BX=r_KEK%A`A5q7hY%3=elloQa$6((;H5b^RJGrX](U3[PaW$VPq"*?oN$ebF[pe1mF%jYs$U*LZV+.Tl4.S_`);R8H:5NnCNFW+G,?q%gEt*!qO.0L6cW.f"Y&d/&;n*D9d2gfe""U"qj4*O"g">FABWY-_34;$biDSU%^FeX5bV'e8,bf.gR?8W8aP%[kE.Or-jmQ-t$XSFi+2M*5a7`RD^DKO-A:frq:`CV5WQaG2#-$T+[Rr6<s%?k*mc)mhd76aJm;okpAaT9*S?LU0-oj$]m<:>0[VN>#u*#4%:J_b8X57]GJ$u9JrteRB-:qNKucdVra//7"585pXVZbX)`,]J#GKBc5oN>@<`7h,KeI[P(]nI*3(,'4;(%]*>E%(^5e6;&TO`/Vo+h\Ikh[B@_nrtW@:UUOp2If.4-Zo?o1rd47Hb#)P7[fk@iXb!&"DH=@@p3/t'j<.k@iOUr%`KKJXUT+T8B7Q57,n'b`#n=Mrr9YYV2ZK7B!Ji%rQd:`mdl1+YW0EaQ\ej;rRLQ:O\pL;?1Qq8rh4o*G\D+sot?c[s]18ETdnr_@aSW79+-#dq4TETi2+O(]S1?g0_Q^+LasD=?@M.Q$#q*^m&b"n7-NM$M1]pS-2ceM,]R3n\=+)kS4VnX]i4j)pr2h:m]R(s.r\GT%A`6]tnK;&aBc>\[ndKJfTAUBfueR:4?1b?,FR0Tr"9$ODY!h:0p*#XU7+@/g/ODSsIA$p,[k?3b'-9\BVI0*OY%<no7^'e7.0A42+R"1;Sn=;E2sCM"qo/Bc+:)28jMeZm<AEQ@[!][un#UV1F56T7BWDZfW.WeeC2plME;5k^k0#<V6\j@rf@l52=ef&RZ&*2A1^.c&cVg>WAG?V9/R<(I_qU-r'XmCjY8*%',B<Ad2f.52ploa-fprRIGK_\;Ob8-dJp+UXFe#ji[h`(l:@^g:H5=fn'!.E)Ec85Y)#dTd2'>!Z.6FU@^KS@&?0[(YJ@"CDP"@$M!2E='0,aT9k>Rj^ugFIMVm:7+5Q4NmnEqQr*8_:c86qA8PW:*o>h\.WFTq,aKBfQ1m?(7S5Y&dQNNS'0eMFLgMPS%!lP]oL]Li'NT"SH!ID[a9tC/a87L?gqik/QHGFoInJe7u^JLm$\5s\@#1$%At9m9BB\ief"$U?F!L8gldOC_ou(RWp`$ROC`brPA(oUI+aI$(48qi\mSWmS<b^NGB;NWd7gJ@G^Sflp4N_?%T]5-K?*!?;ACno[(JL"p6-t)&$.bFjU"Qp@+HN!j/XBc)[J1q8M%Cn<\*cn1.WZl4@,XI'gKH?7s14iEH&haF58E@a.>#2j/hpL)TK-.aQgC!A=a[16"[;.Ea+'C5K&/no$]-pjW,7EjdiQ&9g`K<pm6W=iiuK"gYcQ4.%<1RqP6k#UWE'lr@UYZeJ'?f:/Z9_:O3]*%;l";0[7+3mDuV'BClga$G&`rM&BMI.Yio7FVI$GFbK4T*ImHm[*[RrX&*6D<l\C%c+2ZR^0]U-]D)T^mB(j;,%)2hcbJhRf9s#4rCJroR=9[TU2:?_NRnaeros-g4`enpf""/k52u;DbDFR.$DO]W`gb5#CS=Q>=cS[k2B+3)/8RJX/.leHViF""BT9BWP^j:uf(#'e^_JgQ=bc6Q)u.\nV7>!FPL3;MC[Y/q#Lcu8#NV(6:P9>N2a3H7[A+`d>2njb>O$F?LZTLgGMI2")Eob@V+3k,R'*^EWO\]NUOK@IrVj56qFP)u\9!#`C[V]CM?W^ihRCNEXenm#K.aPpq(BEg_a<FT_h2g</X%9qAurn5R(5TiB2ng?DKeDr-glCp32U]XBn_c@s3-3nHGITj24)k;[VIkAf!*Z;"7nZJ"-t\>KalNc>VeqmBR0+Ffmcj-FrC~>endstream
 
 endobj
+% 'R27': class PDFStream 
 27 0 obj
-<< /Length 5746 >>
+% page stream
+<< /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Length 2466 >>
 stream
-1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
-q
-BT /F3 9 Tf 10.8 TL ET
-BT 1 0 0 1 72 54 Tm (Seite 3) Tj T* ET
-Q
-q
-1 0 0 1 78 739.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm -0.098023 Tw 12 TL /F3 10 Tf 0 0 0 rg (In the constructor, at least a language code and a minimal word-length have to be supplied. Shorter words will) Tj T* 0 Tw (not be considered for hyphenation.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 722.2898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 12.568 Tm /F5 8 Tf 8.8 TL (from wordaxe.DCWHyphenator import DCWHyphenator) Tj T* (hyphenator = DCWHyphenator\('de',5\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 692.2898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Now you can hyphenate \(unicode\) words. The return value will either be None \(unknown word\) or a) Tj T* (HyphenatedWord, that is, a word with hyphenation points and their quality.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 595.4898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 91.768 Tm /F5 8 Tf 8.8 TL (hword = hyphenator.hyphenate\(u"Donaudampfschiffahrt"\)) Tj T* (print "Possible hyphenations", hword.hyphenations) Tj T* (# Split the word at the second possible hyphenation point:) Tj T* (left,right = hword.split\(hword.hyphenations[1]\)) Tj T* (# returns: \(u'Donau\\xad', HyphenatedWord\(u'dampfschiffahrt'\)\)) Tj T* (# The left part is a unicode object \(here: Donau-\),) Tj T* (# the right part is the rest of the word \(a HyphenatedWord instance again\),) Tj T* (# that should go into the next line.) Tj T* (print left) Tj T* (print right) Tj T* (print right.hyphenations) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 565.4898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Hyphenation Classes) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 523.4898 cm
-q
-BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The source code for the classes contains test code that you can examine to find out how to use the class. The) Tj T* (test code can be called to see how the corresponding class handles the words given on the command line.) Tj T* (Probably you want to supply the -v argument for verbose output, too.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 505.4898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Example) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 496.6898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 3.768 Tm /F5 8 Tf 8.8 TL (c:\\python25\\python wordaxe\\DCWHyphenator.py -v Silbentrennung) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 470.6898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (DCWHyphenator) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 440.6898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (This class works by splitting compound words into subwords, inspired by the publications of the TU Vienna,) Tj T* (see ) Tj (http://www.ads.tuwien.ac.at/research/SiSiSi/) Tj (.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 422.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (However, the implementation here isn't in any way related to the closed source product "SiSiSi".) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 380.6898 cm
-q
-BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The algorithm works as follows: A given compound word will be decomposed into subwords first, using the) Tj T* (file DE_hyph.ini, which contains stems, some of them annotated with properties like NEED_SUFFIX, NO_\255) Tj T* (SUFFIX etc. Furthermore, possible prefixes and suffixes are defined there.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 362.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Due to its complexity, the algorithm is quite slow:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 296.6898 cm
-q
-BT 1 0 0 1 0 53.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The word will be scanned from left to right. It will be split into a pair \(L,R\), where different partitions are of) Tj T* (possible of course, for example "Trennung": \("T", "rennung"\), \("Tr", "ennung"\), \("Tre", "nnung"\), and so on.) Tj T* (For each pair, the algorithm checks if the left part matches a know prefix, stem or suffix from the file DE_\255) Tj T* -0.199026 Tw (hyph.ini. If yes, the algorithm R continues with the remainder R analogously. Otherwise, or if the combination) Tj T* 0 Tw (does not make sense \(i.e. prefix + suffix without stem\) the algorithm cancels.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 278.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (In principle, this is a recursive algorithm, although the implementation uses a to-do like list instead.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 260.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The properties of the algorithm are:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 242.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Only the stems defined in DE_hyph.ini will be detected.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 212.6898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (As a consequence, possible some valid hyphenation points may be missed, because unknown words will not) Tj T* (be hyphenated at all.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 194.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (On the other hand, this prevents wrong hyphenations.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 164.6898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (If a compound word cannot be decomposed uniquely, only those hyphenation points that exist in all the) Tj T* (decompositions. This prevents hyphenations that may be valid but hard to read.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 134.6898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Hyphenation points have a priority, which can be used by the calling program to prefer good hyphenation) Tj T* (points \(at subword boundaries\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 116.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (This class supports all features of ExplicitHyphenator as well.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 90.68976 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (ExplicitHyphenator) Tj T* ET
-Q
-Q
- 
-endstream
+GatU4D/\/g')l41s+0ZgLi_l1IZGLW5O<5"Zp<%,D7mIcS.>cTd2'3SW01+"s8.5!PUtL5Om`>RD+ofIbWI]-4Q?J.j"kZSL+3#_JmI4BfO2c9CGm"7A%)0NDAVd!I=M:B4WCZ:HdiR<eK_.+b#>HtCk=5fleW"`"WO#=`F!HO&,4qqgaW,%BC'@i%q`0D$l;t]%//flY(FJ)*Hfa?qX[j>3+@fJ1[L;]A'cSbqX1+;XSX_^2ARiCRBa=/XjTAP/P?4*Q>r5[CfBg4]atLiZNt?Gb[ej0[T,B"849nk0oPj[?rjOt@&D$:7#EC#pT`.IB_S60>F?b%?[X]0RjguLk\_7E/L%W(R`2m$()aSZA\h4`Sq^]6%#0a<<.5hjAMf,@_.5U%Y[$$ZfSi-No13uT>,BM2r[<Af?iKt"?4T\>R_o/LYZP&XNU-=f3dbMl4c@6]DmDKD1OhGM2#hhH?O#u*g9R8!=NIgsfE>E%MbFaibB"d%J1Uc+(:MR-Hf.I=*#K*p('>UCn6'=OhmZ9r1Uda]i>UVN>PTY@5Ol+9X?i:GK5>P2j$ZLl)EX68R9AQj#1lDj^)&noG1R)dA3L=>-\+6""BR7,)EX.3@Pp]m5!EqlF/(Ks6p/`G-B.&4c!tTP2.#*D_fjW,<>d#_M.l`s3^)Vc&"8FRSNj?*AA<7Ujc&-sD^1A+&VBTG6m&Dor=OlggRa_#fTHL-.RRi$]2.noceuPIZ[XAh2V/)oRIbI0I,r[XNud4MO,s3'>FloV76*`4YafJq)F0X7`RO0+&R*t@oF]^!h/fh`mko9PceaFl]3>kT't(3>Zg@6-bErDGnLOgtCq.]L:IR6;XGS94)hh?Z3HS:K*l1u7'>Y96jM90+Zg,*/B*!E88Z.>8H;M2Z@"S<Pd[g3^*MOu&QL9M4rkB`6(t!foE:i^d_g*b:&>2K-3\8sSaOY@G^Rf]&,2tkF:i`bLGZP:u*]^1VdJR/lQW7Hs$jOTC_MJ%:7lU;Ff8%`k7/&f85kWc@K^]5V#,IA$3GLro)h/?d8er_im'F[8NI29T;cV.9;du(\gjdjh`E11,RD%\^QYrOhZu`i3*Z3Lu+r,>h&U4k5V-lL"aU8J_;lZC^qQGE6Ba*K3J]neTG0>+o%AkNBi93TJ%'Q#@HtQrS%4B\5<NfUZ&"6O\mjL$e10GbU>%CcuD-AO(l5s,Q'Se,k+EaYZJJaaMW"-bPSb9tF`iiWj6F0q8+<d@Z#f/I;<]fGge[g]<B_DV8aX<Ne(/q<i[iTNe/kM_;HkPP[.ZpE;MMf^q^U$-Mil5cNU',[I]!8[=p#Y:Y]+$_<Z7WM02;hoYm3V=0E#lrbpQ@_,IRe/dNhLl-$%?)<5,bSKme<7=P4F`-_@mR03[d'O"*%u;i&_Y$%cj/l8[FS$_ZXNa<K*)V'gY$hNd%5HCAqo?$CiKL),E._6[,=PU>2E;P=098!.QWCiW*)aHU'o[E9lT#!RtL8D864,Tqnn%*a;9Zm@2k6e0G)Di#^Xm15p#"1fgDC'r+Z(VF6<g60#PL3I-9#j[*/X:.sY,aKF:PS$2S$hq`_YGE71OnoZs_9_K;!FXCoAYe*5c<(iJl]imea>--h\n/BIalgfr\pV>.m#qmmaTpWPCPAU`Z';RK<fSOj+b4BmY",,D*?I3Lu!7,eW7DgA841&[C;K<c8D:!YY+AV;c<<J/-f4Q1BrL22Q/gE?/$Uj<dql0</6jV/:U50qXn:0S3NV!?=&Qe:%;H3E6$URgJ!G9hqKVs7L=d8R4+dpna5YuX('tT7Q1bBcP$!OF^*9rD=`h`#C?,MeiAG\(a@4X_ZM=bmi9=pEm4<f2DlG(QCT$(ab!ISAPaO/#-&=U^u@<4,ppP2[+f2X,Kd&u%sQt&L4F%%=[65X&G?5f[h,E.1ubVPihN@IW-$eQ7fiiT")dS.*PHN-T`q/eSp7LFq!@%$S(Uq/?LK8g:-:ccUFX?<5X8]-XbR!+LA71qF3XgKstR_>P@0Rf2e%4)X>_Ls[a8m@2bM$!g[9`j5Z)8(fuU[5iW"Kf7kPUDec)XG>Ki).**doSX,.J;77\$@70d6r\qfDPD</G(5="eOc54ThF.2+Y?qrtZ9,3$Bu.=0+GKFo4q3cn?BuHQeJK%Jk7=!opeLSsu3JFBfZO8n`:)gFEkV;VB;,h>a?=ftJha<BXIl2g[l-\,&(OO5C^u(O+ti9H_Sd-8Oiq%2c6a[6cZd:06g09j]X>KWp)Rpeg>f>r+ZZrg7AM97h>`I/_J@n-g4Q&40k_?4e@G9l3]IkkbD*5>CmANr+H$Cd%JB)Pafc\k8SmX+SgS@e8QXHg^&Y:/jUb]A%*?5Hts#<k^E(OYfD4D_t83B]<#7^JX8=OW48Gh18G\<]Z/@#T'X0(<c;mLBk#^JcA16di>;Cr@.sRf7MaDHb-e:7->)WD>a580tA#H<6s>SkLK5)*J0khrU`SQrnZH?$[/u~>endstream
 
 endobj
+% 'R28': class PDFStream 
 28 0 obj
-<< /Length 4918 >>
+% page stream
+<< /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Length 2119 >>
 stream
-1 0 0 1 0 0 cm BT /F1 12 Tf 14.4 TL ET
-q
-BT /F3 9 Tf 10.8 TL ET
-BT 1 0 0 1 72 54 Tm (Seite 4) Tj T* ET
-Q
-q
-1 0 0 1 78 751.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (This class supports supports all features of BaseHyphenator, plus:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 721.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm -0.19272 Tw 12 TL /F3 10 Tf 0 0 0 rg (Here you have to explicitly define the hyphenation for every word. Thus this class isn't of much use on its own) Tj T* 0 Tw (- only if the dictionary is quite small \(for example if more or less only fixed text templates are used\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 695.8898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (PyHnjHyphenator) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 665.8898 cm
-q
-BT 1 0 0 1 0 17.17 Tm -0.215276 Tw 12 TL /F3 10 Tf 0 0 0 rg (This works like the pattern-based hyphenation in TeX \(see also libhnj, pyhnj\). The implementation can use the) Tj T* 0 Tw (pyhnj C-library or use pure Python, if the argument purePython=True is supplied to the constructor.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 639.8898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (wordaxe.plugins.PyHyphenHyphenator) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 597.8898 cm
-q
-BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (This class also works like the pattern-based hyphenation in TeX, but it uses a different implementation and) Tj T* /F6 10 Tf (works much better) Tj /F3 10 Tf (! To use it, you need to have the pyhyphen library installed \(see ) Tj (http://pypi.python.\255) Tj T* (org/pypi/PyHyphen/) Tj (\).) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 579.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (This class supports all features of ExplicitHyphenator as well.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 553.8898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (BaseHyphenator) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 535.8898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (This class should work for all languages. It hyphenates only after the following characters:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 500.6898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 30.168 Tm /F5 8 Tf 8.8 TL (    '-'   minus \(45, '\\x2D'\)) Tj T* (    '.'   dot \(46, '\\x2E'\) \(but not if the dot is between digits\)) Tj T* (    '_'   underscore \(95, '\\x5F'\)) Tj T* (    '\255'   SHY hyphenation character \(173, '\\xAD'\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 482.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (When the argument CamelCase=True is given to the constructor, CamelCase words will be hyphenated, too.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 452.6898 cm
-q
-BT 1 0 0 1 0 8.536 Tm 18 TL /F2 14 Tf 0 0 0 rg (Remarks) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 426.6898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Performance) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 408.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The DCWHyphenator is quite slow, due to the rekursive nature of the algorithm.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 378.6898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Since the word length is bounded, the run time when used with ReportLab is proportional to the number of) Tj T* (lines, because only the last word of each line will be handled by the hyphenator.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 360.6898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (For the DCWHyphenator you can cache the results instead of using it directly, using the following code:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 325.4898 cm
-q
-0 0 0 rg
-BT 1 0 0 1 36 30.168 Tm /F5 8 Tf 8.8 TL (import wordaxe) Tj T* (from wordaxe.DCWHyphenator import DCWHyphenator) Tj T* (hyph = DCWHyphenator\("DE"\)) Tj T* (wordaxe.hyphRegistry ["DE"] = wordaxe.Cached\(hyph, 1000\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 299.4898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Extensions) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 281.4898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Other hyphenation libraries can easily integrated with the help of ctypes or SWIG.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 251.4898 cm
-q
-BT 1 0 0 1 0 17.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (To do this, you have to override the member function "hyphenate", which receives a Unicode-word as input) Tj T* (and has to return a HyphenatedWord object or None.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 225.4898 cm
-q
-BT 1 0 0 1 0 5.612 Tm 14 TL /F4 12 Tf 0 0 0 rg (Notes on ReportLab) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 207.4898 cm
-q
-BT 1 0 0 1 0 5.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (The code in platypus/paragraph.py is hard to read and therefore it is quite hard to extend the functionality.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 78 165.4898 cm
-q
-BT 1 0 0 1 0 29.17 Tm 12 TL /F3 10 Tf 0 0 0 rg (Since I was not able to add working hyphenation support to that code in case of paragraph splitting, I decided) Tj T* (to start a new Paragraph implementation which a lot of code rewritten from scratch \(NewParagraph.py and) Tj T* (para_fragments.py\) and use that instead.) Tj T* ET
-Q
-Q
- 
-endstream
+GatU4gMYb8&:G(NJ!g)O9HhjtFUsRh`j+h060cH>gnH9W'tG#;i@X+G1B5($Q5<+f,KdD'ke`nH\Xb`:Wr_n`5;99Y6uNl`IPmdL6OTLj,C;h:%s5@,q;U_`(M7MTF0jB*B?_'\&*d)j%ZR_>,3r8Z/SXj7(8#=2Z]Y.@SC3;?BK@3eZe9^1`JoI8CX1QR9_fqljb$Dmkd0Ecq9RW&/HV3$)i?bU]L^KsdlSX>(m6P+/i&hnimV+obNgnmA1VhcodC9-r:M<#^,OD!@,PEr>Bn`.#BL-Q0/a':]p>(^1+=U_h^%H>j?jh8=6Zq7:\lQ\_a%*rgSg:&r$3N_9kG\gP0C7H&JR6Y>-CpIT5&O%.boQ3>S8qD31k$H`jJ!7AY!65HB`>iGfo.>"V/OT?OP.Y*c],aQI5LNU,8)c*[S$/O$X/$jpYT[8<:-*d!1,/cj6k+'_Haq=*@Y=-hChWH78*+5sd+j9Ij8dd"<2c?5kgJWIr-AELqA-A"Amup7l)d@rM,=]q6Uu]s$Agd`SD&r35+OVVKEqMRQQr8qcr/O5*LRA,MmV%tT,FT#0A^jmT-#]rf%.j`UKHMqh'M_ZT1I+mTQVc?+(DZ_kUtl^+,.oq__'.^YLEI'u@-H$aL10eMIY<V0+;H%Jbk+T@=//+J?r&LU@/[N\,Qg;W;dki1rWbaM7JEJ?h9L+6$@E[`K,DG$]_mPTM1ft-)Tc!n*SAs!gkiQ[;m.Y_bKA6iS4B8)7GG3?"mIobtS-K7>F+IfcrEuVYHnN&k)j2pr6(-(o`E2:Us'9h+E<M;]-*-n%Sk4!fg(aAo,M^YIBQ1M%JD2)&)1[MK3XNAP"mBh>:7:NR&FO-%Y/?;HE,fpgfPuZ>L!--M].Yq(i1IkW"f'2Mlo<_1+b)ud50:hXC/`J$[S&OtG"m=FM,78ZX3XC?;e"n*EVouXdCiM`BKdXdBgH'!B/;W`g`D1:KK4O\?=9M2-H3TG-cZ)KB&[)SIQFT`YFc/^l2]go[5R%mN&r+M_C#0:e-<r\%mcC3Xhk'2%hH72K`,J%1FS!V5rA_P1du5<7<O7]SpcCW#`G;8Y[,Ro>)Y`H;\U8AQSM"9W?o)g]bB\qVWC\[a#q:8bRYnAuZt'*&F+nEUJF9BoHMHO\meO@:p>Dso4aCbdCYe$OmrUAX=oS-kYJ$ZJ_hIK1l*/nAbHC4sN8E4?Mr#*\J&`;:a4(nLP2QS[f+Ra[I:Ju>=Ltu,200<96NJa=m2-tZ*qgnN[5)b43&.b[a?Fr*X1WCFea.VP8O`c7etlt<T,`_gGK6$f.O#M1.m$a*B?s-W\)VZKG<<1<SHi##4n8s5A0d@GMC_8X-oT#_]O`i:Y*2QD+R0C8E-/nJ,::00KnpS:$j2HanQH0pEY9u5"p*I]!(8;g&7^`U;W%_!T-SLH#I38/BpS6I*eM;L_75;%W/SZ5CFR1eRA0pX=&d'p=GS7h@(NWE0ouImN?u'<6o3p'ZmtesqBP-^iNW?PFC$7.5OPG6gF<_:/e""f.e=iP)ramJL%1n+RaL=^Pt;d9P2=J,]u.=9-TdaIR?-a_o9^<B"k#d2r7!'H8+br;r<Tp`NkL585#)-lfj@uf-grZ`G*oTrQ\@ZG[0$AmoJ[0VK>#Op"\6sERNm1#5el2NT$Cl\(QbO-_W?E9ER'oA://5q+4/L@T\kjuCp.>J;\rf-(d_-]MQ`/IQKsKT[jit^EZ(__,Zg<]GO19+n)")uM0R'$@.5n[_$'/SgkgB)Qg4e+k"L'+^'L1Mp5@SYHg.>C*%*nrKL,\AoFfs!1[Z?i@[NdU!Z,)fBq\aqn?"F\;s;:JGS$W'?+57GcB,p.1J3Hjn1fc2B*\^&b2oVdpm>#*d[&iQ2,:'q6-7"9B>bR0"MXo&Bp#$cQn3cE1r/n2%#[]pX+CJ+iLhp4UsGfodb?\/Le3?2=0YJj-4q_5G"6Iq+F6O_OK,2KSi4Y=cX^K")?:)I)GZ^nFpk%9iN&h!F;kLP`tRCGN<A:0l*\P1*ffuj$T,;9,R`@HNPRUV=.TlW[(@C8X"&2u$5<"uO3s98%2pkY7>;=o(SqD2V=d]'DKaL5F"+HJY'V7KI!523Kh4p[onF]61\d#]e&rR-![;HE9)~>endstream
 
 endobj
+% 'R29': class PDFOutlines 
 29 0 obj
 << /Count 0
  /Type /Outlines >>
@@ -936,43 +375,43 @@ endobj
 xref
 0 30
 0000000000 65535 f
-0000000075 00000 n
-0000000172 00000 n
-0000000290 00000 n
-0000000409 00000 n
-0000000529 00000 n
-0000000726 00000 n
-0000000930 00000 n
-0000001163 00000 n
-0000001376 00000 n
-0000001573 00000 n
-0000001780 00000 n
-0000001906 00000 n
-0000002104 00000 n
-0000002408 00000 n
-0000002525 00000 n
-0000002647 00000 n
-0000002881 00000 n
-0000003098 00000 n
-0000003353 00000 n
-0000003564 00000 n
-0000003771 00000 n
-0000004035 00000 n
-0000004131 00000 n
-0000004362 00000 n
-0000004457 00000 n
-0000009626 00000 n
-0000014903 00000 n
-0000020708 00000 n
-0000025685 00000 n
+0000000113 00000 n
+0000000272 00000 n
+0000000437 00000 n
+0000000604 00000 n
+0000000785 00000 n
+0000001023 00000 n
+0000001268 00000 n
+0000001542 00000 n
+0000001796 00000 n
+0000002034 00000 n
+0000002270 00000 n
+0000002462 00000 n
+0000002687 00000 n
+0000003039 00000 n
+0000003201 00000 n
+0000003371 00000 n
+0000003665 00000 n
+0000003909 00000 n
+0000004224 00000 n
+0000004477 00000 n
+0000004711 00000 n
+0000005022 00000 n
+0000005160 00000 n
+0000005417 00000 n
+0000005552 00000 n
+0000007659 00000 n
+0000009819 00000 n
+0000012430 00000 n
+0000014696 00000 n
 trailer
 << /ID 
  % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
- [(\006\247\010q\311b4\\\012Q\014\2427\364\354\353) (\006\247\010q\311b4\\\012Q\014\2427\364\354\353)] 
+ [(\200[\002\023zf\027en;\245r\373y\354\276) (\200[\002\023zf\027en;\245r\373y\354\276)] 
 
  /Info 23 0 R
  /Root 22 0 R
  /Size 30 >>
 startxref
-25737
+14748
 %%EOF

@@ -13,11 +13,11 @@ If text is supplied, the constructor calls the ParaParser
 to parse it and construct frags.
 
 Please note that a "frag" is different from the ReportLab
-standard "frag": Here, a frag is either a StyledWord instance 
+standard "frag": Here, a frag is either a StyledWord instance
 or a StyledFragment instance (see para_fragments.py).
 However, there are two functions in para_fragments.py that
 allow you to convert classic RL frag lists to wordaxe frag lists
-and vice versa: 
+and vice versa:
 frags_reportlab_to_wordaxe and frags_wordaxe_to_reportlab
 
 The following is a definition of some typographic concepts:
@@ -25,30 +25,30 @@ The following is a definition of some typographic concepts:
 
 BASELINE, ASCENT, DESCENT:
   Characters seem to "rest" on the baseline.
-  The ASCENT of a font is the maximum distance from the baseline to 
+  The ASCENT of a font is the maximum distance from the baseline to
   the top of upper-case characters (accents not counted).
   Usually,all upper-case characters in a fonts have the same height,
   and characters like 'b', 'd', 'l', 't' have this same height, too.
   The DESCENT of a font is the maximum distance from the baseline
   to the bottom of characters like 'f','g', 'j' etc.
-  
+
   Note that other, non-character glyphs (like the integral symbol)
   may differ in height, for example, the integral symbol's height
   is greater than the font's ascent+descent.
-  
+
 LEADING:
   (pronounced like heading, it comes from the metal used in
   typesetting).
 -----------------------------------------------------------------
-  Note: The definition used inside the ReportLab toolkit is 
+  Note: The definition used inside the ReportLab toolkit is
   different from the definition used elsewhere!
 -----------------------------------------------------------------
   While the common definition is "the space between the bottom
   of the characters of one line and the top of the characters in
   the next line (i.e. line height = ASCENT+DESCENT+LEADING),
   ReportLab uses a different definition - see userguide.pdf,
-  "Text object methods, Interline spacing (Leading)".  
-  
+  "Text object methods, Interline spacing (Leading)".
+
 See also:
  * http://developer.apple.com/documentation/mac/Text/Text-186.html
  * http://java.sun.com/developer/onlineTraining/Media/2DText/other.html
@@ -61,7 +61,7 @@ from reportlab.lib.units import cm
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
 from reportlab.platypus.paraparser import ParaParser
 from reportlab.platypus.flowables import Flowable
-from reportlab.rl_config import platypus_link_underline 
+from reportlab.rl_config import platypus_link_underline
 import re
 from copy import copy, deepcopy
 
@@ -147,7 +147,7 @@ def _putFragLine(cur_x, tx, line):
         tx._oleading = leading
     ws = getattr(tx,'_wordSpace',0)
     nSpaces = 0
-        
+
     fragments = list(frags_wordaxe_to_reportlab(line.iter_print_frags()))
     for frag in fragments:
         #print "render %r" % getattr(frag, "text", "--")
@@ -204,9 +204,9 @@ def _putFragLine(cur_x, tx, line):
                 if xs.backgroundColor is not None:
                     xs.backgrounds.append( (xs.background_x, cur_x_s, xs.backgroundColor, xs.backgroundFontSize) )
                 xs.background_x = cur_x_s
-                xs.backgroundColor = backColor 
-                xs.backgroundFontSize = f.fontSize  
-            # Underline  
+                xs.backgroundColor = backColor
+                xs.backgroundFontSize = f.fontSize
+            # Underline
             if not xs.underline and f.underline:
                 xs.underline = 1
                 xs.underline_x = cur_x_s
@@ -332,20 +332,20 @@ def _do_post_text(tx):
         ff = 0.125*f.fontSize
         y0 = xs.cur_y
         y = y0 - ff
-        
+
         # Background
         ulc = None
         for x1,x2,c,fs in xs.backgrounds:
             # print "u",x1,x2,c, leading, ff, i, fs
             if c!=ulc:
-                tx._canvas.setFillColor(c)     
+                tx._canvas.setFillColor(c)
                 ulc = c
             #tx._canvas.rect(x1, y, x2-x1, fs, fill=1, stroke=0)
             tx._canvas.rect(x1, y - ff, x2-x1, fs, fill=1, stroke=0)
         xs.backgrounds = []
         xs.background = 0
-        xs.backgroundColor = None   
-        xs.backgroundFontSize = None 
+        xs.backgroundColor = None
+        xs.backgroundFontSize = None
 
         # Underline
         csc = None
@@ -382,7 +382,7 @@ def _do_post_text(tx):
     #print "leading:", leading
     xs.cur_y -= leading
     #print "xs.cur_y:", xs.cur_y
-    
+
 
 def textTransformFrags(frags,style):
     tt = style.textTransform
@@ -397,7 +397,7 @@ def textTransformFrags(frags,style):
         elif tt=='none':
             return
         else:
-            raise ValueError('ParaStyle.textTransform value %r is invalid' % style.textTransform) 
+            raise ValueError('ParaStyle.textTransform value %r is invalid' % style.textTransform)
         n = len(frags)
         if n==1:
             #single fragment the easy case
@@ -421,13 +421,13 @@ def textTransformFrags(frags,style):
                 t = f.text
                 if not t: continue
                 f.text = tt(t)
-    
+
 
 # Here follows a clean(er) paragraph implemention
-    
+
 class Paragraph(Flowable):
     "A simple new implementation for Paragraph flowables."
-    
+
     def __init__(self, text, style, bulletText = None, frags=None, lines=None, caseSensitive=1, encoding='utf-8', keepWhiteSpace=False, textCleaner=cleanBlockQuotedText):
         """
         Either text and style or frags must be supplied.
@@ -436,17 +436,20 @@ class Paragraph(Flowable):
         self.style = style
         self.bulletText = bulletText
         self.keepWhiteSpace = keepWhiteSpace # TODO: Unterstützen
-        
+        self._cache = {}
+
         if text is None:
             assert frags is not None or lines is not None
-            if frags is not None:
+            self.frags = frags
+            if frags is None:
+                #print id(self), "init with %d lines" % len(lines)
+                for line in lines: assert isinstance(line, Line)
+                self._cache['lines'] = lines
+                self._cache['avail'] = True
+            else:
                 #print id(self), "init with frags", frags
                 for frag in frags: assert isinstance(frag, Fragment)
                 self.frags = frags
-            else:
-                #print id(self), "init with %d lines" % len(lines)
-                for line in lines: assert isinstance(line, Line)
-                self._lines = lines
         else:
             #print id(self), "init with text"
             assert isinstance(text, basestring)
@@ -456,14 +459,6 @@ class Paragraph(Flowable):
             if textCleaner: text = textCleaner(text)
             self.frags = list(self.parse(text, style, bulletText))
         self.text = text
-            
-    def cleanup(self):
-        """ 
-        This is called to cleanup internal attributes when
-        multibuild is called.
-        """
-        if hasattr(self,"_lines"): delattr(self,"_lines")
-        if hasattr(self,"_unused"): delattr(self,"_unused")
 
     def parse(self, text, style, bulletText):
         """
@@ -481,13 +476,13 @@ class Paragraph(Flowable):
         textTransformFrags(frag_list, style)
         self.style = style
         return frags_reportlab_to_wordaxe(frag_list, style)
-        
+
     def __repr__(self):
-        if hasattr(self, "frags"):
+        if self.frags:
             return "%s(frags=%r)" % (self.__class__.__name__, self.frags)
-        elif hasattr(self, "_lines"):
-            return "%s(_lines=%r)" % (self.__class__.__name__, self._lines)
-            
+        elif 'lines' in self._cache:
+            return "%s(_lines=%r)" % (self.__class__.__name__, self._cache['lines'])
+
 
     def calcLineHeight(self, line):
         """
@@ -496,19 +491,15 @@ class Paragraph(Flowable):
         #print "calcLineHeight", self.style.leading
         return self.style.leading
         # TODO or should this be computed from the frags?
-    
+
     def wrap(self, availW, availH):
         """
+        Return the actually used size.
         """
-
-        # Take care for multibuild            
-        mbe=self._doctemplateAttr('_multiBuildEdits') 
-        if mbe is not None:
-            mbe((self.cleanup,))
-
         #print id(self), "wrap", availW, availH
-        if hasattr(self, "_lines"):
-            height = sum([line.height for line in self._lines])
+        avail = self._cache.get('avail')
+        if avail is True or avail == (availW, availH):
+            height = sum([line.height for line in self._cache['lines']])
             #assert height <= availH + 1e-5, (height, availH)
             return availW, height
         else:
@@ -518,14 +509,14 @@ class Paragraph(Flowable):
             later_widths = availW - leftIndent - style.rightIndent
             max_widths = [first_line_width, later_widths]
             return self.i_wrap(availW, availH, max_widths)
-            
+
     def i_wrap(self, availW, availH, max_widths):
         """
         Return the height and width that are actually needed.
         Note:
         This will abort if the text does not fit entirely.
         The lines measured so far will be stored in a private
-        attribute _lines (to improve performance).
+        attribute _cache['lines'] (to improve performance).
         TODO: Should StyledSpaces be ignored before or after StyledNewLines?
         """
         #print id(self), "i_wrap", availW, availH
@@ -534,9 +525,9 @@ class Paragraph(Flowable):
         lineHeight = 0      # height of current line
         width = 0           # width of current line
         lineFrags = []      # (flattened) fragments in current line
-        
+
         _handleBulletWidth(self.bulletText, self.style, max_widths)
-        
+
         def iter_widths(max_widths=max_widths):
             # an iterator that repeats the last element infinitely
             for w in max_widths: yield w
@@ -583,7 +574,7 @@ class Paragraph(Flowable):
                 # Some Meta Fragment
                 action = ("ADD",frag)
             for (act,afrag) in actions:
-                #print act, width            
+                #print act, width
                 if act == "LINEFEED":
                     if not self.keepWhiteSpace:
                         # ignore space at the end of the line for the
@@ -595,9 +586,9 @@ class Paragraph(Flowable):
                                     width = 0
                             else:
                                 break
-                    #print act, 
+                    #print act,
                     lineHeight = self.style.leading # TODO correct height calculation
-                    #print lineHeight, 
+                    #print lineHeight,
                     baseline = 0   # TODO correct baseline calculation
                     line = Line(lineFrags, width, lineHeight, baseline, max_width - width, self.keepWhiteSpace)
                     lines.append(line)
@@ -641,10 +632,10 @@ class Paragraph(Flowable):
                 lines.append(line)
                 lineFrags = []
                 width = 0
-                sumHeight += lineHeight            
+                sumHeight += lineHeight
 
         self.width = availW
-        self.height = sumHeight 
+        self.height = sumHeight
         if sumHeight > availH:
             #print id(self), "needs splitting"
             #print "lines[-1]:", lines[-1]
@@ -654,19 +645,18 @@ class Paragraph(Flowable):
             #                        v
             assert not lineFrags, lineFrags
             assert lines
-            self._unused = lines[-1].fragments
+            unused = lines.pop().fragments
             if frags_remaining:
                 next = frags_remaining[0]
                 src = getattr(next, "_source", None)
                 if src is not None:
                     # next is the right part of a hyphenation
-                    left = self._unused[-1]
+                    left = unused[-1]
                     assert getattr(left,"_source") == src
-                    self._unused[-1] = src
+                    unused[-1] = src
                     frags_remaining.pop(0)
-                self._unused += frags_remaining
-            assert len(self._unused) == len(set(self._unused))
-            self._lines = lines[:-1]
+                unused += frags_remaining
+            assert len(unused) == len(set(unused))
             self.height -= lineHeight
             #print "%d lines, lineHeight=%f" % (len(lines), lineHeight)
             #print "in wrap: self.height=%f" % (self.height)
@@ -675,10 +665,12 @@ class Paragraph(Flowable):
             #    print lines
         else:
             #print id(self), "fits"
-            self._unused = []
-            self._lines = lines
+            unused = []
         assert self.height <= availH, (id(self), self.height, availH)
-        #print "i_wrap returns", availW, sumHeight        
+        self._cache['lines'] = lines
+        self._cache['unused'] = unused
+        self._cache['avail'] = (availW, availH)
+        #print "i_wrap returns", availW, sumHeight
         return availW, sumHeight
 
     def split(self, availWidth, availHeight):
@@ -686,29 +678,31 @@ class Paragraph(Flowable):
         Split the paragraph into two
         """
         #print id(self), "split", availWidth, availHeight
-        
-        if not hasattr(self, "_lines"):
+
+        avail = self._cache.get('avail')
+        if avail is None or avail is not True and (
+                availWidth < avail[0] or availHeight < avail[1]):
             # This can only happen when split has been called
             # without a previous wrap for this Paragraph.
             # From looking at doctemplate.py and frames.py,
             # I assume this is only the case if the free space
             # in the frame is not even enough for getSpaceBefore.
             # Thus we can safely return []
-            
+
             #print "split without previous wrap"
             return []
-        
-        assert hasattr(self, "_unused")
-        #print "_lines:", self._lines
-        #print "_unused:", self._unused
-        if len(self._lines) < 1: # minimum widow rows
+
+        lines = self._cache['lines']
+        #print "lines:", lines
+        unused = self._cache['unused']
+        #print "unused:", unused
+        if len(lines) < 1: # minimum widow rows
             #print "split with lines == []"
             # Put everything on the next frame
-            assert hasattr(self, "frags")
-            del self._unused
-            del self._lines
+            assert self.frags is not None
+            del self._cache['avail']
             return []
-        elif not self._unused:
+        elif not unused:
             # Everything fits on this page
             #print "everything fits."
             return [self]
@@ -720,7 +714,7 @@ class Paragraph(Flowable):
             if autoLeading not in ('','off'):
                 s = height = 0
                 if autoLeading=='max':
-                    for i,l in enumerate(self._lines):
+                    for i,l in enumerate(lines):
                         h = max(l.ascent-l.descent,leading)
                         n = height+h
                         if n>availHeight+1e-8:
@@ -728,7 +722,7 @@ class Paragraph(Flowable):
                         height = n
                         s = i+1
                 elif autoLeading=='min':
-                    for i,l in enumerate(self._lines):
+                    for i,l in enumerate(lines):
                         n = height+l.ascent-l.descent
                         if n>availHeight+1e-8:
                             break
@@ -744,18 +738,17 @@ class Paragraph(Flowable):
                     l = 1.2*style.fontSize
                 s = int(availHeight/l)
                 height = s*l
-                    
+
             if False:
                 # Widows/orphans control
                 # TODO: this cannot work, since we have not yet computed
                 # the lines for the second part.
-                n = len(self._lines)
+                n = len(lines)
                 allowWidows = getattr(self,'allowWidows',getattr(self,'allowWidows',1))
                 allowOrphans = getattr(self,'allowOrphans',getattr(self,'allowOrphans',0))
                 if not allowOrphans:
                     if s<=1:    #orphan?
-                        del self._lines
-                        del self._unused 
+                        del self._cache['avail']
                         return []
                 if n<=s:
                     return [self]
@@ -765,21 +758,20 @@ class Paragraph(Flowable):
                             s -= 1  #give the widow some company
                         else:
                             #no room for adjustment; force the whole para onwards
-                            del self._lines
-                            del self._unused 
+                            del self._cache['avail']
                             return []
-            first = self.__class__(text=None, style=self.style, bulletText=self.bulletText, lines=self._lines, caseSensitive=self.caseSensitive)
+            first = self.__class__(text=None, style=self.style, bulletText=self.bulletText, lines=lines, caseSensitive=self.caseSensitive)
             first.width = self.width # TODO 20080911
             first.height = self.height
             first._JustifyLast = 1
             if style.firstLineIndent != 0:
                 style = deepcopy(style)
                 style.firstLineIndent = 0
-            second = self.__class__(text=None, style=self.style, bulletText=None, frags=self._unused, caseSensitive=self.caseSensitive)
+            second = self.__class__(text=None, style=self.style, bulletText=None, frags=unused, caseSensitive=self.caseSensitive)
             #print "first id=%d height=%f" % (id(first), first.height)
             #print "secnd id=%d" % id(second)
             return [first, second]
-            
+
 
     def beginText(self, x, y):
         return self.canv.beginText(x, y)
@@ -800,7 +792,7 @@ class Paragraph(Flowable):
         #stash the key facts locally for speed
         canvas = self.canv
         style = self.style
-        lines = self._lines
+        lines = self._cache['lines']
         leading = style.leading
         autoLeading = getattr(self,'autoLeading',getattr(style,'autoLeading',''))
 
@@ -857,7 +849,7 @@ class Paragraph(Flowable):
             f = lines[0]
             #cur_y = self.height - getattr(f,'ascent',f.fontSize)
             cur_y = sum([line.height for line in lines]) - f.ascent
-               
+
             # default?
             dpl = self._leftDrawParaLineX
             if bulletText:
@@ -884,7 +876,7 @@ class Paragraph(Flowable):
             xs.underlineColor=None
             xs.backgrounds = []
             xs.backgroundColor = None
-            xs.backgroundFontSize = None  
+            xs.backgroundFontSize = None
             xs.strike=0
             xs.strikes=[]
             xs.strikeColor=None
@@ -911,16 +903,16 @@ class Paragraph(Flowable):
 
             canvas.drawText(tx)
             canvas.restoreState()
-        
+
     def _leftDrawParaLineX( self, tx, offset, line, last=0):
-        if line.space_wasted < 0: 
+        if line.space_wasted < 0:
             return self._justifyDrawParaLineX(tx,offset,line,last)
         setXPos(tx,offset)
         _putFragLine(offset, tx, line)
         setXPos(tx,-offset)
 
     def _rightDrawParaLineX( self, tx, offset, line, last=0):
-        if line.space_wasted < 0: 
+        if line.space_wasted < 0:
             return self._justifyDrawParaLineX(tx,offset,line,last)
         m = offset + line.space_wasted
         setXPos(tx,m)
@@ -928,13 +920,13 @@ class Paragraph(Flowable):
         setXPos(tx,-m)
 
     def _centerDrawParaLineX( self, tx, offset, line, last=0):
-        if line.space_wasted < 0: 
+        if line.space_wasted < 0:
             return self._justifyDrawParaLineX(tx,offset,line,last)
         m = offset + 0.5 * line.space_wasted
         setXPos(tx, m)
         _putFragLine(m, tx, line)
         setXPos(tx,-m)
-        
+
     def _justifyDrawParaLineX( self, tx, offset, line, last=0):
         setXPos(tx,offset)
         frags = line.fragments[:]
@@ -942,7 +934,7 @@ class Paragraph(Flowable):
             frags.pop(0)
         while frags and (not frags[-1].width or isinstance(frags[-1], StyledSpace)):
             frags.pop()
-            
+
         nSpaces = sum([len(frag.text) for frag in frags if isinstance(frag, StyledSpace)])
         # TODO: if !nSpaces use txt.setCharSpace instead
         if last or not nSpaces or abs(line.space_wasted)<=1e-8 or isinstance(frags[-1], StyledNewLine):
@@ -952,7 +944,7 @@ class Paragraph(Flowable):
             _putFragLine(offset, tx, line)
             tx.setWordSpace(0)
         setXPos(tx,-offset)
-        
+
     class OVERFLOW:
          pass
     class SQUEEZE:
@@ -988,18 +980,18 @@ class Paragraph(Flowable):
         rating = 16384 - base_penalty - stretch_penalty
         #print "  rating:", rating
         return rating
-        
+
     # finding bestSolution where the word uses possibly several different font styles
     # (action,left,right,spaceWasted) = self.findBestSolution(frags,w,currentWidth,maxWidth,windx<len(words))
     def findBestSolution(self, frags, word, space_remaining, try_squeeze):
         if self.style.hyphenation:
             hyphenator = wordaxe.hyphRegistry.get(self.style.language,None)
-        else: 
+        else:
             # Hyphenation deactivated
             hyphenator = None
         assert isinstance(word, StyledWord)
         assert space_remaining <= word.width
-            
+
         #print "findBestSolution %s %s %s" % (frags, word, space_remaining)
         nwords = len([True for frag in frags if isinstance(frag,StyledWord)])
         #print "nwords=%d" % nwords
@@ -1056,36 +1048,32 @@ class Paragraph(Flowable):
         #print "bestSolution for", word, "returns:", HVBDBG.s(bestSolution)
         return bestSolution
 
-            
+
     def getPlainText(self,identify=None):
         """Convenience function for templates which want access
         to the raw text, without XML tags.
-        
+
         Note: will only get the first part if a paragraph is splitted.
         This is not perfect, but should work good enough to be used for the TOC.
         """
         text = []
-        
-        if hasattr(self, "_lines"):
-            lines = getattr(self, "_lines")
+        lines = self._cache.get('lines')
+        if lines is not None:
             for line in lines:
                 if line is not lines[0]:
                     text.append(" ")
                 for frag in line.fragments:
                     if hasattr(frag, "text"):
                         text.append(getattr(frag, "text"))
-                
         else:
             for frag in self.frags:
                 if hasattr(frag, "text"):
                     text.append(getattr(frag, "text"))
-        
         return "".join(text)
 
     def minWidth(self):
         """Attempt to determine a minimum sensible width"""
         return max([frag.width for frag in self.frags])
-        
 
 
 class ParagraphAndImage(Flowable):
@@ -1121,7 +1109,7 @@ class ParagraphAndImage(Flowable):
         P.width = 0
         nIW = int((hI+ypad)/leading)
 
-        if hasattr(P, "_lines"):
+        if 'avail' in P._cache:
             ph = P.height
         else:
             max_widths = [first_line_width] + nIW*[intermediate_widths] + [later_widths]
@@ -1185,12 +1173,12 @@ if __name__ == "__main__":
     #p = Paragraph(text, style)
     #print "width=%f" % sum([f.width for f in p.frags if hasattr(f,"width")])
     #print "p=%r" % p
-    
+
     #p = Paragraph("jetzt auch <font backcolor='yellow'>bunt</font>", style)
     #frags = p.frags
     #print repr(frags)
     #print repr(frags[-1].fragments[0].style)
-    
+
     import os
     import sys
     import unittest
@@ -1215,11 +1203,11 @@ if __name__ == "__main__":
         def __init__(self, filename, **kw):
             m = 2*cm
             cw, ch = (PAGESIZE[0]-2*m)/2., (PAGESIZE[1]-2*m)
-            f1 = Frame(m, m+0.5*cm, cw-0.75*cm, ch-1*cm, id='F1', 
+            f1 = Frame(m, m+0.5*cm, cw-0.75*cm, ch-1*cm, id='F1',
                 leftPadding=0, topPadding=0, rightPadding=0, bottomPadding=0,
                 showBoundary=True
             )
-            f2 = Frame(cw+2.7*cm, m+0.5*cm, cw-0.75*cm, ch-1*cm, id='F2', 
+            f2 = Frame(cw+2.7*cm, m+0.5*cm, cw-0.75*cm, ch-1*cm, id='F2',
                 leftPadding=0, topPadding=0, rightPadding=0, bottomPadding=0,
                 showBoundary=True
             )
@@ -1227,7 +1215,7 @@ if __name__ == "__main__":
             template = PageTemplate('template', [f1, f2])
             self.addPageTemplates(template)
 
-    def test():    
+    def test():
         from reportlab.platypus.paragraph import Paragraph as platypus_Paragraph
         from wordaxe.DCWHyphenator import DCWHyphenator
         wordaxe.hyphRegistry["DE"] = DCWHyphenator("DE")
@@ -1261,6 +1249,6 @@ if __name__ == "__main__":
             #story.append(klass(u"Silbentrennungsverfahren helfen dabei, extrem lange Donaudampfschiffe in handliche Schiffchen aufzuteilen.", style=normal, bulletText="\xe2\x80\xa2"))
             doc = TwoColumnDocTemplate(("test_NewParagraph_%d.pdf" %indx), pagesize=PAGESIZE)
             doc.build(story)
-    
+
     test()
-    
+

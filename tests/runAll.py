@@ -5,32 +5,39 @@
 
 import os
 import sys
-from os.path import join, splitext, basename
+from os.path import abspath, basename, dirname, isdir, join, splitext
 import glob
 import unittest
-
 
 #we need to ensure 'tests' is on the path.  It will be if you
 #run 'setup.py tests', but won't be if you CD into the tests
 #directory and run this directly
-try:
-    from tests.utils import GlobDirectoryWalker, outputfile, printLocation
-except ImportError:
-    directoryAboveMe = os.path.dirname(os.getcwd())
-    sys.path.insert(0, directoryAboveMe)
-    from tests.utils import GlobDirectoryWalker, outputfile, printLocation
+testdir = dirname(abspath(__file__))
+sys.path.insert(0, dirname(testdir))
+
+from tests.utils import GlobDirectoryWalker, outputfile, printLocation
+
+
+exclude = ('test_frames3f',)
+
+keep = ('.py', '.gif', '.png', 'expected.pdf',
+    'test_wordlist.txt', 'special_words.lst',
+    'dokumentation_de.txt', 'dokumentation_en.txt')
+
 
 def makeSuite(folder, pattern='test_*.py'):
-    "Build a test suite of all available test files."
+    """Build a test suite of all available test files."""
 
-    if os.path.isdir(folder): 
+    if isdir(folder): 
         sys.path.insert(0, folder)
-    
+
     testSuite = unittest.TestSuite()
     filenames = glob.glob(join(folder, pattern))
     modnames = [basename(splitext(fn)[0]) for fn in filenames]
     loader = unittest.TestLoader()
     for mn in modnames:
+        if mn in exclude:
+            continue
         mod = __import__(mn)
         testSuite.addTest(loader.loadTestsFromModule(mod))
 
@@ -39,20 +46,33 @@ def makeSuite(folder, pattern='test_*.py'):
 
 def main(pattern='test_*.py'):
     try:
-        folder = os.path.dirname(__file__)
+        folder = dirname(__file__)
         assert folder
     except:
-        folder = os.path.dirname(sys.argv[0]) or os.getcwd()
+        folder = dirname(sys.argv[0]) or os.getcwd()
     testSuite = makeSuite(folder, pattern)
     unittest.TextTestRunner().run(testSuite)
 
 
+def clean():
+    os.chdir(testdir)
+    for fn in glob.glob("*"):
+        ew = fn.endswith
+        for n in keep:
+            if fn.endswith(n):
+                break
+        else:
+            print "removing", fn
+            os.remove(fn)
+
+
 if __name__ == '__main__':
-    if "--clean" in sys.argv[1:]:
-        for fn in glob.glob("*"):
-            ew = fn.endswith
-            if not ew("expected.pdf") and not ew(".py"):
-                print "removing", fn
-                os.remove(fn)
+    args = sys.argv[1:]
+    if '--clean' in args:
+        clean()
     else:
-        main()
+        try:
+            pattern = args[0]
+        except IndexError:
+            pattern = 'test_*.py'
+        main(pattern)

@@ -455,6 +455,7 @@ class Paragraph(Flowable):
                 text = unicode(text, encoding)
             if textCleaner: text = textCleaner(text)
             self.frags = list(self.parse(text, style, bulletText))
+        self.text = text
             
     def cleanup(self):
         """ 

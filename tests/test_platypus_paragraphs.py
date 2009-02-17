@@ -397,11 +397,11 @@ class AutoLeadingTestCase(unittest.TestCase):
         normal_sp = ParagraphStyle(name='normal_sp',parent=normal,alignment=TA_JUSTIFY,spaceBefore=12)
         texts = ['''Furthermore, a subset of <font size="14">English sentences</font> interesting on quite
 independent grounds is not quite equivalent to a stipulation to place
-<font color="blue">the constructions <img src="../docs/images/testimg.gif"/> into these various categories.</font>''',
+<font color="blue">the constructions <img src=./testimg.gif"/> into these various categories.</font>''',
         '''We will bring <font size="18">Ugly Things</font> in favor of
 The following thesis:  most of the methodological work in Modern
-Linguistics can be <img src="../docs/images/testimg.gif" valign="baseline" /> defined in such <img src="../docs/images/testimg.gif" valign="10" /> a way as to impose problems of
-phonemic and <u>morphological <img src="../docs/images/testimg.gif" valign="top"/> </u> analysis.''']
+Linguistics can be <img src="./testimg.gif" valign="baseline" /> defined in such <img src="./testimg.gif" valign="10" /> a way as to impose problems of
+phonemic and <u>morphological <img src="./testimg.gif" valign="top"/> </u> analysis.''']
         story =[]
         a = story.append
         t = 'u'
@@ -413,16 +413,16 @@ phonemic and <u>morphological <img src="../docs/images/testimg.gif" valign="top"
                             autoLeading,
                             t,' '.join((n+1)*['A']),t,texts[0],t,' '.join((n+1)*['A']),t,texts[1]),
                             style=s))
-        a(Paragraph('''<img src="../docs/images/testimg.gif" valign="top"/> image is very first thing in the line.''', style=normal))
+        a(Paragraph('''<img src="./testimg.gif" valign="top"/> image is very first thing in the line.''', style=normal))
         a(Paragraph('some text.... some more.... some text.... some more....', normal))
-        a(Paragraph('<img src="../docs/images/testimg.gif" width="0.57in" height="0.19in" /> some text after img <br /> ', normal))
+        a(Paragraph('<img src="./testimg.gif" width="0.57in" height="0.19in" /> some text after img <br /> ', normal))
         a(Paragraph('some text.... some more.... some text.... some more....', normal))
-        a(Paragraph('<img src="../docs/images/testimg.gif" width="0.57in" height="0.19in" /> <br /> ', normal))
+        a(Paragraph('<img src="./testimg.gif" width="0.57in" height="0.19in" /> <br /> ', normal))
         a(Paragraph('some text.... some more.... some text.... some more....', normal))
 
         #Volker Haas' valign tests
         fmt = '''<font color="red">%(valign)s</font>: Furthermore, a <u>subset</u> <strike>of</strike> <font size="14">English sentences</font> interesting on quite
-independent grounds is not quite equivalent to a stipulation to place <img src="../docs/images/redsquare.png" width="0.5in" height="0.5in" valign="%(valign)s"/>
+independent grounds is not quite equivalent to a stipulation to place <img src="./redsquare.png" width="0.5in" height="0.5in" valign="%(valign)s"/>
 the constructions into these <u>various</u> categories. We will bring <font size="18">Ugly Things</font> in favor of
 The following thesis:  most of the methodological work in Modern
 Linguistics can be defined in such a way as to impose problems of

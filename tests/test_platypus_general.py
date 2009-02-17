@@ -289,10 +289,10 @@ def getCommentary():
     reportlab.rl_config.warnOnMissingFontGlyphs = 0
 
     from reportlab.pdfbase import pdfmetrics
-    fontDir = os.path.join(os.path.dirname(reportlab.__file__),'fonts')
-    face = pdfmetrics.EmbeddedType1Face(os.path.join(fontDir,'LeERC___.AFM'),
-            os.path.join(fontDir,'LeERC___.PFB'))
-    faceName = face.name  # should be 'LettErrorRobot-Chrome'
+    fontDir = os.path.join(_RL_DIR,'fonts')
+    face = pdfmetrics.EmbeddedType1Face(os.path.join(fontDir,'DarkGardenMK.afm'),
+            os.path.join(fontDir,'DarkGardenMK.pfb'))
+    faceName = face.name  # should be 'DarkGardenMK'
     pdfmetrics.registerTypeFace(face)
     font = pdfmetrics.Font(faceName, faceName, 'WinAnsiEncoding')
     pdfmetrics.registerFont(font)
@@ -302,17 +302,17 @@ def getCommentary():
     story.append(Paragraph(
         """This is an ordinary paragraph, which happens to contain
         text in an embedded font:
-        <font name="LettErrorRobot-Chrome">LettErrorRobot-Chrome</font>.
+        <font name="DarkGardenMK">DarkGardenMK</font>.
         Now for the real challenge...""", styleSheet['Normal']))
 
 
     styRobot = ParagraphStyle('Robot', styleSheet['Normal'])
     styRobot.fontSize = 16
     styRobot.leading = 20
-    styRobot.fontName = 'LettErrorRobot-Chrome'
+    styRobot.fontName = 'DarkGardenMK'
 
     story.append(Paragraph(
-                "This whole paragraph is 16-point Letterror-Robot-Chrome.",
+                "This whole paragraph is 16-point DarkGardenMK.",
                 styRobot))''')
 
     story.append(FrameBreak())
@@ -472,9 +472,9 @@ def getExamples():
     reportlab.rl_config.warnOnMissingFontGlyphs = 0
 
     from reportlab.pdfbase import pdfmetrics
-    fontDir = os.path.join(os.path.dirname(reportlab.__file__),'fonts')
-    face = pdfmetrics.EmbeddedType1Face(os.path.join(fontDir,'LeERC___.AFM'),os.path.join(fontDir,'LeERC___.PFB'))
-    faceName = face.name  # should be 'LettErrorRobot-Chrome'
+    fontDir = os.path.join(_RL_DIR,'fonts')
+    face = pdfmetrics.EmbeddedType1Face(os.path.join(fontDir,'DarkGardenMK.afm'),os.path.join(fontDir,'DarkGardenMK.pfb'))
+    faceName = face.name  # should be 'DarkGardenMK'
     pdfmetrics.registerTypeFace(face)
     font = pdfmetrics.Font(faceName, faceName, 'WinAnsiEncoding')
     pdfmetrics.registerFont(font)
@@ -484,17 +484,17 @@ def getExamples():
     story.append(Paragraph(
         """This is an ordinary paragraph, which happens to contain
         text in an embedded font:
-        <font name="LettErrorRobot-Chrome">LettErrorRobot-Chrome</font>.
+        <font name="DarkGardenMK">DarkGardenMK</font>.
         Now for the real challenge...""", styleSheet['Normal']))
 
 
     styRobot = ParagraphStyle('Robot', styleSheet['Normal'])
     styRobot.fontSize = 16
     styRobot.leading = 20
-    styRobot.fontName = 'LettErrorRobot-Chrome'
+    styRobot.fontName = 'DarkGardenMK'
 
     story.append(Paragraph(
-                "This whole paragraph is 16-point Letterror-Robot-Chrome.",
+                "This whole paragraph is 16-point DarkGardenMK.",
                 styRobot))
     story.append(FrameBreak())
 

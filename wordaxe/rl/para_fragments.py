@@ -224,10 +224,10 @@ class Line(object):
         print_indx_start, print_indx_end = (0, len(self.fragments))
         if not keepWhiteSpace:
             while print_indx_start < len(fragments) \
-            and isinstance(fragments[print_indx_start], StyledSpace):
+            and isinstance(fragments[print_indx_start], StyledWhiteSpace):
                 print_indx_start += 1
             while print_indx_end > print_indx_start \
-            and isinstance(fragments[print_indx_end-1], StyledSpace):
+            and isinstance(fragments[print_indx_end-1], StyledWhiteSpace):
                 print_indx_end -= 1
             # TODO: What to do with two differently styled spaces 
             #       in the middle of the line?

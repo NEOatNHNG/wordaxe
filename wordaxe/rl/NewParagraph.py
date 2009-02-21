@@ -445,6 +445,7 @@ class Paragraph(Flowable):
                 #print id(self), "init with %d lines" % len(lines)
                 for line in lines: assert isinstance(line, Line)
                 self._cache['lines'] = lines
+                self._cache['height'] = sum([line.height for line in lines])
                 self._cache['avail'] = True
             else:
                 #print id(self), "init with frags", frags
@@ -498,11 +499,10 @@ class Paragraph(Flowable):
         """
         #print id(self), "wrap", availW, availH
         avail = self._cache.get('avail')
-        if avail is True or avail == (availW, availH):
-            height = sum([line.height for line in self._cache['lines']])
-            #assert height <= availH + 1e-5, (height, availH)
-            return availW, height
-        else:
+        if (avail is True # paragraph has no frags, only lines
+                or avail == (availW, availH)): # already wrapped to this size
+            return availW, self._cache['height']
+        else: # needs to be wrapped
             style = self.style
             leftIndent = style.leftIndent
             first_line_width = availW - (leftIndent+style.firstLineIndent) - style.rightIndent
@@ -670,6 +670,7 @@ class Paragraph(Flowable):
         self._cache['lines'] = lines
         self._cache['unused'] = unused
         self._cache['avail'] = (availW, availH)
+        self._cache['height'] = sumHeight
         #print "i_wrap returns", availW, sumHeight
         return availW, sumHeight
 

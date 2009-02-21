@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: UTF-8 -*-
 
 __license__="""
    Copyright 2004-2008 Henning von Bargen (henning.vonbargen arcor.de)
@@ -24,6 +24,7 @@ from wordaxe.hyphrules import HyphRule, RULES, AlgorithmError
 
 from wordaxe.hyphrules import NO_CHECKS,StringWithProps,Prefix,Root,Suffix
 from wordaxe.hyphrules import TRENNUNG,NO_SUFFIX,KEEP_TOGETHER
+import wordaxe.dict.DEhyph as DEhyph
 
 DEBUG=0
 
@@ -36,18 +37,18 @@ if DEBUG:
 
 class WordFrag:
     """Helper class for a (partially) parsed WordFrag.
-       A WordFrag is made up from prefixChars, prefix, root, suffix, and suffixChars,
-       i.e. the german word "(unveränderbarkeit)!" 
-       is a WordFrag ( "(", ["un","ver"], "änder", ["bar","keit"], ")!" ).
+       A WordFrag is made up from prefix_chars, prefix, root, suffix, and suffix_chars,
+       i.e. the german word "(unverÃ¤nderbarkeit)!" 
+       is a WordFrag ( "(", ["un","ver"], "Ã¤nder", ["bar","keit"], ")!" ).
     """
        
     def __init__(self,konsonantenverkuerzung_3_2=False):
         self.konsonantenverkuerzung_3_2 = konsonantenverkuerzung_3_2
-        self.prefixChars = ""
+        self.prefix_chars = ""
         self.prefix = []
         self.root = None
         self.suffix = None
-        self.suffixChars = ""
+        self.suffix_chars = ""
         self.checks = [[],[],[],[],[],[]]
 
     def isValid(self):
@@ -67,18 +68,18 @@ class WordFrag:
 class PrefixWordFrag(WordFrag):
     """A WordFrag that does not yet contain the root.
     """
-    def __init__(self,tw,prefixChars="",prefix=[]):
+    def __init__(self,tw,prefix_chars="",prefix=[]):
         if tw is None: tw = WordFrag()
-        # Auch alle sonstigen Attribute der Vorlage mit übernehmen
-        # @TODO Dieser Code ist wirklich hässlich:
+        # Auch alle sonstigen Attribute der Vorlage mit Ã¼bernehmen
+        # @TODO Dieser Code ist wirklich hÃ¤sslich:
         self.__dict__.update(tw.__dict__)
         WordFrag.__init__(self,konsonantenverkuerzung_3_2=tw.konsonantenverkuerzung_3_2)
-        self.prefixChars = prefixChars or tw.prefixChars
+        self.prefix_chars = prefix_chars or tw.prefix_chars
         self.prefix = prefix or tw.prefix
 
     def __str__(self):
        "String representation"
-       return "PrefixWF " + self.prefixChars + "-".join([p.strval for p in self.prefix])
+       return "PrefixWF " + self.prefix_chars + "-".join([p.strval for p in self.prefix])
 
     def clone(self):
         n = copy.copy(self)
@@ -88,16 +89,16 @@ class PrefixWordFrag(WordFrag):
 class SuffixWordFrag(PrefixWordFrag):
     """A WordFrag that does contain a root and eventually a suffix.
     """
-    def __init__(self,tw,root=None,suffix=[],suffixChars=[]):
+    def __init__(self,tw,root=None,suffix=[],suffix_chars=[]):
         if tw is None: tw = PrefixWordFrag(None,[])
         PrefixWordFrag.__init__(self,tw)
         self.root = root or tw.root
         self.suffix = suffix
-        self.suffixChars = suffixChars
+        self.suffix_chars = suffix_chars
 
     def __str__(self):
        "String representation"
-       return "SuffixWF " + self.prefixChars + "-".join([p.strval for p in self.prefix]) + \
+       return "SuffixWF " + self.prefix_chars + "-".join([p.strval for p in self.prefix]) + \
               "|" + self.root.strval + "|" + ":".join([s.strval for s in self.suffix]) + \
               (self.konsonantenverkuerzung_3_2 and "!3>2" or "")
 
@@ -116,7 +117,7 @@ class SuffixWordFrag(PrefixWordFrag):
         
 SWORD = SuffixWordFrag
 
-VOWELS = "aeiouäöüy".decode("iso-8859-1")
+VOWELS = u"aeiouÃ¤Ã¶Ã¼y"
 
 ALTE_REGELN = False
 
@@ -173,7 +174,7 @@ class DCWHyphenator(ExplicitHyphenator):
                  ):
         ExplicitHyphenator.__init__(self,language=language,minWordLength=minWordLength, **options)
 
-        # Qualitäten für verschiedene Trennstellen
+        # QualitÃ¤ten fÃ¼r verschiedene Trennstellen
         self.qHaupt=qHaupt
         self.qNeben=qNeben
         self.qVorsilbe=qVorsilbe
@@ -181,117 +182,86 @@ class DCWHyphenator(ExplicitHyphenator):
         
         # Stammdaten initialisieren
         special_words = []
-        self.stamm = []
+        self.roots = []
         self.prefixes = []
         self.suffixes = []
-        self.prefixChars = []
-        self.suffixChars = []
+        self.prefix_chars = DEhyph.prefix_chars
+        self.suffix_chars = DEhyph.suffix_chars
         self.maxLevel=20
         
         # Statistikdaten initialisieren
         self.numStatesExamined = 0
         
-        # Datei einlesen
-        if hyphenDir is None:
-            hyphenDir = os.path.join (os.path.split(__file__)[0], "dict")
-        wortDateiName = os.path.join(hyphenDir, "%s_hyph.ini"%language)
-        wortdatei = open(wortDateiName, "rt")
-        abchnitt = None
-        propsCanFollow = True
-        cls = None
-        encoding = None
-        for z in wortdatei:
-            zeile = z.strip()
-            if zeile.startswith("# -*- coding: "):
-                encoding = zeile[14:].replace("-*-", "")
-            elif zeile and zeile[0] != "#":
-                zeile = zeile.decode(encoding)
-                assert isinstance(zeile,unicode)
-                if zeile[0]=="[" and zeile[-1:]=="]":
-                    log.debug("Abschnitt: %s", zeile)
-                    if zeile=="[roots]":
-                        abschnitt = self.stamm
-                        propsCanFollow = True
-                        cls = Root
-                    elif zeile=="[special_words]":
-                        abschnitt = special_words
-                        propsCanFollow = True
-                        cls = StringWithProps
-                    elif zeile=="[prefixes]":
-                        abschnitt = self.prefixes
-                        propsCanFollow = True
-                        cls = Prefix
-                    elif zeile=="[suffixes]":
-                        abschnitt = self.suffixes
-                        propsCanFollow = True
-                        cls = Suffix
-                    elif zeile=="[prefix-chars]":
-                        abschnitt = self.prefixChars
-                        propsCanFollow = False
-                        cls = str
-                    elif zeile=="[postfix-chars]":
-                        abschnitt = self.suffixChars
-                        propsCanFollow = False
-                        cls = str
-                else:
-
-                    # Sonderbehandlung [special_words]
-                    if abschnitt is special_words:
-                        if "=" in zeile:
-                            word, trennung = zeile.split("=")
-                        else:
-                            zeile = zeile.split(",")
-                            word = zeile.pop(0)
-                            assert len(zeile) >= 1
-                            for attr in zeile:
-                                if ":" in attr:
-                                    propnam, propval = attr.split(":")
-                                else:
-                                    propnam, propval = attr, ""
-                                if propnam == u"TRENNUNG":
-                                    trennung = propval
-                                elif propnam == u"KEEP_TOGETHER":
-                                    trennung = word
-                                else:
-                                    raise NameError("Unknown property for word %s: %s" % (word, propnam))
-                                    pass # Attribut ignorieren
-                        self.add_entry(word, trennung)
-                        
-                    elif propsCanFollow:
-                        zeile = zeile.split(",")
-                        word = zeile.pop(0)
-                        props = []
-                        if len(zeile) >= 1:
-                          for attr in zeile:
-                            if ":" in attr:
-                                [propnam,propval] = attr.split(":")
-                            else:
-                                propnam = attr
-                                propval = ""
-                            try:
-                                cls = RULES[propnam]
-                                props.append(cls(propval)) # the class is the propnam
-                            except KeyError:
-                                raise NameError("Unknown property for word %s: %s" % (word,propnam))
-
-                        lenword = len(word)
-                        for (lae,L) in abschnitt:
-                            if lae==lenword:
-                              try:
-                                  L[word].append(props)
-                              except KeyError:
-                                  L[word]=[props]
-                              break
-                        else:
-                            abschnitt.append((lenword,{word:[props]}))
+        # [special_words] einlesen
+        for zeile in DEhyph.special_words.splitlines():
+            # Leerzeilen und Kommentare Ã¼berspringen
+            zeile = zeile.strip()
+            if not zeile or zeile.startswith("#"):
+                continue
+            if "=" in zeile:
+                word, trennung = zeile.split("=")
+            else:
+                zeile = zeile.split(",")
+                word = zeile.pop(0)
+                assert len(zeile) >= 1
+                for attr in zeile:
+                    if ":" in attr:
+                        propnam, propval = attr.split(":")
                     else:
-                        abschnitt.append(zeile)
-        assert len(self.prefixChars) <= 1
-        self.prefixChars = self.prefixChars[0]
-        assert len(self.suffixChars) <= 1
-        self.suffixChars = self.suffixChars[0]
-        wortdatei.close()
-        self.stripper = Stripper(self.prefixChars, self.suffixChars)
+                        propnam, propval = attr, ""
+                    if propnam == u"TRENNUNG":
+                        trennung = propval
+                    elif propnam == u"KEEP_TOGETHER":
+                        trennung = word
+                    else:
+                        raise NameError("Unknown property for word %s: %s" % (word, propnam))
+                        pass # Attribut ignorieren
+            self.add_entry(word, trennung)
+
+        
+        # roots, prefixes und suffixes einlesen.
+        # Bei diesen kÃ¶nnen noch - Komma-getrennt - Eigenschaften angegeben sein.
+        # Eine Eigenschaft hat die Form XXX oder XXX:a,b,c
+        for name in ["roots", "prefixes", "suffixes"]:
+            abschnitt = getattr(self, name)
+            zeilen = getattr(DEhyph, name)
+            assert isinstance(zeilen, unicode)
+            for zeile in zeilen.splitlines():
+                # Leerzeilen und Kommentare Ã¼berspringen
+                zeile = zeile.strip()
+                if not zeile or zeile.startswith("#"):
+                    continue
+                # Aufteilen in word und props
+                zeile = zeile.split(",")
+                word = zeile.pop(0)
+                props = []
+                if len(zeile) >= 1:
+                  for attr in zeile:
+                    if ":" in attr:
+                        [propnam,propval] = attr.split(":")
+                    else:
+                        propnam = attr
+                        propval = ""
+                    try:
+                        cls = RULES[propnam]
+                        props.append(cls(propval)) # the class is the propnam
+                    except KeyError:
+                        raise NameError("Unknown property for word %s: %s" % (word,propnam))
+                # Jeder abschnitt ist eine Liste von Tupeln (lae, L), wobei L
+                # ein Dictionary von WÃ¶rtern der LÃ¤nge lae ist und dazu die Liste
+                # der mÃ¶glichen Eigenschaften enthÃ¤lt (dasselbe Wort kann je nach 
+                # Bedeutung unterschiedliche Eigenschaften haben).
+                lenword = len(word)
+                for (lae,L) in abschnitt:
+                    if lae==lenword:
+                      try:
+                          L[word].append(props)
+                      except KeyError:
+                          L[word]=[props]
+                      break
+                else:
+                    abschnitt.append((lenword,{word:[props]}))
+        self.stripper = Stripper(self.prefix_chars, self.suffix_chars)
 
     def _zerlegeWort(self,zusgWort):
         """"
@@ -435,16 +405,16 @@ class DCWHyphenator(ExplicitHyphenator):
                 
                     # check prefix characters
                     l = 0
-                    while l<len(remainder) and remainder[l] in self.prefixChars:
+                    while l<len(remainder) and remainder[l] in self.prefix_chars:
                         l = l+1
                     if l>0:
-                        ###HVB, 14.10.2006 geändert
+                        ###HVB, 14.10.2006 geÃ¤ndert
                         ###newfrag = frag.clone()
-                        ###newfrag.prefixChars = remainder[:l]
+                        ###newfrag.prefix_chars = remainder[:l]
                         ###r = remainder[l:]
                         ###todo.append ( (cword,newfrag,r,checks) )
                         ###continue # do not examine the current state any more.
-                        newfrag = PrefixWordFrag(None, prefixChars=remainder[:l])
+                        newfrag = PrefixWordFrag(None, prefix_chars=remainder[:l])
                         r = remainder[l:]
                         todo.append ( (cword,newfrag,r,checks) )
                         continue # do not examine the current state any more.
@@ -478,7 +448,7 @@ class DCWHyphenator(ExplicitHyphenator):
                      
                     # check all possible roots.
                     #log.debug ("checking roots.")
-                    for (lae,L) in self.stamm:
+                    for (lae,L) in self.roots:
                       l,r = remainder[:lae],remainder[lae:]
                       for eigenschaften in L.get(l,[]):
                           #log.debug ("trying root: %r with properties: %r", l,eigenschaften)
@@ -493,12 +463,12 @@ class DCWHyphenator(ExplicitHyphenator):
                                       newChecks[HyphRule.PRE_NEXT_PIECE] = pChecks[HyphRule.PRE_NEXT_PIECE]
                                       newfrag = SuffixWordFrag(frag,piece)
                                       todo.append( (cword,newfrag,r,newChecks) )
-                                      # Auch Verkürzung von 3 Konsonanten zu zweien berücksichtigen
+                                      # Auch VerkÃ¼rzung von 3 Konsonanten zu zweien berÃ¼cksichtigen
                                       if KONSTANTEN_VERKUERZUNG_3_2 and l[-1]==l[-2] and l[-1] not in VOWELS:
                                           #log.debug ("konsonantenverkuerzung %s",l)
                                           newChecks = mergeChecks(checks,pChecks)
                                           newChecks[HyphRule.PRE_PIECE] = []
-                                          # Konsonsantenverkürzung kommt nur bei Haupttrennstellen
+                                          # KonsonsantenverkÃ¼rzung kommt nur bei Haupttrennstellen
                                           # vor, nicht vor Suffixes.
                                           newChecks[HyphRule.PRE_NEXT_PIECE] = [NO_SUFFIX()] + pChecks[HyphRule.PRE_NEXT_PIECE]
                                           newPiece = Root(l,eigenschaften)
@@ -539,13 +509,13 @@ class DCWHyphenator(ExplicitHyphenator):
                               pass # pre piece checks failed
                      
                     # check suffix characters
-                    if not frag.suffixChars:
+                    if not frag.suffix_chars:
                         l = 0
-                        while l<len(remainder) and remainder[l] in self.suffixChars:
+                        while l<len(remainder) and remainder[l] in self.suffix_chars:
                             l = l+1
                         if l>0:
                             newfrag = frag.clone()
-                            newfrag.suffixChars = remainder[:l]
+                            newfrag.suffix_chars = remainder[:l]
                             r = remainder[l:]
                             if check_PRE_WORD(cword,frag,checks) \
                             and check_PRE_NEXT_WORD(cword,frag,checks):
@@ -626,7 +596,7 @@ class DCWHyphenator(ExplicitHyphenator):
                 fertig = False
             if vpos2==vpos1+1:
                 # a sequence of two vowels, like German "ei" or "au", or English "ou" or "oi"
-                if wort[vpos1:vpos2+1] in [u'äu', u'au', u'eu', u'ei', u'ie', u'ee']:
+                if wort[vpos1:vpos2+1] in [u'Ã¤u', u'au', u'eu', u'ei', u'ie', u'ee']:
                     # Treat the sequence as if it was one vowel!
                     stpos = vpos2+1
                     fertig = False
@@ -649,15 +619,15 @@ class DCWHyphenator(ExplicitHyphenator):
 
         #Wort erstmal normalisieren
         assert isinstance(zusgWort,unicode)
-        zusgWort = zusgWort.lower().replace(u'Ä',u'ä').replace(u'Ö',u'ö').replace(u'Ü',u'ü')
+        zusgWort = zusgWort.lower().replace(u'Ã„',u'Ã¤').replace(u'Ã–',u'Ã¶').replace(u'Ãœ',u'Ã¼')
         lenword = len(zusgWort)
         #print zusgWort
         loesungen = []
 
         L = self._zerlegeWort(zusgWort)
-        # Trennung für Wortstämme mit Endungen berichtigen
+        # Trennung fÃ¼r WortstÃ¤mme mit Endungen berichtigen
         for W in L:
-            # Eine mögliche Lösung. Von dieser die einzelnen Wörter betrachten
+            # Eine mÃ¶gliche LÃ¶sung. Von dieser die einzelnen WÃ¶rter betrachten
             Wneu = []
             offset = 0
             ok = True
@@ -665,11 +635,11 @@ class DCWHyphenator(ExplicitHyphenator):
             sr = ""
             for i,w in enumerate(W):
                 if not ok: break
-                offset += len(w.prefixChars)
+                offset += len(w.prefix_chars)
                 if i>0:
                     # @TODO: Hier darf nicht fest shy stehen, da
-                    # das letzte Wort mit "-" geendet haben könnte
-                    lastWordSuffixChars = W[i-1].suffixChars
+                    # das letzte Wort mit "-" geendet haben kÃ¶nnte
+                    lastWordSuffixChars = W[i-1].suffix_chars
                     if lastWordSuffixChars and lastWordSuffixChars[len(lastWordSuffixChars)-1][-1:] in [u"-",self.shy]:
                         Wneu.append(HyphenationPoint(offset,self.qHaupt,0,"",0,sr))
                     else:
@@ -684,7 +654,7 @@ class DCWHyphenator(ExplicitHyphenator):
                         Wneu += self.schiebe(offset,self.dudentrennung(f.strval,self.qVorsilbe))
                         offset += len(f.strval)
                         Wneu.append(HyphenationPoint(offset,7,0,self.shy,0,u""))
-                        # @TODO Qualität 7 ist hier fest eingebrannt
+                        # @TODO QualitÃ¤t 7 ist hier fest eingebrannt
                 for p in w.root.props:
                   if isinstance(p,TRENNUNG) or isinstance(p,KEEP_TOGETHER):
                     st = p.args
@@ -703,7 +673,7 @@ class DCWHyphenator(ExplicitHyphenator):
                     ent = self.dudentrennung(en,self.qNeben)
                     #print "en=",en,"ent=",ent
                     Wneu += self.schiebe(offset,ent)
-                    # Prüfen, ob dieses Wort als letztes stehen muss
+                    # PrÃ¼fen, ob dieses Wort als letztes stehen muss
                 #
                 #for pf in w.prefix + [w.root] + w.suffix:
                 #    if i>0 and pf.props.get(NOT_AFTER_WORD) and str(W[i-1].root) in pf.props.get(NOT_AFTER_WORD):
@@ -727,7 +697,7 @@ class DCWHyphenator(ExplicitHyphenator):
                 #        ok = False
                 #        break
                 offset += len(en)
-                offset += len(w.suffixChars)
+                offset += len(w.suffix_chars)
             if ok and (Wneu not in loesungen):
                 log.debug ("Wneu=%r", Wneu)
                 loesungen.append(Wneu)
@@ -741,8 +711,8 @@ class DCWHyphenator(ExplicitHyphenator):
         if len(loesungen) > 1:
             # Trennung ist nicht eindeutig, z.B. bei WachsTube oder WachStube.
             #hword.info = ("AMBIGUOUS", loesungen)
-            # nimm nur solche Trennstellen, die in allen Lösungen vorkommen,
-            # und für die Qualität nimm die schlechteste.
+            # nimm nur solche Trennstellen, die in allen LÃ¶sungen vorkommen,
+            # und fÃ¼r die QualitÃ¤t nimm die schlechteste.
             loesung = []
             loesung0, andere = loesungen[0], loesungen[1:]
             for i,hp in enumerate(loesung0):
@@ -756,7 +726,7 @@ class DCWHyphenator(ExplicitHyphenator):
                                 q = min(q,hp1.quality)
                                 break
                         else:
-                            # Trennstelle nicht in der anderen Lösung enthalten
+                            # Trennstelle nicht in der anderen LÃ¶sung enthalten
                             q = 0
                 if q:
                     loesung.append(HyphenationPoint(hp.indx,q,hp.nl,hp.sl,hp.nr,hp.sr))

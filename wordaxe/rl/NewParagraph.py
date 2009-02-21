@@ -59,7 +59,6 @@ Ascent:
 
 from reportlab.lib.units import cm
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
-from reportlab.platypus.paraparser import ParaParser
 from reportlab.platypus.flowables import Flowable
 from reportlab.rl_config import platypus_link_underline
 import re
@@ -67,6 +66,7 @@ from copy import copy, deepcopy
 
 import wordaxe
 from wordaxe.hyphen import HyphenationPoint, SHY, HyphenatedWord, Hyphenator
+from wordaxe.rl.paraparser import ParaParser, NoBrParaParser
 from wordaxe.rl.para_fragments import *
 
 pt = 1 # Points is the base unit in RL
@@ -463,13 +463,13 @@ class Paragraph(Flowable):
 
     def parse(self, text, style, bulletText):
         """
-        Use the ParaParser to create a list of words.
+        Use the NoBrParaParser to create a list of words.
         Yields StyledWords, StyledSpace and other entries,
         but StyledTexts are grouped to StyledWords.
         """
         wordFrags = []
-        "Use the ParaParser to create a sequence of fragments"
-        parser = ParaParser()
+        "Use the NoBrParaParser to create a sequence of fragments"
+        parser = NoBrParaParser()
         parser.caseSensitive = self.caseSensitive
         style, frag_list, bullet_frag_list = parser.parse(text, style)
         if bullet_frag_list:
@@ -985,13 +985,13 @@ class Paragraph(Flowable):
     # finding bestSolution where the word uses possibly several different font styles
     # (action,left,right,spaceWasted) = self.findBestSolution(frags,w,currentWidth,maxWidth,windx<len(words))
     def findBestSolution(self, frags, word, space_remaining, try_squeeze):
-        if self.style.hyphenation:
+        assert isinstance(word, StyledWord)
+        assert space_remaining <= word.width
+        if self.style.hyphenation and not hasattr(word, "nobr"):
             hyphenator = wordaxe.hyphRegistry.get(self.style.language,None)
         else:
             # Hyphenation deactivated
             hyphenator = None
-        assert isinstance(word, StyledWord)
-        assert space_remaining <= word.width
 
         #print "findBestSolution %s %s %s" % (frags, word, space_remaining)
         nwords = len([True for frag in frags if isinstance(frag,StyledWord)])

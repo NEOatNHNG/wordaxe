@@ -35,6 +35,8 @@ class StyledText(StyledFragment):
         super(StyledText, self).__init__(style)
         self.text = text
         self.width = self.str_width(text, style)
+        if hasattr(style, "nobr"):
+            self.nobr = True
         cbDefn = getattr(style,"cbDefn", None)
         if cbDefn is not None and not self.width:
             self.width = getattr(cbDefn, "width", 0)
@@ -90,6 +92,10 @@ class StyledWord(Fragment):
         # Breite berechnen
         self.text = u"".join([f.text for f in fragments])
         self.width = sum([f.width for f in fragments])
+        for f in fragments:
+            if hasattr(f, "nobr"):
+                self.nobr = True
+                break
         
     def __str__(self):
         return "SW(%s)" % self.text.encode("utf-8")

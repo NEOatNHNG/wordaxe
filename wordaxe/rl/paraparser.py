@@ -20,3 +20,12 @@ class ParaParser(_orig_parser):
         enc = self._enc
         
         return _orig_parser.parse(self, text, style)
+
+class NoBrParaParser(ParaParser):
+    """ParaParser with support for 'nobr' Tags."""
+
+    def start_nobr( self, attributes ):
+        self._push(nobr=True)
+
+    def end_nobr( self ):
+        self._pop(nobr=True)

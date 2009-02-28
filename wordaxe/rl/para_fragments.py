@@ -176,40 +176,6 @@ class StyledWord(Fragment):
         right.text = rtext
         return left, right        
 
-        # OLD CODE
-
-        print "left,right=", left, right
-        # now restore the styled fragments for left + right
-        remaining = self.fragments[:]
-        lfrags = list()
-        ltext = u""
-        rfrags = list()
-        rtext = u""
-        while remaining and ltext.startswith(ltext + remaining[0].text):
-            frag = remaining.pop(0)
-            ltext += frag.text
-            lfrags.append(frag)
-        while remaining and rtext.endswith(remaining[-1].text + rtext):
-            frag = remaining.pop(-1)
-            rtext = frag.text + rtext
-            rfrags.insert(0, frag)
-        # Now at most 2 frags might remain.
-        # Decide whether they belong to left or right
-        assert len(remaining) <= 2, (lfrags, rfrags, remaining)
-        if remaining:
-            if type(hp) is int:
-                indx = hp
-            else:
-                indx = hp.indx
-            lfrags.append(StyledText(left[len(ltext):], remaining[0].style))
-            if rtext:
-                rfrags.insert(0, StyledText(right[:-len(rtext)], remaining[-1].style))
-            else:
-                rfrags.insert(0, StyledText(right, remaining[-1].style))
-        left = StyledWord(lfrags)
-        right = StyledWord(rfrags)
-        return (left,right)
-
 
 class Line(object):
     "A single line in the paragraph"

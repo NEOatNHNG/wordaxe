@@ -13,13 +13,13 @@ setup(
     author_email = "henning.vonbargen@arcor.de",
     maintainer = "Henning von Bargen",
     maintainer_email = "henning.vonbargen@arcor.de",
-    license = "Apache License, version 2.0 or Free BSD License",
-    platforms = ["Unix", "Windows"],
-    keywords = ["multi-language", "hyphenation", "paragraphs", "reportlab"],
+    license = ["Apache License, version 2.0", "Free BSD License"],
+    platforms = ["Unix", "Windows", "generic"],
+    keywords = ["multi-language", "text processing", "hyphenation", "paragraphs", "reportlab"],
     url = "http://deco-cow.sourceforge.net",
-    download_url = "http://sourceforge.net/project/showfiles.php?group_id=105867",
+    download_url = "http://sourceforge.net/project/platformdownload.php?group_id=105867",
     packages = ["wordaxe", "wordaxe/rl", "wordaxe/plugins"],
-    package_data = {"wordaxe": ["dict/*.ini", "dict/*.dic"]},
+    package_data = {"wordaxe": ["dict/*.dic", ]},
 )
 
 

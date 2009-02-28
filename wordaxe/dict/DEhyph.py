@@ -145,6 +145,7 @@ biet
 bild
 bind
 binnen
+birg
 birn
 bis
 biss
@@ -179,10 +180,12 @@ bräuch,NEED_SUFFIX
 braun
 bräun,NEED_SUFFIX
 brech
+brei
 breit
 brems
 brenn
 brett
+brief
 bring
 broch,NEED_SUFFIX
 brot
@@ -701,6 +704,7 @@ joystick,TRENNUNG:joy5stick
 jubel
 jude
 jüd,NEED_SUFFIX
+jugend
 jung
 jüng,NEED_SUFFIX
 junkt,FREMDWORT,NEED_SUFFIX
@@ -1081,6 +1085,7 @@ netz
 nicht
 nick
 nie
+nieder
 niedrig
 niemand
 nieß
@@ -1286,6 +1291,7 @@ restaur,FREMDWORT,NEED_SUFFIX
 rhein
 richt
 riech
+ries
 right,ENGLISCH
 ring
 risiko

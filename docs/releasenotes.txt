@@ -1,6 +1,30 @@
-Release Notes for wordaxe 0.3.1
+Release Notes for wordaxe 0.3.2
 
-H. von Bargen, February 2009
+H. von Bargen, March 2009
+
+Release 0.3.2
+
+Bug fixes and small improvements.
+Using wordaxe within rst2pdf should work fine now.
+Special thanks to Christoph Zwerschke and Harald Armin Massa.
+
+Support for nobr tag: not exactly how nobr works in HTML, but in a way
+that allows disabling hyphenation for some words within a Paragraph with
+hyphenation enabled, like this:
+"Use the <nobr>--with-error-correction</nobr> option to automatically
+correct all program errors."
+
+In order to make it easier to package applications with py2exe, the
+German hyphenation dictionary used by DCWHyphenator is now a Python file.
+
+Fixed problems with multibuild.
+
+Fixed: If a paragraph contained explicit line breaks ("<br/>"), the width
+was not calculated correctly.
+
+Cleaned up the test suite.
+
+Added missing attributes/methods.
 
 Release 0.3.1
 
@@ -28,8 +52,6 @@ Release 0.2.6
 * Support for pyhyphen
 
 * Fixed a few bugs
-
-History:
 
 Release 0.2.5
 

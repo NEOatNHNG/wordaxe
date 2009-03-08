@@ -59,6 +59,17 @@ Ascent:
 
 from reportlab.lib.units import cm
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
+try:
+    from reportlab.lib.geomutils import normalizeTRBL
+except ImportError:
+    def normalizeTRBL(p):
+        # the essence of the normalizeTRBL function in Reportlab 2.3
+        if not isinstance(p, (tuple, list)):
+            return (p, p, p, p)
+        l = len(p)
+        return tuple(p) + tuple([ p[i-2] for i in range(l, 4) ])
+
+
 from reportlab.platypus.flowables import Flowable
 from reportlab.rl_config import platypus_link_underline
 import re
@@ -827,10 +838,12 @@ class Paragraph(Flowable):
                 canvas.setFillColor(bg)
                 kwds['fill'] = 1
             bp = getattr(style,'borderPadding',0)
-            op(leftIndent-bp,
-                        -bp,
-                        self.width - (leftIndent+style.rightIndent)+2*bp,
-                        self.height+2*bp,
+            tbp, rbp, bbp, lbp = normalizeTRBL(bp)
+
+            op(leftIndent - lbp,
+                        -bbp,
+                        self.width - (leftIndent+style.rightIndent) + lbp+rbp,
+                        self.height + tbp+bbp,
                         **kwds)
             canvas.restoreState()
 

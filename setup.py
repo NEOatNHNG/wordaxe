@@ -18,8 +18,7 @@ setup(
     keywords = ["multi-language", "text processing", "hyphenation", "paragraphs", "reportlab"],
     url = "http://deco-cow.sourceforge.net",
     download_url = "http://sourceforge.net/project/platformdownload.php?group_id=105867",
-    packages = ["wordaxe", "wordaxe/rl", "wordaxe/plugins"],
-    package_data = {"wordaxe": ["dict/*.dic", ]},
+    packages = ["wordaxe", "wordaxe/rl", "wordaxe/plugins", "wordaxe/dict"]
 )
 
 
@@ -33,7 +32,7 @@ def fileHash(path):
     h = md5.new()
     h.update(open(path, "rb").read())
     return h.hexdigest()
-    
+
 setupCommand = sys.argv[-1]
 
 if setupCommand == "install":
@@ -55,4 +54,4 @@ if setupCommand == "install":
                 print "no update of '%s' needed" % src
     except ImportError:
         print "Note: ReportLab is not properly installed."
-        
+

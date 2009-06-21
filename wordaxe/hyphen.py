@@ -93,18 +93,16 @@ class HyphenatedWord(unicode):
     
     def __new__(klass, word, hyphenations=None, encoding="utf-8", errors='strict'):
         if isinstance(word, unicode):
-            return unicode.__new__(klass, word)
-        return unicode.__new__(klass, word, encoding, errors)
-    
-    def __init__(self, word, hyphenations=None, encoding="utf-8", errors='strict'):
-        "Constructor using the string aWord and a list of hyphenation points."
-        super(HyphenatedWord, self).__init__(word, encoding, errors)
+            o = unicode.__new__(klass, word)
+        else:
+            o = unicode.__new__(klass, word, encoding, errors)
         if hyphenations is not None:
-            self.hyphenations = hyphenations
+            o.hyphenations = hyphenations
         elif hasattr(word, "hyphenations"):
-            self.hyphenations = word.hyphenations
+            o.hyphenations = word.hyphenations
         else:
             raise ValueError("'hyphenations' Argument is missing")
+        return o
             
     def __str__(self):
         return self.encode("utf-8")

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # A new paragraph implementation
@@ -637,6 +637,11 @@ class Paragraph(Flowable):
                     for f in reversed(lineFrags):
                         if isinstance(f, StyledSpace) or not f.width:
                             width -= f.width
+                    
+                            # workaround for tracker item id 2741874: Assert on Paragraph with para tags
+                            # at least the code now looks the same as in the "LINEFEED" case.
+                            if width < 0:
+                                width = 0 
                         else:
                             break
                 line = Line(lineFrags, width, lineHeight, baseline, max_width - width, self.keepWhiteSpace)

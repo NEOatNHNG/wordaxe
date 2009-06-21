@@ -10,7 +10,6 @@ __license__="""
 __version__=''' $Id: __init__.py,v 1.2 2004/05/31 22:22:12 hvbargen Exp $ '''
 
 import os,sys
-import sets
 import copy
 import operator
 import codecs

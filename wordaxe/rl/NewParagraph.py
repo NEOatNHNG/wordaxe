@@ -1050,19 +1050,23 @@ class Paragraph(Flowable):
             # We have to make a hard break in the word
             #print "FORCE Hyphenation"
             # force at least a single character into this line
-            left, right = word.splitAt(HyphenationPoint(1,1,0,"",0,""))
-            bestSolution = (self.HYPHENATE, left, right, 0)
-            for p in range(1,len(word.text)):
-                if word.text[p-1] not in ["-",SHY]:
-                    r = SHY
-                else:
-                    r = ""
-                left,right = word.splitAt(HyphenationPoint(p,1,0,r,0,""))
-                if left.width <= space_remaining:
-                    bestSolution = (self.HYPHENATE, left, right, space_remaining - left.width)
-                else:
-                    # does not fit anymore
-                    break
+            if not word.fragments:
+                # this might happen in the degenerated case SW()
+                bestSolution = (self.SQUEEZE, word, None, space_remaining - word.width)
+            else:
+                left, right = word.splitAt(HyphenationPoint(1,1,0,"",0,""))
+                bestSolution = (self.HYPHENATE, left, right, 0)
+                for p in range(1,len(word.text)):
+                    if word.text[p-1] not in ["-",SHY]:
+                        r = SHY
+                    else:
+                        r = ""
+                    left,right = word.splitAt(HyphenationPoint(p,1,0,r,0,""))
+                    if left.width <= space_remaining:
+                        bestSolution = (self.HYPHENATE, left, right, space_remaining - left.width)
+                    else:
+                        # does not fit anymore
+                        break
 
         #print "bestSolution for", word, "returns:", HVBDBG.s(bestSolution)
         return bestSolution

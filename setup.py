@@ -18,7 +18,8 @@ setup(
     keywords = ["multi-language", "text processing", "hyphenation", "paragraphs", "reportlab"],
     url = "http://deco-cow.sourceforge.net",
     download_url = "http://sourceforge.net/project/platformdownload.php?group_id=105867",
-    packages = ["wordaxe", "wordaxe/rl", "wordaxe/plugins", "wordaxe/dict"]
+    packages = ["wordaxe", "wordaxe/rl", "wordaxe/plugins", "wordaxe/dict"],
+    package_data = {"wordaxe": ["dict/*.dic" ]}
 )
 
 
@@ -28,7 +29,7 @@ setup(
 import sys, shutil, os.path, md5
 
 def fileHash(path):
-    "Return MD5 hash of an entire file."
+    """Return MD5 hash of an entire file."""
     h = md5.new()
     h.update(open(path, "rb").read())
     return h.hexdigest()

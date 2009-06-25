@@ -26,17 +26,24 @@ setup(
 # Backup original Reportlab's file rl_codecs.py -> rl_codecs.py.bak
 # and replace the original with the one in hyphenation/rl if needed.
 
-import sys, shutil, os.path, md5
-
-def fileHash(path):
-    """Return MD5 hash of an entire file."""
-    h = md5.new()
-    h.update(open(path, "rb").read())
-    return h.hexdigest()
+import sys
 
 setupCommand = sys.argv[-1]
 
 if setupCommand == "install":
+
+    from shutil import copy2
+    try:
+        from hashlib import md5
+    except ImportError: # Python < 2.5
+        from md5 import new as md5
+
+    def fileHash(path):
+        """Return MD5 hash of an entire file."""
+        h = md5()
+        h.update(open(path, "rb").read())
+        return h.hexdigest()
+
     try:
         import reportlab
         if reportlab.Version <= "2.3":
@@ -48,9 +55,9 @@ if setupCommand == "install":
             if fileHash(src) != fileHash(new):
                 bak = src + ".bak"
                 print "backing up %s -> %s" % (src, bak)
-                shutil.copy2(src, bak)
+                copy2(src, bak)
                 print "copying %s -> %s" % (new, src)
-                shutil.copy2(new, src)
+                copy2(new, src)
             else:
                 print "no update of '%s' needed" % src
     except ImportError:

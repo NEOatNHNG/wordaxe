@@ -1,22 +1,23 @@
 How to install
 --------------
 
-0. The sources have been developed and tested under Python 2.5
-   and ReportLab 2.1 and 2.2.
+0. The sources have been developed and tested under Python 2.5 and 2.6
+   and ReportLab 2.3. It should work as well with Python 2.4 and with
+   ReportLab 2.1 or 2.2.
    If you are using an older version of Python or ReportLab,
    it will probably not work without some fiddling, since it uses
    at least the boolean constants True and False.
    For users of RL 1.19: Remember that you may have to change your
-   code for RL 2.1 (paragraph encoding should be UTF8).
+   code for RL 2.x (paragraph encoding should be UTF8).
 
-1. Download the file wordaxe-0.3.2.zip from the SourceForge web site
+1. Download the file wordaxe-0.3.3.zip from the SourceForge web site
    http://sourceforge.net/project/showfiles.php?group_id=105867
 
 2. Unzip the files in the ZIP archive to the root directory
-   (inside the archive, everything is in a directory "wordaxe-0.3.2".
+   (inside the archive, everything is in a directory "wordaxe-0.3.3".
    This will create the following structure:
    C:\
-     wordaxe-0.3.2
+     wordaxe-0.3.3
        htdocs
          css
          examples
@@ -29,19 +30,23 @@ How to install
    The files have been developed under MS Windows. Perhaps you need
    to convert line-endings on other platforms.
    
+   If you already have an older version of wordaxe installed
+   and you have extended DEhyph.py, be sure to make a BACKUP COPY
+   of this file, because it will be overwritten during the next step!
+   
 3. Run setup.py install
 
    Alternatively, if your ReportLab version is older than 2.3, you'll have to
    make a backup of the file reportlab\pdfbase\rl_codecs.py
    from your reportlab installation, then overwrite it with the version 
-   found in c:\wordaxe-0.3.2\wordaxe\rl\rl_codecs.py.
+   found in c:\wordaxe-0.3.3\wordaxe\rl\rl_codecs.py.
    Note: This will change only 2 lines that effect the handling of
    the "shy" character.
    
 4. If you didn't use setup.py install, then you have to manually add wordaxe
    to your python path, for example by creating a corresponding file 
    wordaxe.pth in your lib/site-packages directory, containing the text
-   c:\wordaxe-0.3.2
+   c:\wordaxe-0.3.3
    Make sure that "import wordaxe" does not produce an error message.
    
 5. Unless you have used the "shy" character (0xAD) in your text,
@@ -64,23 +69,34 @@ How to install
    with
      from wordaxe.rl.paragraph import Paragraph
      from wordaxe.rl.styles import ParagraphStyle, getSampleStyleSheet
-     
 
 Remarks:
 
-The pyHnj hyphenation algorithm hung on my private computer (on XP)
-when using umlauts, whereas it worked on another computer (on Win2000).
-If you want to try it, just use
-hyphRegistry['DE'] = PyHnjHyphenator('de_DE')
+Apart from the DCWHyphenator, wordaxe supports other hyphenation
+algorithms:
 
+PyHnjHyphenator: This is deprecated, because the pyHnj hyphenation
+algorithm hung on my private computer (on XP) when using umlauts
+(whereas it worked on another computer on Win2000).
 As a workaround, I added a pure Python version that does not hang on umlauts;
 you can use it by adding the keyword argument purePython=True in the constructor.
+If you dare to PyHnjHyphenator nevertheless, just use 
+    from wordaxe.PyHnjHyphenator import PyHnjHyphenator
+    hyphRegistry['DE'] = PyHnjHyphenator('de_DE')
+
+plugins.PyHyphenHyphenator:
+This is much faster than DCWHyphenator and uses the Open Office
+hyphenation C library. You have to download and install PyHyphen
+(http://pypi.python.org/pypi/PyHyphen) before you can use it.
+    from wordaxe.plugins.PyHyphenHyphenator import PyHyphenHyphenator
+    hyphRegistry['DE'] = PyHyphenHyphenator('de_DE')
 
 The pattern files for the pyHnj hyphenation algorithm (*.dic) 
 are from Open Office (http://www.openoffice.org).
 As far as I know, they can be freely distributed.
 For details of the Open Office license please visit the Open Office web site.
 
+More about the DCWHyphenator:
 You can run DCWHyphenator.py -g -f testfile.txt
 This will create a file DCWLearn.html.
 Unknown words will be marked red in there.

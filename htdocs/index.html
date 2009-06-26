@@ -14,9 +14,9 @@
    <div align="center" class="titlepage">
     <h1>wordaxe : Hyphenation by decomposition of compound words</h1>
     <p>
-     <strong>Release 0.3.2</strong>
+     <strong>Release 0.3.3</strong>
 	   <br>
-	   <strong>March 2009</strong>
+	   <strong>June 2009</strong>
 	   <br>
 	   <strong>For more up-to-date information, take a look at the <a href="http://deco-cow.wiki.sourceforge.net">wiki</a>
 	           or <a href="http://sourceforge.net/project/showfiles.php?group_id=105867">download</a> the package and look at doc directory.</strong>
@@ -42,7 +42,7 @@
      <ul>
       <li><tt>BaseHyphenator</tt> is language-independent and splits words
           only after a few special characters (in particular, <tt>'-'</tt>).</li>
-      <li><tt>PyHnjHyphenator</tt> is a pure Python implementation of the
+      <li><tt>PyHnjHyphenator</tt> (deprecated) is a pure Python implementation of the
           hyphenation algorithm used in TeX and <a href="http://www.openoffice.org">OpenOffice</a>.</li>
       <li><tt>wordaxe.plugins.PyHyphenHyphenator</tt> uses the
           <a href="http://pypi.python.org/pypi/PyHyphen/">pyhyphen</a>
@@ -60,12 +60,12 @@
    </p>
    <h2>Facts</h2>
     <ul>
-     <li><em>Pure Python:</em> The library can work in a pure Python environment,
+     <li><em>Pure Python:</em> The library itself can work in a pure Python environment,
          it does not require any C libraries.</li>
      <li><em>ReportLab support:</em> You can use the hyphenation library for automatic
          hyphenation of <tt>Paragraph</tt>s in the
          <a href="http://www.reportlab.org">ReportLab</a> PDF generation toolkit.</li>
-     <li><em>Extendable:</em> The word base is a simple ASCII text file (<tt>DE_hyph.ini</tt>),
+     <li><em>Extendable:</em> The word base is a simple ASCII text file (<tt>DEhyph.py</tt>),
          containing base words, prefixes and suffixes.
          If you encounter words the algorithm does not know,
          you can just add the base words, prefixes and suffixes to the file as needed.</li>
@@ -94,7 +94,7 @@
   <div>
    <h2>Requirements</h2>
     <ul>
-     <li><em>Python 2.4:</em> The library was developed with Python 2.5 and should work with Python 2.4 or newer4.
+     <li><em>Python 2.4:</em> The library was developed with Python 2.6 and should work with Python 2.4 or newer4.
          It could be back-ported to 2.2 or 2.3, but that would certainly require some fiddling.</li>
      <li><em>ReportLab 2.3:</em> If you want to use the hyphenation inside the
          <a href="http://www.reportlab.org">ReportLab toolkit (http://www.reportlab.org)</a>,
@@ -103,7 +103,7 @@
          Older versions of the library work with ReportLab 2.0 and 1.19 (not recommended).</li>
      <li><em>PyHnj:</em> If you want to use the libhnj C library (not recommended for German language),
          then you also need the <a href="http://hkn.eecs.berkeley.edu/~dyoo/python/pyHnj/">pyHnj library</a> from Danny Yoo.</li>
-     <li><em>pyhyphen</em> If you want to use pyhyphen-based hyphenator,
+     <li><em>PyHyphen</em> If you want to use the PyHyphen-based hyphenator,
          you have to install that library of course.</li>
     </ul>
   </div>

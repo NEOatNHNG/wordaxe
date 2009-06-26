@@ -1,6 +1,13 @@
-Release Notes for wordaxe 0.3.2
+Release Notes for wordaxe 0.3.3
 
-H. von Bargen, March 2009
+H. von Bargen, June 2009
+
+Release 0.3.3
+
+Wordaxe now works without warnings under Python 2.6.
+Fixed some bugs in the setup script (thanks to Christoph).
+Fixed a few bugs that occured when wordaxe was called
+from rst2pdf (thanks to Roberto Alsina for providing test cases).
 
 Release 0.3.2
 

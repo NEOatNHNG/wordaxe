@@ -1,6 +1,6 @@
 = wordaxe Silbentrennung =
 
-Henning von Bargen, März 2009, Release 0.3.2
+Henning von Bargen, Juni 2009, Release 0.3.3
 
 == Übersicht ==
 
@@ -43,8 +43,8 @@ Distribution übernommen, sie stehen unter der GNU LGPL Lizenz.
 
 === ReportLab 2.3 ===
 
-wordaxe Release 0.3.2 wurde mit Python 2.5 und ReportLab 2.3 getestet,
-sollte jedoch problemlos auch mit Python 2.4 funktionieren, da keine neuen 
+wordaxe Release 0.3.3 wurde mit Python 2.6 und ReportLab 2.3 getestet,
+sollte jedoch problemlos auch mit Python 2.4 oder 2.5 funktionieren, da keine neuen 
 Features von Python 2.5 verwendet werden.
 
 ReportLab 2.3 kann von <a href="http://www.reportlab.org">www.reportlab.org</a>
@@ -66,16 +66,20 @@ zu beachten, dass bestehender Code evtl. angepasst werden muss, da als
 "paragraph encoding" immer UTF8 benutzt werden muss.
 
 === Installation wordaxe Schritt für Schritt ===
-1. Das ZIP-Archiv wordaxe-0.3.2.zip von der SourceForge Seite
+1. Das ZIP-Archiv wordaxe-0.3.3.zip von der SourceForge Seite
    (siehe <a href="#bezug">Bezug</a>) herunterladen.
 
-2. Das ZIP-Archiv wordaxe-0.3.2.zip im Wurzelverzeichnis C:\ entpacken
-   (innerhalb des Archivs liegen alle Dateien in einem Verzeichnis "wordaxe-0.3.2").
+2. Das ZIP-Archiv wordaxe-0.3.3.zip im Wurzelverzeichnis C:\ entpacken
+   (innerhalb des Archivs liegen alle Dateien in einem Verzeichnis "wordaxe-0.3.3").
    Dadurch wird die folgende Verzeichnisstruktur angelegt:
+
+Falls bereits eine ältere Version von wordaxe installiert war
+und die Datei DEhyph.py erweitert wurde, dann muss von dieser
+Datei unbedingt eine <b>Sicherheitskopie</b> angelegt werden!
 
 {{{
 C:
-    wordaxe-0.3.2
+    wordaxe-0.3.3
         docs
         htdocs
             css
@@ -93,24 +97,24 @@ C:
 3a. Auf der Kommandozeile ausführen:
 
 {{{
-cd /d c:\wordaxe-0.3.2
+cd /d c:\wordaxe-0.3.3
 setup.py install
 }}}
    
 3b. Alternativ:
    Für ReportLab 2.2 oder älter: eine Sicherheitskopie der Datei reportlab\pdfbase\rl_codecs.py von der
    ReportLab Installation anlegen; anschließend die Datei ersetzen
-   durch die mitgelieferte angepasste Version in c:\wordaxe-0.3.2\wordaxe\rl\rl_codecs.py.
+   durch die mitgelieferte angepasste Version in c:\wordaxe-0.3.3\wordaxe\rl\rl_codecs.py.
    
    <em>Beachte:</em> Dadurch werden nur zwei Zeilen in der Datei geändert, 
    die das "scheue Minuszeichen" SHY betreffen. 
    
    Die neue Bibliothek zum Python-Path hinzufügen, zum Beispiel durch Anlegen
-   einer entsprechenden Datei wordaxe.pth im Verzeichnis c:\python25\lib\site-packages,
+   einer entsprechenden Datei wordaxe.pth im Verzeichnis c:\python26\lib\site-packages,
    die nur die folgende Textzeile enthält:
 
 {{{
-c:\wordaxe-0.3.2
+c:\wordaxe-0.3.3
 }}}
 
 4. Anschließend sicherstellen, dass "import wordaxe" keine Fehlermeldung erzeugt.
@@ -199,7 +203,7 @@ Es bietet sich an, dabei außerdem die Option -v anzugeben.
 
 Beispiel:
 {{{
-c:\python25\python wordaxe\DCWHyphenator.py -v Silbentrennung
+c:\python26\python wordaxe\DCWHyphenator.py -v Silbentrennung
 }}}
 
 === DCWHyphenator ===

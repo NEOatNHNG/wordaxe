@@ -59,6 +59,9 @@ Ascent:
 
 from reportlab.lib.units import cm
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
+
+from wordaxe.rl.kerning_info import kerning_pairs
+
 try:
     from reportlab.lib.geomutils import normalizeTRBL
 except ImportError:
@@ -160,6 +163,7 @@ def _putFragLine(cur_x, tx, line):
     nSpaces = 0
 
     fragments = list(frags_wordaxe_to_reportlab(line.iter_print_frags()))
+    #print "fragments:", fragments
     for frag in fragments:
         #print "render %r" % getattr(frag, "text", "--")
         f = frag.style
@@ -206,7 +210,8 @@ def _putFragLine(cur_x, tx, line):
                 xs.rise=f.rise
                 tx.setRise(f.rise)
             text = frag.text
-            tx._textOut(text,frag is fragments[-1])    # cheap textOut
+            kp = getattr(frag, "kerning_pairs", None)
+            tx._textOut(text,frag is fragments[-1], kerning_pairs=kp)    # cheap textOut
 
             # Background colors (done like underline)
             #print "f:", repr(f)
@@ -1168,6 +1173,74 @@ class ParagraphAndImage(Flowable):
             self.I.drawOn(canv,self.width-self.wI-self.xpad,self.height-self.hI)
             self.P.drawOn(canv,0,0)
 
+# Monkey patch Reportlab textobject
+from reportlab.lib.utils import fp_str
+from reportlab.pdfbase import pdfmetrics
+
+def kerning_formatText(self, text, kerning_pairs=None):
+    "Generates PDF text output operator(s)"
+    #print "_formatText", text, kerning_pairs
+    canv = self._canvas
+    font = pdfmetrics.getFont(self._fontname)
+    R = []
+    if font._dynamicFont:
+        #it's a truetype font and should be utf8.  If an error is raised,
+        for subset, t in font.splitString(text, canv._doc):
+            if subset!=self._curSubset:
+                pdffontname = font.getSubsetInternalName(subset, canv._doc)
+                R.append("%s %s Tf %s TL" % (pdffontname, fp_str(self._fontsize), fp_str(self._leading)))
+                self._curSubset = subset
+            if kerning_pairs is None:
+                R.append("(%s) Tj" % canv._escape(t))
+            else:
+                # Take kerning into account
+                # TODO performance tuning possible?
+                R.append("[")
+                buf = t[0]
+                for i in range(len(t)-1):
+                    if kerning_pairs[i]:
+                        R.append(" (%s)" % canv._escape(buf))
+                        R.append(" %s" % fp_str(-kerning_pairs[i])) # TODO scaling!
+                        buf = ""
+                    buf += t[i+1]
+                if buf:
+                    R.append(" (%s)" % canv._escape(buf))
+                R.append("] TJ")
+    elif font._multiByte:
+        #all the fonts should really work like this - let them know more about PDF...
+        R.append("%s %s Tf %s TL" % (
+            canv._doc.getInternalFontName(font.fontName),
+            fp_str(self._fontsize),
+            fp_str(self._leading)
+            ))
+        R.append("(%s) Tj" % font.formatForPdf(text))
+    else:
+        #convert to T1  coding
+        fc = font
+        if not isinstance(text,unicode):
+            try:
+                text = text.decode('utf8')
+            except UnicodeDecodeError,e:
+                i,j = e.args[2:4]
+                raise UnicodeDecodeError(*(e.args[:4]+('%s\n%s-->%s<--%s' % (e.args[4],text[max(i-10,0):i],text[i:j],text[j:j+10]),)))
+
+        for f, t in pdfmetrics.unicode2T1(text,[font]+font.substitutionFonts):
+            if f!=fc:
+                R.append("%s %s Tf %s TL" % (canv._doc.getInternalFontName(f.fontName), fp_str(self._fontsize), fp_str(self._leading)))
+                fc = f
+            R.append("(%s) Tj" % canv._escape(t))
+        if font!=fc:
+            R.append("%s %s Tf %s TL" % (canv._doc.getInternalFontName(self._fontname), fp_str(self._fontsize), fp_str(self._leading)))
+    return ' '.join(R)
+
+def kerning_textOut(self, text, TStar=0, kerning_pairs=None):
+    "prints string at current point, ignores text cursor"
+    self._code.append('%s%s' % (self._formatText(text, kerning_pairs), (TStar and ' T*' or '')))
+
+from reportlab.pdfgen.textobject import PDFTextObject
+import new
+PDFTextObject._textOut = new.instancemethod(kerning_textOut, None, PDFTextObject)
+PDFTextObject._formatText = new.instancemethod(kerning_formatText, None, PDFTextObject)
 
 # from here on, only test code...
 

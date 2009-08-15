@@ -8,6 +8,7 @@ import reportlab.pdfbase.pdfmetrics as pdfmetrics
 from reportlab.lib.abag import ABag
 
 from wordaxe.hyphen import HyphenationPoint, SHY, HyphenatedWord
+from wordaxe.rl.kerning_info import kerning_pairs
 
 class Style(ABag):
     "This is used to store style attributes."
@@ -27,14 +28,28 @@ class StyledFragment(Fragment):
     def __repr__(self):
         return self.__class__.__name__
     __str__ = __repr__
+    
+    kerning_pairs = None
         
 class StyledText(StyledFragment):    
     "A string in some style"
-    def __init__(self, text, style):
+    def __init__(self, text, style, kerning):
         assert isinstance(text, unicode)
         super(StyledText, self).__init__(style)
         self.text = text
         self.width = self.str_width(text, style)
+        if kerning:
+            # Take kerning into account
+            font = pdfmetrics.getFont(style.fontName)
+            face = font.face
+            kp = kerning_pairs(face, text)
+            skp = sum(kp)
+            #print "skp=", skp
+            self.kerning_pairs = kp
+            self.width += 0.001*style.fontSize*skp
+            #print "Kerning!"
+        else:
+            self.kerning_pairs = None
         if hasattr(style, "nobr"):
             self.nobr = True
         cbDefn = getattr(style,"cbDefn", None)
@@ -53,7 +68,7 @@ class StyledText(StyledFragment):
         text = frag.text
         if not isinstance(text, unicode):
             text = unicode(text, "utf-8")
-        return StyledText(text, frag)
+        return StyledText(text, frag) #TODO kerning?
         
 class StyledWhiteSpace(StyledFragment):
     "Used for every token that delimits words."
@@ -151,7 +166,7 @@ class StyledWord(Fragment):
                     if text is frag.text:
                         lfrags.append(frag)
                     else:
-                        lfrags.append(StyledText(text, frag.style))
+                        lfrags.append(StyledText(text, frag.style, bool(frag.kerning_pairs)))
                     n += len(text)
                     stillLeftPart = False
                     firstRight = True
@@ -160,11 +175,11 @@ class StyledWord(Fragment):
                     n1 = indx-n
                     tl = text[:n1-nl] + sl
                     tr = sr + text[n1+nr:]
-                    lfrags.append(StyledText(tl, frag.style))
-                    rfrags.append(StyledText(tr, frag.style))
+                    lfrags.append(StyledText(tl, frag.style, bool(frag.kerning_pairs)))
+                    rfrags.append(StyledText(tr, frag.style, bool(frag.kerning_pairs)))
                     stillLeftPart = False
             elif firstRight and (sr or nr):
-                rfrags.append(StyledText(sr + frag.text[nr:], frag.style))
+                rfrags.append(StyledText(sr + frag.text[nr:], frag.style, bool(frag.kerning_pairs)))
                 firstRight = False
             else:
                 rfrags.append(frag)
@@ -251,7 +266,7 @@ class Line(object):
         """
         return flatten_frags(self.fragments[self.print_indx_start:self.print_indx_end])
 
-def frags_to_StyledFragments(frag_list):
+def frags_to_StyledFragments(frag_list, kerning):
     """
     A helper function for frags_reportlab_to_wordaxe.
     Yields StyledWords, StyledSpace and other entries,   
@@ -268,24 +283,26 @@ def frags_to_StyledFragments(frag_list):
         while u" " in text:
             indxSpace = text.find(u" ")
             if indxSpace > 0:
-                yield StyledText(text[:indxSpace], f)
+                yield StyledText(text[:indxSpace], f, kerning)
             indxNext = indxSpace
             while text[indxNext:].startswith(u" "):
                 indxNext += 1
             yield StyledSpace(f) # we ignore repeated blanks
             text = text[indxNext:]
         if text or hasattr(f, "cbDefn"):
-            yield StyledText(text, f)
+            yield StyledText(text, f, kerning)
                 
 
-def frags_reportlab_to_wordaxe(frags, style):
+def frags_reportlab_to_wordaxe(frags, paragraph_style):
     """
     Converts an iterator of reportlab frags to wordaxe frags.
     Yields StyledWords, StyledSpace and other entries,
     but StyledTexts are grouped to StyledWords.
     """
+    kerning = getattr(paragraph_style, "kerning", False)
     word_frags = []
-    for frag in frags_to_StyledFragments(frags):
+    
+    for frag in frags_to_StyledFragments(frags, kerning):
         if isinstance(frag, StyledText):
             word_frags.append(frag)
         else:
@@ -321,6 +338,22 @@ def frags_wordaxe_to_reportlab(frags):
             last_style = frag.style
             last_frag = copy(frag)
         else:
+            if frag.kerning_pairs is not None or last_frag.kerning_pairs is not None:
+                # handle kerning pairs
+                lfkp = last_frag.kerning_pairs
+                fkp = frag.kerning_pairs
+                # TODO Special handling for the case that last_frag.text == "" or frag.text == ""
+                if lfkp is None:
+                    if fkp is None:
+                        pass
+                    else:
+                        last_frag.kerning_pairs = ([0.0] * len(last_frag.text)) + fkp
+                else:
+                    if fkp is None:
+                        last_frag.kerning_pairs = lfkp + ([0.0] * len(frag.text))
+                    else:
+                        lfkp.append(0.0)
+                        lfkp += frag.kerning_pairs
             last_frag.text += frag.text
             last_frag.width += frag.width
     if last_frag is not None:

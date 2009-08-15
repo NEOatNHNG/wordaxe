@@ -15,7 +15,8 @@ class ParagraphStyle(_orig_ParagraphStyle):
     defaults.update ({
         'language':None,
         'hyphenation':False,
-        'backColor':None
+        'backColor':None,
+        'kerning':False,
         })
 
 # From here on, the rest is copied from the original styles.py.

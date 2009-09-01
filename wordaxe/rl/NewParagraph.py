@@ -1101,8 +1101,9 @@ class Paragraph(Flowable):
 
     def minWidth(self):
         """Attempt to determine a minimum sensible width"""
-        return max([frag.width for frag in self.frags])
-
+        if self.frags:
+            return max([frag.width for frag in self.frags])
+        return 0
 
 class ParagraphAndImage(Flowable):
     '''combine a Paragraph and an Image'''

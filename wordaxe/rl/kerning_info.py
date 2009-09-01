@@ -10,7 +10,11 @@ import bisect
 
 def extract_kerning_table(face):
     "Extract the Kerning table from a TrueType font"
-    raw_data = face.get_table("kern")
+    try:
+        raw_data = face.get_table("kern")
+    except KeyError:
+        # Font does not contain a kerning table
+        return []
     version, nTables = struct.unpack_from(">HH", raw_data)
     #print "version:", version
     #print "nTables:", nTables

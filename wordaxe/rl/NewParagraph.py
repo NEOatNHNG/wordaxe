@@ -701,7 +701,17 @@ class Paragraph(Flowable):
         """
         #print id(self), "split", availWidth, availHeight
 
+        # HVB 20090902: fix for bug item #2848008
+        if availHeight <= 0:
+            return []
         avail = self._cache.get('avail')
+        if avail is None or avail is not True and (
+                availWidth < avail[0] or availHeight < avail[1]):
+            self.wrap(availWidth, availHeight)
+        # HVB 20090902
+        
+        avail = self._cache.get('avail')
+        
         if avail is None or avail is not True and (
                 availWidth < avail[0] or availHeight < avail[1]):
             # This can only happen when split has been called
@@ -711,7 +721,7 @@ class Paragraph(Flowable):
             # in the frame is not even enough for getSpaceBefore.
             # Thus we can safely return []
 
-            #print "split without previous wrap"
+            print "split without previous wrap"
             return []
 
         lines = self._cache['lines']

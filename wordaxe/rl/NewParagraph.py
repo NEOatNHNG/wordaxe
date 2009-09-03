@@ -701,17 +701,11 @@ class Paragraph(Flowable):
         """
         #print id(self), "split", availWidth, availHeight
 
-        avail = self._cache.get('avail')
-        if avail is None or avail is not True and (availWidth < avail[0]
-                or availHeight < min(avail[1], self._cache['height'])):
-            # This can only happen when split has been called
-            # without a previous wrap for this Paragraph.
-            # From looking at doctemplate.py and frames.py,
-            # I assume this is only the case if the free space
-            # in the frame is not even enough for getSpaceBefore.
-            # Thus we can safely return []
-            #print "split without previous wrap"
-            return []
+        if self._cache.get('avail') is None:
+            # paragraph has not yet been wrapped
+            if availHeight <= 0:
+                return []
+            self.wrap(availWidth, availHeight)
 
         lines = self._cache['lines']
         #print "lines:", lines

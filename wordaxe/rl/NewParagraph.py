@@ -1005,7 +1005,7 @@ class Paragraph(Flowable):
     def findBestSolution(self, frags, word, space_remaining, try_squeeze):
         assert isinstance(word, StyledWord)
         assert space_remaining <= word.width
-        if self.style.hyphenation and not hasattr(word, "nobr"):
+        if getattr(self.style, 'hyphenation', False) and not hasattr(word, "nobr"):
             hyphenator = wordaxe.hyphRegistry.get(self.style.language,None)
         else:
             # Hyphenation deactivated

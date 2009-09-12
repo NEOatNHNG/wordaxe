@@ -196,9 +196,9 @@ def _putFragLine(cur_x, tx, line):
             if frag is fragments[-1]:
                 if not tx._fontname:
                     tx.setFont(xs.style.fontName,xs.style.fontSize)
-                    tx._textOut('',True)
+                    tx._textOut('',1)
                 elif kind in ('img','anchor'):
-                    tx._textOut('',True)
+                    tx._textOut('',1)
         else:
             cur_x_s = cur_x + nSpaces*ws
             if (tx._fontname,tx._fontsize)!=(f.fontName,f.fontSize):
@@ -224,12 +224,12 @@ def _putFragLine(cur_x, tx, line):
                 xs.backgroundFontSize = f.fontSize
             # Underline
             if not xs.underline and f.underline:
-                xs.underline = True
+                xs.underline = 1
                 xs.underline_x = cur_x_s
                 xs.underlineColor = f.textColor
             elif xs.underline:
                 if not f.underline:
-                    xs.underline = False
+                    xs.underline = 0
                     xs.underlines.append( (xs.underline_x, cur_x_s, xs.underlineColor) )
                     xs.underlineColor = None
                 elif xs.textColor!=xs.underlineColor:
@@ -237,12 +237,12 @@ def _putFragLine(cur_x, tx, line):
                     xs.underlineColor = xs.textColor
                     xs.underline_x = cur_x_s
             if not xs.strike and f.strike:
-                xs.strike = True
+                xs.strike = 1
                 xs.strike_x = cur_x_s
                 xs.strikeColor = f.textColor
             elif xs.strike:
                 if not f.strike:
-                    xs.strike = False
+                    xs.strike = 0
                     xs.strikes.append( (xs.strike_x, cur_x_s, xs.strikeColor) )
                     xs.strikeColor = None
                 elif xs.textColor!=xs.strikeColor:
@@ -326,12 +326,12 @@ def _doLink(tx,link,rect):
     if _scheme_re.match(scheme) and scheme!='document':
         kind=scheme.lower()=='pdf' and 'GoToR' or 'URI'
         if kind=='GoToR': link = parts[1]
-        tx._canvas.linkURL(link, rect, relative=True, kind=kind)
+        tx._canvas.linkURL(link, rect, relative=1, kind=kind)
     else:
         if link[0]=='#':
             link = link[1:]
             scheme=''
-        tx._canvas.linkRect("", scheme!='document' and link or parts[1], rect, relative=True)
+        tx._canvas.linkRect("", scheme!='document' and link or parts[1], rect, relative=1)
 
 def _do_post_text(tx):
 
@@ -356,10 +356,10 @@ def _do_post_text(tx):
             if c!=ulc:
                 tx._canvas.setFillColor(c)
                 ulc = c
-            #tx._canvas.rect(x1, y, x2-x1, fs, fill=True, stroke=False)
-            tx._canvas.rect(x1, y - ff, x2-x1, fs, fill=True, stroke=False)
+            #tx._canvas.rect(x1, y, x2-x1, fs, fill=1, stroke=0)
+            tx._canvas.rect(x1, y - ff, x2-x1, fs, fill=1, stroke=0)
         xs.backgrounds = []
-        xs.background = False
+        xs.background = 0
         xs.backgroundColor = None
         xs.backgroundFontSize = None
 
@@ -371,7 +371,7 @@ def _do_post_text(tx):
                 csc = c
             tx._canvas.line(x1, y, x2, y)
         xs.underlines = []
-        xs.underline=False
+        xs.underline=0
         xs.underlineColor=None
 
         ys = y0 + 2*ff
@@ -381,7 +381,7 @@ def _do_post_text(tx):
                 csc = c
             tx._canvas.line(x1, ys, x2, ys)
         xs.strikes = []
-        xs.strike=False
+        xs.strike=0
         xs.strikeColor=None
 
         yl = y + leading
@@ -444,7 +444,7 @@ def textTransformFrags(frags,style):
 class Paragraph(Flowable):
     "A simple new implementation for Paragraph flowables."
 
-    def __init__(self, text, style, bulletText = None, frags=None, lines=None, caseSensitive=True, encoding='utf-8', keepWhiteSpace=False, textCleaner=cleanBlockQuotedText):
+    def __init__(self, text, style, bulletText = None, frags=None, lines=None, caseSensitive=1, encoding='utf-8', keepWhiteSpace=False, textCleaner=cleanBlockQuotedText):
         """
         Either text and style or frags must be supplied.
         """
@@ -701,10 +701,12 @@ class Paragraph(Flowable):
         """
         #print id(self), "split", availWidth, availHeight
 
-        if self._cache.get('avail') is None:
+        if availWidth <= 0 or availHeight <= 0:
+            # cannot split if no space available
+            return []
+
+        if 'avail' not in self._cache:
             # paragraph has not yet been wrapped
-            if availHeight <= 0:
-                return []
             self.wrap(availWidth, availHeight)
 
         lines = self._cache['lines']
@@ -759,8 +761,8 @@ class Paragraph(Flowable):
                 # TODO: this cannot work, since we have not yet computed
                 # the lines for the second part.
                 n = len(lines)
-                allowWidows = getattr(self,'allowWidows',getattr(self,'allowWidows',True))
-                allowOrphans = getattr(self,'allowOrphans',getattr(self,'allowOrphans',False))
+                allowWidows = getattr(self,'allowWidows',getattr(self,'allowWidows',1))
+                allowOrphans = getattr(self,'allowOrphans',getattr(self,'allowOrphans',0))
                 if not allowOrphans:
                     if s<=1:    #orphan?
                         del self._cache['avail']
@@ -778,7 +780,7 @@ class Paragraph(Flowable):
             first = self.__class__(text=None, style=self.style, bulletText=self.bulletText, lines=lines, caseSensitive=self.caseSensitive)
             first.width = self.width # TODO 20080911
             first.height = self.height
-            first._JustifyLast = True
+            first._JustifyLast = 1
             if style.firstLineIndent != 0:
                 style = deepcopy(style)
                 style.firstLineIndent = 0
@@ -791,7 +793,7 @@ class Paragraph(Flowable):
     def beginText(self, x, y):
         return self.canv.beginText(x, y)
 
-    def draw(self, debug=False):
+    def draw(self, debug=0):
         """
         Draw the paragraph.
         """
@@ -828,18 +830,18 @@ class Paragraph(Flowable):
         if bg or (bc and bw):
             canvas.saveState()
             op = canvas.rect
-            kwds = dict(fill=False,stroke=False)
+            kwds = dict(fill=0,stroke=0)
             if bc and bw:
                 canvas.setStrokeColor(bc)
                 canvas.setLineWidth(bw)
-                kwds['stroke'] = True
+                kwds['stroke'] = 1
                 br = getattr(style,'borderRadius',0)
                 if br and not debug:
                     op = canvas.roundRect
                     kwds['radius'] = br
             if bg:
                 canvas.setFillColor(bg)
-                kwds['fill'] = True
+                kwds['fill'] = 1
             bp = getattr(style,'borderPadding',0)
             tbp, rbp, bbp, lbp = normalizeTRBL(bp)
 
@@ -888,13 +890,13 @@ class Paragraph(Flowable):
             xs = tx.XtraState=ABag()
             xs.textColor=None
             xs.rise=0
-            xs.underline=False
+            xs.underline=0
             xs.underlines=[]
             xs.underlineColor=None
             xs.backgrounds = []
             xs.backgroundColor = None
             xs.backgroundFontSize = None
-            xs.strike=False
+            xs.strike=0
             xs.strikes=[]
             xs.strikeColor=None
             xs.links=[]
@@ -921,14 +923,14 @@ class Paragraph(Flowable):
             canvas.drawText(tx)
             canvas.restoreState()
 
-    def _leftDrawParaLineX( self, tx, offset, line, last=False):
+    def _leftDrawParaLineX( self, tx, offset, line, last=0):
         if line.space_wasted < 0:
             return self._justifyDrawParaLineX(tx,offset,line,last)
         setXPos(tx,offset)
         _putFragLine(offset, tx, line)
         setXPos(tx,-offset)
 
-    def _rightDrawParaLineX( self, tx, offset, line, last=False):
+    def _rightDrawParaLineX( self, tx, offset, line, last=0):
         if line.space_wasted < 0:
             return self._justifyDrawParaLineX(tx,offset,line,last)
         m = offset + line.space_wasted
@@ -936,7 +938,7 @@ class Paragraph(Flowable):
         _putFragLine(m, tx, line)
         setXPos(tx,-m)
 
-    def _centerDrawParaLineX( self, tx, offset, line, last=False):
+    def _centerDrawParaLineX( self, tx, offset, line, last=0):
         if line.space_wasted < 0:
             return self._justifyDrawParaLineX(tx,offset,line,last)
         m = offset + 0.5 * line.space_wasted
@@ -944,7 +946,7 @@ class Paragraph(Flowable):
         _putFragLine(m, tx, line)
         setXPos(tx,-m)
 
-    def _justifyDrawParaLineX( self, tx, offset, line, last=False):
+    def _justifyDrawParaLineX( self, tx, offset, line, last=0):
         setXPos(tx,offset)
         frags = line.fragments[:]
         while frags and (not frags[0].width or isinstance(frags[0], StyledSpace)):
@@ -1227,7 +1229,7 @@ def kerning_formatText(self, text, kerning_pairs=None):
             R.append("%s %s Tf %s TL" % (canv._doc.getInternalFontName(self._fontname), fp_str(self._fontsize), fp_str(self._leading)))
     return ' '.join(R)
 
-def kerning_textOut(self, text, TStar=False, kerning_pairs=None):
+def kerning_textOut(self, text, TStar=0, kerning_pairs=None):
     "prints string at current point, ignores text cursor"
     self._code.append('%s%s' % (self._formatText(text, kerning_pairs), (TStar and ' T*' or '')))
 

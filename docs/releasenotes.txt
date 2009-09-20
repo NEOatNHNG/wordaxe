@@ -1,6 +1,16 @@
-Release Notes for wordaxe 0.3.3
+Release Notes for wordaxe 1.0.0
 
-H. von Bargen, June 2009
+H. von Bargen, September 2009
+
+Release 1.0.0
+
+This is a bug-fix release.
+
+A few bugs have beend found when wordaxe is used
+in conjunction with rst2pdf, and all of them have been fixed. 
+
+Since I consider wordaxe being stable now,
+the release number 1.0.0 reflects this. 
 
 Release 0.3.3
 

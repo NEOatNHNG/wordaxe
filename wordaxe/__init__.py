@@ -18,4 +18,4 @@ from wordaxe.hyphen import SHY, HyphenationPoint, HyphenatedWord, Hyphenator, Ca
 # just set hyphRegistry[A]=B
 hyphRegistry = {}
 
-version = "wordaxe 0.3.3"
+version = "wordaxe 1.0.0"

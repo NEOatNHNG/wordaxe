@@ -712,7 +712,7 @@ class Paragraph(Flowable):
         lines = self._cache['lines']
         #print "lines:", lines
         unused = self._cache['unused']
-        #print "unused:", unused
+        #print "unused:", unused      
         if len(lines) < 1: # minimum widow rows
             #print "split with lines == []"
             # Put everything on the next frame
@@ -756,35 +756,45 @@ class Paragraph(Flowable):
                 s = int(availHeight/l)
                 height = s*l
 
-            if False:
-                # Widows/orphans control
-                # TODO: this cannot work, since we have not yet computed
-                # the lines for the second part.
-                n = len(lines)
-                allowWidows = getattr(self,'allowWidows',getattr(self,'allowWidows',1))
-                allowOrphans = getattr(self,'allowOrphans',getattr(self,'allowOrphans',0))
-                if not allowOrphans:
-                    if s<=1:    #orphan?
+            # Widows/orphans control
+            # There's some disagreement about definitions of widows and orphans.
+            # We use the definitions from Wikipedia and the Chicago Manual of Style.
+            # 
+            # Note:
+            # We cannot control something like "minimum widow lines",
+            # since we have not yet computed the lines for the second part.
+            # Thus we can only support allowOrphans without additional overhead.
+            n = len(lines)
+            allowWidows = getattr(style,'allowWidows',1)
+            allowOrphans = getattr(style,'allowOrphans',0)
+            #print "allowOrphans:", allowOrphans
+            if not allowOrphans:
+                del self._cache['avail']
+                return []
+            if False and not allowWidows:
+                # NOT SUPPORTED                     
+                if n==s+1: #widow?
+                    if (allowOrphans and n==3) or n>3:
+                        s -= 1  #give the widow some company
+                    else:
+                        #no room for adjustment; force the whole para onwards
                         del self._cache['avail']
                         return []
-                if n<=s:
-                    return [self]
-                if not allowWidows:
-                    if n==s+1: #widow?
-                        if (allowOrphans and n==3) or n>3:
-                            s -= 1  #give the widow some company
-                        else:
-                            #no room for adjustment; force the whole para onwards
-                            del self._cache['avail']
-                            return []
             first = self.__class__(text=None, style=self.style, bulletText=self.bulletText, lines=lines, caseSensitive=self.caseSensitive)
             first.width = self.width # TODO 20080911
             first.height = self.height
             first._JustifyLast = 1
-            if style.firstLineIndent != 0:
+            if style.firstLineIndent != 0 or not allowOrphans:
                 style = deepcopy(style)
                 style.firstLineIndent = 0
-            second = self.__class__(text=None, style=self.style, bulletText=None, frags=unused, caseSensitive=self.caseSensitive)
+                style.allowOrphans = 1
+            
+            # I guess the right place to implement allowWidows is somewhere here:
+            # We'd have test if the second paragraph consists of one line or more.
+            # If it's only one line, then we'd have to cut off the last line of the
+            # first paragraph and move the text on to second paragraph.
+            
+            second = self.__class__(text=None, style=style, bulletText=None, frags=unused, caseSensitive=self.caseSensitive)
             #print "first id=%d height=%f" % (id(first), first.height)
             #print "secnd id=%d" % id(second)
             return [first, second]

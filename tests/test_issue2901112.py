@@ -74,6 +74,7 @@ class Issue2901112TestCase(unittest.TestCase):
         
         story = []
         story.append(Paragraph(text, style=normal))
+        story.append(Paragraph("The red border around the first paragraph should end right below the text without additional space.", style=normal))
 
         doc = TwoColumnDocTemplate("test_issue2901112.pdf", pagesize=PAGESIZE)
         doc.build(story)

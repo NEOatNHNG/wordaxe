@@ -574,7 +574,7 @@ class Paragraph(Flowable):
                         if act == self.OVERFLOW:
                             actions = [("LINEFEED",None),("PUSH",frag)]
                         elif act == self.SQUEEZE:
-                            actions = [("ADD",frag),("LINEFEED",None)]
+                            actions = [("ADD",frag)]
                         elif act == self.HYPHENATE:
                             setattr(left,"_source", frag)
                             setattr(right,"_source", frag)
@@ -769,8 +769,10 @@ class Paragraph(Flowable):
             allowOrphans = getattr(style,'allowOrphans',0)
             #print "allowOrphans:", allowOrphans
             if not allowOrphans:
-                del self._cache['avail']
-                return []
+                if s <= 1:    #orphan?
+                    del self._cache['avail']
+                    #print "orphans not allowed => return []"
+                    return []
             if False and not allowWidows:
                 # NOT SUPPORTED                     
                 if n==s+1: #widow?

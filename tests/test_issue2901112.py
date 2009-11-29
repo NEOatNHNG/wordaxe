@@ -69,12 +69,15 @@ class Issue2901112TestCase(unittest.TestCase):
         normal.hyphenation = True
         normal.borderWidth = 1
         normal.borderColor = "red"
+        story = []
     
         text = """<i><font size="10">XX bottles of beer on the wall, XX bottles of beer!</font></i><br />If one of those bottles should happen to be drunken, there'll be XX-1 bottles of beer on the wall!<br />XX bottles of beer on the wall, XX bottles of beer!<br />If one of those bottles should happen to be drunken, there'll be XX-1 bottles of beer on the wall!<br /><b>No more bottles of beer on the wall!</b> <font color="white" size="6">999999</font>"""
-        
-        story = []
         story.append(Paragraph(text, style=normal))
-        story.append(Paragraph("The red border around the first paragraph should end right below the text without additional space.", style=normal))
+
+        text = """<i><font size="10">XX bottles of beer on the wall, XX bottles of beer!</font></i><br />If one of those bottles should happen to be drunken, there'll be XX-1 bottles of beer on the wall!<br />XX bottles of beer on the wall, XX bottles of beer!<br />If one of those bottles should happen to be drunken, there'll be XX-1 bottles of beer on the wall! <b>No more bottles of beer on the wall!</b> <font color="white" size="6">999999</font>"""
+        story.append(Paragraph(text, style=normal))
+        
+        story.append(Paragraph("The red border around the paragraphs above should end right below the text without additional space.", style=normal))
 
         doc = TwoColumnDocTemplate("test_issue2901112.pdf", pagesize=PAGESIZE)
         doc.build(story)

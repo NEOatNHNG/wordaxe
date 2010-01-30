@@ -1,6 +1,6 @@
 = wordaxe Hyphenation =
 
-Henning von Bargen, September 2009, Release 1.0.0
+Henning von Bargen, January 2010, Release 1.0.1
 
 == Overview ==
 
@@ -15,7 +15,7 @@ The library consists of three program parts:
 2) a special hyphenation algorithm, based on the decomposition of
    compound words (the implementation is only for the German language).
 
-3) a hyphenation extension for the <a href="http://www.reportlab.org">ReportLab</a> PDF library.
+3) a hyphenation extension for the <a href="http://www.reportlab.com">ReportLab</a> PDF library.
 
 == <a name="bezug" />Where to get it ==
 
@@ -47,13 +47,13 @@ the OpenOffice distribution, they are licences under the GNU LGPL.
 
 == Installation ==
 
-=== ReportLab 2.3 ===
+=== ReportLab 2.4 ===
 
-wordaxe release 1.0.0 has been tested with Python 2.6 and ReportLab 2.3,
+wordaxe release 1.0.1 has been tested with Python 2.6 and ReportLab 2.3 and 2.4,
 but it should work equally well with Python 2.4 or 2.6, since AFAIK
 none of the new features of 2.5 are used.
 
-ReportLab 2.3 can be obtained from <a href="http://www.reportlab.org">www.reportlab.org</a>.
+ReportLab 2.4 can be obtained from <a href="http://www.reportlab.com">www.reportlab.com</a>.
 The installation is easy (though not with easy-install ;-) and is not described here.
 
 The older wordaxe 0.3.0 works with ReportLab 2.2 or 2.1, too.
@@ -72,16 +72,16 @@ existing code (independently from wordaxe), since for 2.x all paragraph
 input text has to be unicode or UTF8 encoded.
 
 === Installating wordaxe step-by-step ===
-1. Download the ZIP archive wordaxe-1.0.0.zip from the SourceForge site.
+1. Download the ZIP archive wordaxe-1.0.1.zip from the SourceForge site.
 
-2. Unpack the ZIP-archive wordaxe-1.0.0.zip in the root directory C:\
-   (inside the archive, all files are in a directory "wordaxe-1.0.0").
+2. Unpack the ZIP-archive wordaxe-1.0.1.zip in the root directory C:\
+   (inside the archive, all files are in a directory "wordaxe-1.0.1").
    
    The following directory structure will be created:
 
 {{{
 C:
-    wordaxe-1.0.0
+    wordaxe-1.0.1
         doc
         htdocs
             css
@@ -98,7 +98,7 @@ C:
 3a. On the command line, execute:
 
 {{{
-cd /d c:\wordaxe-1.0.0
+cd /d c:\wordaxe-1.0.1
 setup.py install
 }}}
 
@@ -106,7 +106,7 @@ setup.py install
 
    For ReportLab pre 2.3: Make a backup copy of the file reportlab\pdfbase\rl_codecs.py from the
    ReportLab Installation; then replace the file with the
-   modified version from c:\wordaxe-1.0.0\wordaxe\rl\rl_codecs.py.
+   modified version from c:\wordaxe-1.0.1\wordaxe\rl\rl_codecs.py.
    
    <em>Note:</em> This will only change two lines of code in the file, 
    responsible for the "shy hyphen" character SHY. 
@@ -116,7 +116,7 @@ setup.py install
    containg only one text line:
 
 {{{
-c:\wordaxe-1.0.0
+c:\wordaxe-1.0.1
 }}}
 
 4. Assure that "import wordaxe" doesn't create an error message.

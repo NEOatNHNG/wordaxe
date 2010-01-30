@@ -1,6 +1,6 @@
 = wordaxe Silbentrennung =
 
-Henning von Bargen, September 2009, Release 1.0.0
+Henning von Bargen, Januar 2010, Release 1.0.1
 
 == Übersicht ==
 
@@ -14,7 +14,7 @@ Die Bibliothek besteht aber genau genommen aus drei verschiedenen Programmteilen
 
 2. ein spezieller Silbentrennungsalgorithmus, basierend auf der Zerlegung von zusammengesetzten Wörtern
 
-3. eine Silbentrennungserweiterung zur <a href="http://www.reportlab.org">ReportLab</a> PDF Bibliothek
+3. eine Silbentrennungserweiterung zur <a href="http://www.reportlab.com">ReportLab</a> PDF Bibliothek
 
 == <a name="bezug" />Bezugsquelle ==
 
@@ -41,13 +41,13 @@ Distribution übernommen, sie stehen unter der GNU LGPL Lizenz.
 
 == Installation ==
 
-=== ReportLab 2.3 ===
+=== ReportLab 2.4 ===
 
-wordaxe Release 1.0.0 wurde mit Python 2.6 und ReportLab 2.3 getestet,
+wordaxe Release 1.0.1 wurde mit Python 2.6 und mit ReportLab 2.3 und 2.4 getestet,
 sollte jedoch problemlos auch mit Python 2.4 oder 2.5 funktionieren, da keine neuen 
 Features von Python 2.5 verwendet werden.
 
-ReportLab 2.3 kann von <a href="http://www.reportlab.org">www.reportlab.org</a>
+ReportLab 2.4 kann von <a href="http://www.reportlab.com">www.reportlab.com</a>
 heruntergeladen und installiert werden (hier wird nicht beschrieben, wie das geht).
 
 Die Version wordaxe 0.3.0 funktioniert auch mit dem etwas älteren ReportLab 2.2 oder 2.1.
@@ -66,11 +66,11 @@ zu beachten, dass bestehender Code evtl. angepasst werden muss, da als
 "paragraph encoding" immer UTF8 benutzt werden muss.
 
 === Installation wordaxe Schritt für Schritt ===
-1. Das ZIP-Archiv wordaxe-1.0.0.zip von der SourceForge Seite
+1. Das ZIP-Archiv wordaxe-1.0.1.zip von der SourceForge Seite
    (siehe <a href="#bezug">Bezug</a>) herunterladen.
 
-2. Das ZIP-Archiv wordaxe-1.0.0.zip im Wurzelverzeichnis C:\ entpacken
-   (innerhalb des Archivs liegen alle Dateien in einem Verzeichnis "wordaxe-1.0.0").
+2. Das ZIP-Archiv wordaxe-1.0.1.zip im Wurzelverzeichnis C:\ entpacken
+   (innerhalb des Archivs liegen alle Dateien in einem Verzeichnis "wordaxe-1.0.1").
    Dadurch wird die folgende Verzeichnisstruktur angelegt:
 
 Falls bereits eine ältere Version von wordaxe installiert war
@@ -79,7 +79,7 @@ Datei unbedingt eine <b>Sicherheitskopie</b> angelegt werden!
 
 {{{
 C:
-    wordaxe-1.0.0
+    wordaxe-1.0.1
         docs
         htdocs
             css
@@ -97,14 +97,14 @@ C:
 3a. Auf der Kommandozeile ausführen:
 
 {{{
-cd /d c:\wordaxe-1.0.0
+cd /d c:\wordaxe-1.0.1
 setup.py install
 }}}
    
 3b. Alternativ:
    Für ReportLab 2.2 oder älter: eine Sicherheitskopie der Datei reportlab\pdfbase\rl_codecs.py von der
    ReportLab Installation anlegen; anschließend die Datei ersetzen
-   durch die mitgelieferte angepasste Version in c:\wordaxe-1.0.0\wordaxe\rl\rl_codecs.py.
+   durch die mitgelieferte angepasste Version in c:\wordaxe-1.0.1\wordaxe\rl\rl_codecs.py.
    
    <em>Beachte:</em> Dadurch werden nur zwei Zeilen in der Datei geändert, 
    die das "scheue Minuszeichen" SHY betreffen. 
@@ -114,7 +114,7 @@ setup.py install
    die nur die folgende Textzeile enthält:
 
 {{{
-c:\wordaxe-1.0.0
+c:\wordaxe-1.0.1
 }}}
 
 4. Anschließend sicherstellen, dass "import wordaxe" keine Fehlermeldung erzeugt.

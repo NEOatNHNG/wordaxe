@@ -2,22 +2,22 @@ How to install
 --------------
 
 0. The sources have been developed and tested under Python 2.5 and 2.6
-   and ReportLab 2.3. It should work as well with Python 2.4 and with
-   ReportLab 2.1 or 2.2.
+   and ReportLab 2.3 and 2.4. It should work as well with Python 2.4
+   and with ReportLab 2.1 or 2.2.
    If you are using an older version of Python or ReportLab,
    it will probably not work without some fiddling, since it uses
    at least the boolean constants True and False.
    For users of RL 1.19: Remember that you may have to change your
    code for RL 2.x (paragraph encoding should be UTF8).
 
-1. Download the file wordaxe-1.0.0.zip from the SourceForge web site
+1. Download the file wordaxe-1.0.1.zip from the SourceForge web site
    http://sourceforge.net/project/showfiles.php?group_id=105867
 
 2. Unzip the files in the ZIP archive to the root directory
-   (inside the archive, everything is in a directory "wordaxe-1.0.0".
+   (inside the archive, everything is in a directory "wordaxe-1.0.1".
    This will create the following structure:
    C:\
-     wordaxe-1.0.0
+     wordaxe-1.0.1
        htdocs
          css
          examples
@@ -39,14 +39,14 @@ How to install
    Alternatively, if your ReportLab version is older than 2.3, you'll have to
    make a backup of the file reportlab\pdfbase\rl_codecs.py
    from your reportlab installation, then overwrite it with the version 
-   found in c:\wordaxe-1.0.0\wordaxe\rl\rl_codecs.py.
+   found in c:\wordaxe-1.0.1\wordaxe\rl\rl_codecs.py.
    Note: This will change only 2 lines that effect the handling of
    the "shy" character.
    
 4. If you didn't use setup.py install, then you have to manually add wordaxe
    to your python path, for example by creating a corresponding file 
    wordaxe.pth in your lib/site-packages directory, containing the text
-   c:\wordaxe-1.0.0
+   c:\wordaxe-1.0.1
    Make sure that "import wordaxe" does not produce an error message.
    
 5. Unless you have used the "shy" character (0xAD) in your text,

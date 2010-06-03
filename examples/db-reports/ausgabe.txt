@@ -1,0 +1,23 @@
+Ausgabe:
+DEPT (Abteilung: 10, Name: Distribution, Ort: Entenhausen
+    ---- emp : 2
+    EMP (MA-Nr.: 1000, Name: Dagobert Duck, Gehalt: 9999, Prämie: 1234, Einstellungsdatum: 1988-01-01 00:00:00)
+    EMP (MA-Nr.: 1002, Name: Gundel Gaukeley, Gehalt: 6543, Prämie: 987, Einstellungsdatum: 1989-04-16 00:00:00)
+)
+DEPT (Abteilung: 20, Name: Development, Ort: Hohenlimburg
+    ---- emp : 3
+    EMP (MA-Nr.: 1005, Name: Daniel Düsentrieb, Gehalt: 2345, Prämie: 50, Einstellungsdatum: 1992-09-01 00:00:00)
+    EMP (MA-Nr.: 1006, Name: Dussel Duck, Gehalt: 2345, Prämie: 50, Einstellungsdatum: 1993-09-01 00:00:00)
+    EMP (MA-Nr.: 1068, Name: Henning von Bargen, Gehalt: 2345, Prämie: 50, Einstellungsdatum: 1994-01-01 00:00:00)
+)
+DEPT (Abteilung: 30, Name: it-solutions, Ort: Entenhausen
+    ---- emp : 0
+)
+DEPT (Abteilung: 40, Name: Public Relations, Ort: Gänsdorf
+    ---- emp : 1
+    EMP (MA-Nr.: 1004, Name: Donald Duck, Gehalt: 8765, Prämie: 1111, Einstellungsdatum: 1995-09-01 00:00:00)
+)
+DEPT (Abteilung: 50, Name: Service, Ort: Entenhausen
+    ---- emp : 1
+    EMP (MA-Nr.: 1003, Name: Daisy Duck, Gehalt: 2222, Prämie: None, Einstellungsdatum: 2002-07-01 00:00:00)
+)

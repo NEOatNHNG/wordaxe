@@ -1,0 +1,139 @@
+%PDF-1.3
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+% 'BasicFonts': class PDFDictionary 
+1 0 obj
+% The standard fonts dictionary
+<< /F1 2 0 R
+ /F2 3 0 R
+ /F3 4 0 R
+ /F4 5 0 R
+ /F5 6 0 R >>
+endobj
+% 'F1': class PDFType1Font 
+2 0 obj
+% Font Helvetica
+<< /BaseFont /Helvetica
+ /Encoding /WinAnsiEncoding
+ /Name /F1
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F2': class PDFType1Font 
+3 0 obj
+% Font Times-Bold
+<< /BaseFont /Times-Bold
+ /Encoding /WinAnsiEncoding
+ /Name /F2
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F3': class PDFType1Font 
+4 0 obj
+% Font Helvetica-Bold
+<< /BaseFont /Helvetica-Bold
+ /Encoding /WinAnsiEncoding
+ /Name /F3
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F4': class PDFType1Font 
+5 0 obj
+% Font Helvetica-Oblique
+<< /BaseFont /Helvetica-Oblique
+ /Encoding /WinAnsiEncoding
+ /Name /F4
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F5': class PDFType1Font 
+6 0 obj
+% Font ZapfDingbats
+<< /BaseFont /ZapfDingbats
+ /Encoding /ZapfDingbatsEncoding
+ /Name /F5
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Page1': class PDFPage 
+7 0 obj
+% Page dictionary
+<< /Contents 11 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 10 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'R8': class PDFCatalog 
+8 0 obj
+% Document Root
+<< /Outlines 12 0 R
+ /PageMode /UseNone
+ /Pages 10 0 R
+ /Type /Catalog >>
+endobj
+% 'R9': class PDFInfo 
+9 0 obj
+<< /Author (\(anonymous\))
+ /CreationDate (D:20100603225119-01'00')
+ /Keywords ()
+ /Producer (ReportLab http://www.reportlab.com)
+ /Subject (\(unspecified\))
+ /Title (\(anonymous\)) >>
+endobj
+% 'R10': class PDFPages 
+10 0 obj
+% page tree
+<< /Count 1
+ /Kids [ 7 0 R ]
+ /Type /Pages >>
+endobj
+% 'R11': class PDFStream 
+11 0 obj
+% page stream
+<< /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Length 1569 >>
+stream
+GauHK?#SIU'R_X]s)=GTGHb=LP[qlh6]-7#8@!=l:nYmfA7&!",q:.=Us6+#V>T`)Fu4E,%EG.qFjIT\pQ/kBdYfuTUCuMV&3aAR?lf_(_#0c7_eV4R^45n/qfcitgQ/#rZX+?b&^>$=U1nFhVmmO_RU:[0g"DuM4CF;bTA."X#+[PMO/>K31$X>eIYL\B0o0'Xga+F!d@g=A_`qT)99]9HoA5-3]('YDN((FY_;Mgd('U330RP361I+@Th#\iuK?sg!816#;R@uqNVl<G89,GV?*CY_2'Om;ZX;)19q"BZA.HH>Z#_A)eVCE6(oI*5>(I^sd$Djh8##CLhE,mNI6KYo(F.*!)o<hKVe*dPq2;PaCUc(gV!83"R>2+C>/E'L[3mg*3Mm+nAnHDJ+:<84k_1WMF,mgp__XbL[:u\PBYoE6\H'&YBphI\\PocNR$C^,\:<k>WeDm?PSBu,kA26_sATUCEMh4E]M:'f5;4+4i-W&JOSU;cK8E99;5[$l<)rF3D3Oqn$&D`1pEth*Af\f_.erq`M.SCId"km^XR&`e6ap2nCTRa?`U@msa3bU33GX8RTfNBHG6o6U,WP)cLS:3.i5?1;`o7FF1nBe^<4oiP06cqq/r0C8QX1SF(A.2RKNH0lO)%5NWLQBVPG'PBsC/PbPjh)Mg>WWaeZDp6&F^u;dRIKHmcZS$2TJ?&CKsj'!QLdt'0flECl-kDh_)Fpd)KV,G.OFR&c>-E?he`6_k8EE_H8o:K-,mt.n,%tjOml:K>rtb>F/cS+<9=823TiscVaaXK31(ald3"`VAP)it#7HL,*6bKW4)t_hHl*j'&2q';^_Y*+)(e?)6'Ul8VSt:bh9>I@q^Ji-+]f!0@(31iF&1J+,Lib3Q""\d9shr*&#VEL^Di?[:/ce>+AE7mU'nG@S-(_aeiM75<kAaS.l2]sBi*q`X\g,B(A<dik0O965/I<4K;nVe"8CT'\^#-]W!52YcE6Bb!k>9D,[!Q^,U]6jV@/`X-O#bYVQ1)Kc'D98MIR_%]5TCDCe63X7m0U@?.'7''KJf`\]c4\G25IU??PR/@VjBM/r>\kEum`cJW8n/95hZ;d^j5qQUs?Z!e7:rL4RZ0GfEU1(X:UcZt7j5=P/5++!7>G2^F4Scg;Eb,nk[CU3\A)5FjaU<CL4qLbc)4Fq@cc8%u)dKca!rn$KJT.$la8>3[P=FUbm&!GC!5[6;!\H`oh+XV,H+.WBTF.e^;.'t<KNTC#ePFh/XWb_oZq%@;HXXY&E>O(^hC3t8GHY&@poUHL]`^TbI,=qJ<?"/hM,38nqQ1:sHnjL=bFiorOA%?U=Fg>1VI+?7Md?CM"'RY!5RY)6iceEs_@mN:OkCSp#29][;V5Aqr*46e6d]#alVaEMc!:JpTd(<Llr0:SjF4g*;q+?9*DM6.M]*D5Gdhe5NMqlq6OZm1'78+_m?N48.%lA(krb37Pj8:`Xo/N[^r[U/GF/'@I5ZD)rIU@(lAM%R2b=HEK36?:s-U__\CX0#Ui+58jp>oV5&XX*n@F?DT`3c9HG^tV15/GeV2JbSX4#1%dko)~>endstream
+endobj
+% 'R12': class PDFOutlines 
+12 0 obj
+<< /Count 0
+ /Type /Outlines >>
+endobj
+xref
+0 13
+0000000000 65535 f
+0000000113 00000 n
+0000000257 00000 n
+0000000422 00000 n
+0000000589 00000 n
+0000000764 00000 n
+0000000945 00000 n
+0000001119 00000 n
+0000001398 00000 n
+0000001534 00000 n
+0000001768 00000 n
+0000001875 00000 n
+0000003589 00000 n
+trailer
+<< /ID 
+ % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
+ [(=P\266\002\00729\037\331\220fr\365\344\365\210) (=P\266\002\00729\037\331\220fr\365\344\365\210)] 
+
+ /Info 9 0 R
+ /Root 8 0 R
+ /Size 13 >>
+startxref
+3641
+%%EOF

@@ -20,14 +20,14 @@ from wordaxe.ExplicitHyphenator import ExplicitHyphenator
 
 class PyHyphenHyphenator(ExplicitHyphenator):
     """
-    Hyphenation using Leo's excellent pyhyphen package from 
+    Hyphenation using Leo's excellent pyhyphen package from
     http://pyhyphen.googlecode.com.
-    As it seems, it is triple-licensed (see its __init__.py header). 
+    As it seems, it is triple-licensed (see its __init__.py header).
     So it should be ok to include it here.
-    To use it, you have to first download and install pyhyphen 
+    To use it, you have to first download and install pyhyphen
     using the usual python setup.py install procedure,
     then install the dictionary files you need (from OpenOffice)
-    in the wordaxe/dict directory. If you have a working internet 
+    in the wordaxe/dict directory. If you have a working internet
     connection, the dictionary file will be installed on demand.
 
     To use the hyphenator:
@@ -38,7 +38,7 @@ class PyHyphenHyphenator(ExplicitHyphenator):
     hw.showHyphens()
     """
 
-    def __init__ (self, 
+    def __init__ (self,
                   language="EN",
                   minWordLength=4,
                   quality=8,
@@ -52,7 +52,11 @@ class PyHyphenHyphenator(ExplicitHyphenator):
         if not dictools.is_installed(language, directory=hyphenDir):
             dictools.install(language, directory=hyphenDir)
             print "installed dictionary for %s into %s" % (language, hyphenDir)
-        self.hnj = pyhyphen.hyphenator(language, directory=hyphenDir)
+        try:
+            hyphenator = pyhyphen.Hyphenator
+        except AttributeError:  # pyhyphen < 0.1
+            hyphenator = pyhyphen.hyphenator
+        self.hnj = hyphenator(language, directory=hyphenDir)
         self.quality = quality
 
     # Hilfsfunktion
@@ -94,7 +98,7 @@ class PyHyphenHyphenator(ExplicitHyphenator):
                 hp = HyphenationPoint(len(left),self.quality,nl,sl,nr,sr)
             hyphPoints.append(hp)
         return hyphPoints
-        
+
     def hyph(self,aWord):
         assert isinstance(aWord, unicode)
         hword = HyphenatedWord(aWord, hyphenations=self.zerlegeWort(aWord))
@@ -105,10 +109,10 @@ class PyHyphenHyphenator(ExplicitHyphenator):
 
     def i_hyphenate(self, aWord):
         return ExplicitHyphenator.i_hyphenate_derived(self, aWord)
-    
+
 if __name__=="__main__":
     h = PyHyphenHyphenator("de_DE",5)
     h.add_entries({u"wordaxe":   u"word8axe",
                  })
     h.test(outfname="PyHyphenLearn.html")
-    
+

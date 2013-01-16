@@ -31,11 +31,11 @@ class Stripper:
     STD_PREFIX_CHARS = u"""'"([{ø"""
     STD_SUFFIX_CHARS = u"""'')]}?!.,;:"""
 
-    def __init__(self, prefix_chars=STD_PREFIX_CHARS, 
+    def __init__(self, prefix_chars=STD_PREFIX_CHARS,
                        suffix_chars=STD_SUFFIX_CHARS):
         self.prefix_chars = prefix_chars
         self.suffix_chars = suffix_chars
-    
+
     def strip(self, word):
         """
         Returns a tuple (prefix, base, postfix)
@@ -49,7 +49,7 @@ class Stripper:
         while offs_r > offs_l and word[offs_r-1] in self.suffix_chars:
             offs_r -= 1
         return word[:offs_l], word[offs_l:offs_r], word[offs_r:]
-        
+
     def apply_stripped(self, func, hyphenator, word, *args, **kwargs):
         """
         Apply a hyphenation function for a word,
@@ -73,7 +73,7 @@ class Stripper:
         else:
             result = prefix + result + suffix
         return result
-        
+
 # Test
 assert Stripper().strip(u"(Wie denn?") == (u"(", u"Wie denn", u"?")
 
@@ -87,13 +87,13 @@ class BaseHyphenator(Hyphenator):
     .   dot (46, '\x2E') (depending on its position)
     _   underscore (95, '\x5F')
     ≠   shy hyphenation character (173, '\xAD').
-    
+
     Optionally, hyphenation points can be added for CamelCase words
     (CamelCase => Camel-Case).
     """
-    
+
     stripper = Stripper() # Mit den Standard-Einstellungen
-    
+
     def hyph(self,word):
         """
         This is the non-recursive hyphenation function.
@@ -131,14 +131,14 @@ class BaseHyphenator(Hyphenator):
             hword.hyphenations = hyphenations
             return hword
         return None # unknown
-        
+
     def i_hyphenate(self,aWord):
         """
         This is the (possible recursive) hyphenation function.
         """
         assert isinstance(aWord, unicode)
         return self.stripper.apply_stripped(BaseHyphenator.hyph, self, aWord)
-        
+
     def learn(self,wordlist,htmlFile=None,VERBOSE=False):
         #print sys.stdout.encoding
         #print "VERBOSE:", VERBOSE
@@ -147,7 +147,7 @@ class BaseHyphenator(Hyphenator):
         unknownWords = []
         cntTooShort = 0
         letters = "abcdefghijklmnopqrstuvwxyz‰ˆ¸ƒ÷‹ﬂ".decode("iso-8859-1")
-        
+
         if htmlFile:
             htmlFile.write ("""<html>
 <head>
@@ -205,7 +205,7 @@ class BaseHyphenator(Hyphenator):
                             print w, "Nicht trennbar:", repr(loesung)
         if htmlFile:
             htmlFile.write("</p></body></html>")
-            
+
         return (cntWords, cntOK, cntTooShort, unknownWords)
 
 
@@ -282,7 +282,7 @@ class BaseHyphenator(Hyphenator):
         The test outputs those words where the hyphenated version does not match
         the expected output.
         """
-        for zeile in codecs.open(fname,"rt", encoding):
+        for zeile in codecs.open(fname,"rU", encoding):
             assert isinstance(zeile,unicode)
             word, expected = zeile.strip().split()
             loesung = self.hyphenate(word)
@@ -301,8 +301,8 @@ class BaseHyphenator(Hyphenator):
                 output = word
             if output != expected:
                 error ("%r: output=%r but expected=%r", word, output, expected)
-            
-        
+
+
 if __name__=="__main__":
     print "Testing BaseHyphenator:"
     h = BaseHyphenator("DE",5, CamelCase=True)
@@ -316,7 +316,7 @@ if __name__=="__main__":
             print "%s -- %s" % (word, hyphWord.showHyphens())
         else:
             print "%s -- unknown" % word
-    
+
     hw = HyphenatedWord("Schiffahrtskapit‰nsbackenzahn".decode("iso-8859-1"), [])
     #                   0         1         2
     #                   01234567890123456789012345678

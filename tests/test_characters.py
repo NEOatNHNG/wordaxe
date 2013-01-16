@@ -4,7 +4,8 @@
 import os
 import sys
 import unittest
-import traceback
+
+import traceback
 
 __author__ = "Henning von Bargen"
 
@@ -14,7 +15,7 @@ OUTPUT = False
 
 words = u"""
 raven\u2019s
-Dr.\x00A0Who
+Dr.\u00A0Who
 """.splitlines()
 
 def test_words(hyphenator):
@@ -31,9 +32,10 @@ def test_words(hyphenator):
                 errors.append(u"word:%s result:%s exception:%s" %
                               (word, hword, traceback.format_exc()))
     if errors:
-        raise AssertionError("Errors for %s:\n" % hyphenator + "\n".join([e.encode("ascii","backslashreplace") for e in errors]))
+        raise AssertionError("Errors for %r:\n" % hyphenator + "\n".join([e.encode("ascii","backslashreplace") for e in errors]))
 
-if False:
+
+if False:
     # We know that PyHnj does not hyphenate many German words as it should,
     # so leave this test out
     class WordlistTestCase(unittest.TestCase):

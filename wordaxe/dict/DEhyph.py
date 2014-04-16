@@ -129,6 +129,7 @@ bäume
 bayer
 bayr
 becher
+becken
 bei
 beim,NO_SUFFIX
 bein

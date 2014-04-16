@@ -106,7 +106,14 @@ class StyledWord(Fragment):
         self.fragments = fragments
         # Breite berechnen
         self.text = u"".join([f.text for f in fragments])
-        self.width = sum([f.width for f in fragments])
+        self.width = 0
+        for f in fragments:
+            w = f.width
+            if hasattr(w, "normalizedValue"):
+                assert len(fragments) == 1 # An image cannot be part of a word.
+                self.dynamic_width = f.width
+            else:
+                self.width += w
         for f in fragments:
             if hasattr(f, "nobr"):
                 self.nobr = True
@@ -221,13 +228,15 @@ class Line(object):
         self.print_indx_start = print_indx_start
         self.print_indx_end = print_indx_end
         #assert abs(self.width - sum(getattr(f,"width",0) for f in fragments[print_indx_start:print_indx_end])) <= 1e-5
-        if not abs(self.width - sum(getattr(f,"width",0) for f in fragments[print_indx_start:print_indx_end])) <= 1e-5:
-            print "Assertion failure"
-            print "self.width=%f" % self.width
-            print "nFrags=%d" % len(fragments)
-            print "printrange=%d:%d" % (self.print_indx_start, print_indx_end)
-            print "printwidth=%f" % sum(getattr(f,"width",0) for f in fragments[print_indx_start:print_indx_end])
-            for i,f in enumerate(fragments): print i, f, getattr(f, "width")
+        if not [True for f in fragments if hasattr(f, "dynamic_width")]:
+            # With the introduction of _PCT widths for images, the test doesn't really make sense 
+            if not abs(self.width - sum(getattr(f,"width",0) for f in fragments[print_indx_start:print_indx_end])) <= 1e-5:
+                print "Assertion failure"
+                print "self.width=%f" % self.width
+                print "nFrags=%d" % len(fragments)
+                print "printrange=%d:%d" % (self.print_indx_start, print_indx_end)
+                print "printwidth=%f" % sum(getattr(f,"width",0) for f in fragments[print_indx_start:print_indx_end])
+                for i,f in enumerate(fragments): print i, f, getattr(f, "width")
 
         # Compute font size
         max_size = 0

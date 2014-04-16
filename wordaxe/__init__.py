@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-1 -*-
 
 __license__="""
-   Copyright 2004-2010 Henning von Bargen (henning.vonbargen arcor.de)
+   Copyright 2004-2014 Henning von Bargen (henning.vonbargen arcor.de)
    This software is dual-licenced under the Apache 2.0 and the
    2-clauses BSD license. For details, see license.txt in the doc directory.
 """
@@ -18,4 +18,4 @@ from wordaxe.hyphen import SHY, HyphenationPoint, HyphenatedWord, Hyphenator, Ca
 # just set hyphRegistry[A]=B
 hyphRegistry = {}
 
-version = "wordaxe 1.0.1"
+version = "wordaxe 1.1.0beta"

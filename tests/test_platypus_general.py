@@ -1,7 +1,6 @@
-#Copyright ReportLab Europe Ltd. 2000-2004
+#Copyright ReportLab Europe Ltd. 2000-2012
 #see license.txt for license details
-#history http://www.reportlab.co.uk/cgi-bin/viewcvs.cgi/public/reportlab/trunk/reportlab/test/test_platypus_general.py
-__version__=''' $Id: test_platypus_general.py 3257 2008-09-01 15:11:43Z rgbecker $ '''
+__version__=''' $Id$ '''
 
 #tests and documents Page Layout API
 __doc__="""This is not obvious so here's a brief explanation.  This module is both
@@ -12,12 +11,9 @@ return the 'story' for each.  The run() function gets the stories, then
 builds a special "document model" in which the frames are added to each page
 and drawn into.
 """
+from reportlab.lib.testutils import makeSuiteForClasses, outputfile, printLocation
 
-import string, copy, sys, os
-
-import unittest
-from tests.utils import makeSuiteForClasses, outputfile, printLocation
-
+import copy, sys, os
 from reportlab.pdfgen import canvas
 from reportlab import platypus
 from reportlab.platypus import BaseDocTemplate, PageTemplate, Flowable, FrameBreak
@@ -26,19 +22,22 @@ from reportlab.lib.units import inch, cm
 from reportlab.lib.styles import PropertySet, getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from reportlab.rl_config import defaultPageSize
-from reportlab.lib.utils import haveImages, _RL_DIR, rl_isfile, open_for_read, fileName2Utf8
+from reportlab.lib.utils import haveImages, _RL_DIR, rl_isfile, open_for_read, fileName2FSEnc
+import unittest
 
+import reportlab.lib.testutils
+testsFolder = reportlab.lib.testutils._OUTDIR = os.path.dirname(__file__) or ""
 from wordaxe.rl.styles import getSampleStyleSheet, ParagraphStyle
 from wordaxe.rl.NewParagraph import Paragraph
 
 if haveImages:
-    _GIF = os.path.join(_RL_DIR,'test','pythonpowered.gif')
+    _GIF = os.path.join(testsFolder,'pythonpowered.gif')
     if not rl_isfile(_GIF): _GIF = None
 else:
     _GIF = None
-if _GIF: _GIFUTF8=fileName2Utf8(_GIF)
+if _GIF: _GIFFSEnc=fileName2FSEnc(_GIF)
 
-_JPG = os.path.join(_RL_DIR,'docs','images','lj8100.jpg')
+_JPG = os.path.join(testsFolder,'lj8100.jpg')
 if not rl_isfile(_JPG): _JPG = None
 
 def getFurl(fn):
@@ -77,20 +76,20 @@ def getParagraphs(textBlock):
     """Within the script, it is useful to whack out a page in triple
     quotes containing separate paragraphs. This breaks one into its
     constituent paragraphs, using blank lines as the delimiter."""
-    lines = string.split(textBlock, '\n')
+    lines = textBlock.split('\n')
     paras = []
     currentPara = []
     for line in lines:
-        if len(string.strip(line)) == 0:
+        if len(line.strip()) == 0:
             #blank, add it
-            if currentPara <> []:
-                paras.append(string.join(currentPara, '\n'))
+            if currentPara != []:
+                paras.append('\n'.join(currentPara))
                 currentPara = []
         else:
             currentPara.append(line)
     #...and the last one
-    if currentPara <> []:
-        paras.append(string.join(currentPara, '\n'))
+    if currentPara != []:
+        paras.append('\n'.join(currentPara))
 
     return paras
 
@@ -218,7 +217,7 @@ def getCommentary():
         """, styleSheet['BodyText']))
     #we can use the bullet feature to do a definition list
     story.append(Paragraph("""
-        <para color=green bcolor=red bg=pink>This is a contrived object to give an example of a Flowable -
+        <para color=green bcolor=red bg=pink>This is a <font bgcolor=yellow color=red>contrived</font> object to give an example of a Flowable -
         just a fixed-size box with an X through it and a centred string.</para>""",
             styleSheet['Definition'],
             bulletText='XBox  '  #hack - spot the extra space after
@@ -318,11 +317,11 @@ def getCommentary():
     story.append(FrameBreak())
     if _GIF:
         story.append(Paragraph("""We can use images via the file name""", styleSheet['BodyText']))
-        code('''    story.append(platypus.Image('%s'))'''%_GIFUTF8)
-        code('''    story.append(platypus.Image(fileName2Utf8('%s')))''' % _GIFUTF8)
+        code('''    story.append(platypus.Image('%s'))'''%_GIFFSEnc)
+        code('''    story.append(platypus.Image(fileName2FSEnc('%s')))''' % _GIFFSEnc)
         story.append(Paragraph("""They can also be used with a file URI or from an open python file!""", styleSheet['BodyText']))
-        code('''    story.append(platypus.Image('%s'))'''% getFurl(_GIFUTF8))
-        code('''    story.append(platypus.Image(open_for_read('%s','b')))''' % _GIFUTF8)
+        code('''    story.append(platypus.Image('%s'))'''% getFurl(_GIFFSEnc))
+        code('''    story.append(platypus.Image(open_for_read('%s','b')))''' % _GIFFSEnc)
         story.append(FrameBreak())
         story.append(Paragraph("""Images can even be obtained from the internet.""", styleSheet['BodyText']))
         code('''    img = platypus.Image('http://www.reportlab.com/rsrc/encryption.gif')
@@ -364,7 +363,7 @@ def getExamples():
 
     story.append(Paragraph("""Same but with justification 1.5 extra leading and green text.""", styleSheet['BodyText']))
     p = Paragraph("""
-        <para align=justify leading=+1.5 fg=green><font color=red>Platypus</font> is all about fitting objects into frames on the page.  You
+        <para align=justify leading="+1.5" fg=green><font color=red>Platypus</font> is all about fitting objects into frames on the page.  You
         are looking at a fairly simple Platypus paragraph in Debug mode.
         It has some gridlines drawn around it to show the left and right indents,
         and the space before and after, all of which are attributes set in
@@ -502,7 +501,7 @@ def getExamples():
         story.append(Paragraph("Here is an Image flowable obtained from a string filename.",styleSheet['Italic']))
         story.append(platypus.Image(_GIF))
         story.append(Paragraph( "Here is an Image flowable obtained from a utf8 filename.", styleSheet['Italic']))
-        #story.append(platypus.Image(fileName2Utf8(_GIF)))
+        #story.append(platypus.Image(fileName2FSEnc(_GIF)))
         story.append(Paragraph("Here is an Image flowable obtained from a string file url.",styleSheet['Italic']))
         story.append(platypus.Image(getFurl(_GIF)))
         story.append(Paragraph("Here is an Image flowable obtained from an open file.",styleSheet['Italic']))
@@ -534,7 +533,7 @@ class AndyTemplate(BaseDocTemplate):
         frame1 = platypus.Frame(inch, 5.6*inch, 6*inch, 5.2*inch,id='F1')
         frame2 = platypus.Frame(inch, inch, 6*inch, 4.5*inch, showBoundary=1,id='F2')
         self.allowSplitting = 0
-        apply(BaseDocTemplate.__init__,(self,filename),kw)
+        BaseDocTemplate.__init__(self,filename,**kw)
         self.addPageTemplates(PageTemplate('normal',[frame1,frame2],framePage))
 
     def fillFrame(self,flowables):
@@ -543,8 +542,8 @@ class AndyTemplate(BaseDocTemplate):
             self.handle_flowable(flowables)
 
     def build(self, flowables1, flowables2):
-        assert filter(lambda x: not isinstance(x,Flowable), flowables1)==[], "flowables1 argument error"
-        assert filter(lambda x: not isinstance(x,Flowable), flowables2)==[], "flowables2 argument error"
+        assert [x for x in flowables1 if not isinstance(x,Flowable)]==[], "flowables1 argument error"
+        assert [x for x in flowables2 if not isinstance(x,Flowable)]==[], "flowables2 argument error"
         self._startBuild()
         while (len(flowables1) > 0 or len(flowables1) > 0):
             self.clean_hanging()
@@ -553,13 +552,12 @@ class AndyTemplate(BaseDocTemplate):
 
         self._endBuild()
 
-
 def showProgress(pageNo):
-    print 'CALLBACK SAYS: page %d' % pageNo
+    print('CALLBACK SAYS: page %d' % pageNo)
 
 
 def run():
-    doc = AndyTemplate(outputfile('test_platypus_general.pdf'))
+    doc = AndyTemplate(outputfile('test_platypus_general.pdf'),subject='test0')
     #doc.setPageCallBack(showProgress)
     commentary = getCommentary()
     examples = getExamples()
@@ -587,34 +585,6 @@ class PlatypusTestCase(unittest.TestCase):
         story = [Paragraph("The section header", header), d,
                 ]
         doc = SimpleDocTemplate(outputfile('test_drawing_keepwithnext.pdf'))
-        doc.build(story)
-
-    def test2(self):
-        #test from Wietse Jacobs
-        from reportlab.lib.styles import ParagraphStyle
-        from reportlab.graphics.shapes import Drawing, Rect
-        from reportlab.platypus import SimpleDocTemplate
-        from reportlab.platypus.flowables import DocAssign, DocExec, DocPara, DocIf, DocWhile
-        normal = ParagraphStyle(name='Normal', fontName='Helvetica', fontSize=8.5, leading=11)
-        header = ParagraphStyle(name='Heading1', parent=normal, fontSize=14, leading=19,
-                    spaceAfter=6, keepWithNext=1)
-        d = Drawing(400, 200)
-        d.add(Rect(50, 50, 300, 100))
-
-        story = [
-                DocAssign('currentFrame','doc.frame.id'),
-                DocAssign('currentPageTemplate','doc.pageTemplate.id'),
-                DocAssign('aW','availableWidth'),
-                DocAssign('aH','availableHeight'),
-                DocAssign('aWH','availableWidth,availableHeight'),
-                DocAssign('i',3),
-                DocIf('i>3',Paragraph('The value of i is larger than 3',normal),Paragraph('The value of i is not larger than 3',normal)),
-                DocIf('i==3',Paragraph('The value of i is equal to 3',normal),Paragraph('The value of i is not equal to 3',normal)),
-                DocIf('i<3',Paragraph('The value of i is less than 3',normal),Paragraph('The value of i is not less than 3',normal)),
-                DocWhile('i',[DocPara('i',format='The value of i is %(__expr__)d',style=normal),DocExec('i-=1')]),
-                DocPara('repr(doc._nameSpace)',escape=True),
-                ]
-        doc = SimpleDocTemplate(outputfile('test_doc_programming.pdf'))
         doc.build(story)
 
 def makeSuite():

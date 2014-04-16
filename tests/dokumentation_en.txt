@@ -1,6 +1,6 @@
 = wordaxe Hyphenation =
 
-Henning von Bargen, January 2010, Release 1.0.1
+Henning von Bargen, April 2014, Release 1.1.0
 
 == Overview ==
 
@@ -35,9 +35,7 @@ of these open source licenses:
 
 For details, see the file license.txt contained in the library.
 
-Regarding the licenes for the 
-<a href="http://hkn.eecs.berkeley.edu/~dyoo/pyHnj">pyHnj library</a> from Danny Yoo
-(HNJ hyphenation, contained in the wordaxe installation), for the 
+Regarding the licenses for the 
 <a href="http://www.reportlab.org">ReportLab PDF library</a> 
 and the <a href="http://code.google.com/p/pyhyphen">pyhyphen library</a>
 please visit the corresponding web sites.
@@ -47,41 +45,28 @@ the OpenOffice distribution, they are licences under the GNU LGPL.
 
 == Installation ==
 
-=== ReportLab 2.4 ===
+=== ReportLab 3.0 ===
 
-wordaxe release 1.0.1 has been tested with Python 2.6 and ReportLab 2.3 and 2.4,
-but it should work equally well with Python 2.4 or 2.6, since AFAIK
-none of the new features of 2.5 are used.
+wordaxe release 1.1.1 has been tested with Python 2.7 and ReportLab 3.0.
 
-ReportLab 2.4 can be obtained from <a href="http://www.reportlab.com">www.reportlab.com</a>.
-The installation is easy (though not with easy-install ;-) and is not described here.
+ReportLab 3.0 can be obtained from <a href="http://www.reportlab.com">www.reportlab.com</a>.
+The installation is easy and is not described here.
 
-The older wordaxe 0.3.0 works with ReportLab 2.2 or 2.1, too.
+<b>Probably</b> wordaxe will work with Python 3.3, too. However, this is not yet tested.
 
-Notes on even older ReportLab versions:
-
-Though untested, wordaxe Release 0.3.0 may work with ReportLab 2.0.
-Otherwise you can use 0.2.2 in this case,
-but the installation is a little harder (because some more files
-in the ReportLab installation had to be overwritten and the installation guide
-was not correct).
-
-For ReportLab 1.19 please use Release 0.1.1 (not recommended).
-When upgrading from ReportLab 1.x to 2.x you probably have to change
-existing code (independently from wordaxe), since for 2.x all paragraph
-input text has to be unicode or UTF8 encoded.
+For older versions of Python and Reportlab, see wordaxe 1.0.1 or even older versions.
 
 === Installating wordaxe step-by-step ===
-1. Download the ZIP archive wordaxe-1.0.1.zip from the SourceForge site.
+1. Download the ZIP archive wordaxe-1.1.0.zip from the SourceForge site.
 
-2. Unpack the ZIP-archive wordaxe-1.0.1.zip in the root directory C:\
+2. Unpack the ZIP-archive wordaxe-1.1.0.zip in the root directory C:\
    (inside the archive, all files are in a directory "wordaxe-1.0.1").
    
    The following directory structure will be created:
 
 {{{
 C:
-    wordaxe-1.0.1
+    wordaxe-1.1.0
         doc
         htdocs
             css
@@ -98,32 +83,22 @@ C:
 3a. On the command line, execute:
 
 {{{
-cd /d c:\wordaxe-1.0.1
+cd /d c:\wordaxe-1.1.0
 setup.py install
 }}}
 
 3b. Alternative:
 
-   For ReportLab pre 2.3: Make a backup copy of the file reportlab\pdfbase\rl_codecs.py from the
-   ReportLab Installation; then replace the file with the
-   modified version from c:\wordaxe-1.0.1\wordaxe\rl\rl_codecs.py.
-   
-   <em>Note:</em> This will only change two lines of code in the file, 
-   responsible for the "shy hyphen" character SHY. 
-   
    Add the new library to the Python path, for example by creating a
-   file wordaxe.pth in c:\python26\lib\site-packages,
+   file wordaxe.pth in c:\python27\lib\site-packages,
    containg only one text line:
 
 {{{
-c:\wordaxe-1.0.1
+c:\wordaxe-1.1.0
 }}}
 
 4. Assure that "import wordaxe" doesn't create an error message.
-   
-5. ReportLab will work as before; differences may only occur,
-   if <em>your own</em> programs or texts use the SHY-character.
-   
+      
 == Usage ==
 
 To see the hyphenation with the DCW-Algorithmus (Decomposition of compound words)
@@ -202,7 +177,7 @@ Probably you want to supply the -v argument for verbose output, too.
 
 Example
 {{{
-c:\python26\python wordaxe\DCWHyphenator.py -v Silbentrennung
+c:\python27\python wordaxe\DCWHyphenator.py -v Silbentrennung
 }}}
 
 === DCWHyphenator ===
@@ -275,8 +250,9 @@ argument purePython=True is supplied to the constructor.
 
 This class also works like the pattern-based hyphenation in TeX,
 but it uses a different implementation and <em>works much better</em>!
-To use it, you need to have the pyhyphen library installed
+To use it, you need to have the pyhyphen library installed 
 (see <a href="http://pypi.python.org/pypi/PyHyphen/">http://pypi.python.org/pypi/PyHyphen/</a>).
+wordaxe 1.1.0 was tested with pyhyphen 2.0.4.
 
 This class supports all features of ExplicitHyphenator as well.
 
@@ -332,5 +308,5 @@ functionality.
 
 Since I was not able to add working hyphenation support to that code
 in case of paragraph splitting, I decided to start a new Paragraph
-implementation which a lot of code rewritten from scratch
+implementation with a lot of code rewritten from scratch
 (NewParagraph.py and para_fragments.py) and use that instead.

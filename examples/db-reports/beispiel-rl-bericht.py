@@ -65,6 +65,9 @@ from reportlab.lib import enums
 from reportlab.platypus.doctemplate import SimpleDocTemplate
 from wordaxe.rl.styles import getSampleStyleSheet
 from wordaxe.rl.paragraph import Paragraph
+from reportlab.platypus.tables import LongTable
+from reportlab.platypus import TableStyle
+from reportlab.lib import colors
 
 import wordaxe
 from wordaxe.DCWHyphenator import DCWHyphenator
@@ -85,7 +88,13 @@ class MyLayout(Layout):
         stn = stylesheet['Normal']
         stn.fontName = 'Helvetica'
         stn.fontSize = 10
-        stn.leading = 14
+        stn.leading = 12
+        #print stn.spaceAfter
+        #print stn.spaceBefore
+        #print stn.leading
+        
+        print "TODO: Why is the text so close to the top of the cells?"
+        
         # Automatische Silbentrennung für diesen Stil einschalten
         stn.language = 'DE'
         stn.hyphenation = True
@@ -95,8 +104,8 @@ class MyLayout(Layout):
         self.generateDUMP(model_data)
         pure_text = "".join(self.text)
         story = []
-        
-        para = Paragraph("Druckaufträge und ihre Parameter".decode("iso-8859-1"), sth1)
+        para = Paragraph("Beispiel für einen Datenbankbericht".decode("iso-8859-1"), sth1)
+        '''
         story.append(para)
         
         para = Paragraph("""Dies ist ein längerer Absatz, der eigentlich nur den Zweck hat,
@@ -110,10 +119,40 @@ Mal sehen, ob das Euro-Zeichen geht - ich befürchte aber, dass das auf Anhieb ni
 Hier kommt es: € - nee, das sehe ich schon im Quelltext nicht richtig.
 """.decode("iso-8859-1"), stn)        
         story.append(para)
-        
         for line in pure_text.splitlines():
             para = Paragraph(line.decode("iso-8859-1"), stn)
             story.append(para)
+        '''
+        
+        # Jetzt mal anders: 
+        # Ausgabe als Master-Detail-Liste, wobei die Details
+        # eine Spalte weiter eingerückt sind.
+        if model_data:
+            headers1 = [Paragraph(toUnicode(x), stn) for x in DEPT.headers()]
+            headers2 = [None] + [Paragraph(toUnicode(x), stn) for x in EMP.headers()]
+            nColumns = max(len(headers1), len(headers2))
+            fill1 = ([None] * (nColumns - len(headers1)))
+            fill2 = ([None] * (nColumns - len(headers2)))
+            headers1 += fill1
+            headers2 += fill2
+            tableData = [headers1, headers2]
+            colWidths = [None] * nColumns
+            colWidths[-1]=40*mm
+            nRows = len(model_data)
+            tableStyle = TableStyle([('BOX', (0,0), (-1,-1), 1, colors.black),
+                                     ('BACKGROUND', (0,0), (-1,1), colors.orange),
+                                     ('BACKGROUND', (0,1), (-1,1), colors.yellow),
+                                     ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
+                                     ('LEFTPADDING', (0,0), (-1,-1), 3),
+                                     ('RIGHTPADDING', (0,0), (-1,-1), 3),
+                                     ('VALIGN', (0,0), (-1,-1), 'TOP'),
+                                     ])
+            for dept in model_data:
+                tableData.append(dept.genParagraphList(stn) + fill1)
+                tableStyle.add('BACKGROUND', (0,len(tableData)-1), (-1,len(tableData)-1), colors.orange)
+                for emp in dept.children["emp"]:
+                    tableData.append([""] + emp.genParagraphList(stn) + fill2)            table = LongTable(tableData, style=tableStyle, colWidths=colWidths, repeatRows=2)
+            story.append(table)
         self.story = story
 
 class MyReport(Report):

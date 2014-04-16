@@ -124,6 +124,12 @@ def imgVRange(h,va,fontSize):
         iyo = va
     return iyo,iyo+h
 
+def imgNormV(v,nv):
+    if hasattr(v,'normalizedValue'):
+        return v.normalizedValue(nv)
+    else:
+        return v
+
 _56=5./6
 _16=1./6
 def _putFragLine(cur_x, tx, line):
@@ -174,7 +180,9 @@ def _putFragLine(cur_x, tx, line):
             if kind=='img':
                 #draw image cbDefn,cur_y,cur_x
                 w = cbDefn.width
-                h = cbDefn.height
+                if hasattr(w, "normalizedValue"):
+                    w = w.normalizedValue(line.width)
+                h = imgNormV(cbDefn.height,f.fontSize)
                 txfs = tx._fontsize
                 if txfs is None:
                     txfs = xs.style.fontSize
@@ -561,8 +569,10 @@ class Paragraph(Flowable):
             w = 0
             if isinstance(frag, StyledNewLine):
                 actions = [("ADD",frag), ("LINEFEED",None)]
-            elif hasattr(frag, "width"):
+            elif hasattr(frag, "dynamic_width") or hasattr(frag, "width"):
                 w = frag.width
+                if hasattr(frag, "dynamic_width"):
+                    w = frag.dynamic_width.normalizedValue(max_width)
                 if width + w > max_width:
                     # does not fit
                     #print "does not fit:", frag, width, w, max_width
@@ -1182,7 +1192,7 @@ class ParagraphAndImage(Flowable):
             self.P.drawOn(canv,0,0)
 
 # Monkey patch Reportlab textobject
-from reportlab.lib.utils import fp_str
+from reportlab.lib.rl_accel import fp_str
 from reportlab.pdfbase import pdfmetrics
 
 def kerning_formatText(self, text, kerning_pairs=None):

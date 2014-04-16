@@ -1,6 +1,6 @@
 = wordaxe Silbentrennung =
 
-Henning von Bargen, Januar 2010, Release 1.0.1
+Henning von Bargen, April 2014, Release 1.1.0
 
 == Übersicht ==
 
@@ -33,44 +33,32 @@ verwendet werden.
 
 Der genaue Text liegt der Bibliothek bei (Datei license.txt).
 
-Zu den Lizenzen für die pyHnj Bibliothek von Danny Yoo zur HNJ-Silbentrennung,
-und für die ReportLab PDF Bibliothek siehe die entsprechenden Webseiten.
+Zu den Lizenzen für die <a href="http://www.reportlab.org">ReportLab</a> PDF Bibliothek 
+und für die <a href="http://code.google.com/p/pyhyphen">pyhyphen </a> Bibliothek
+siehe die entsprechenden Webseiten.
 
 Die "dictionary files" mit der Endung <tt>.dic</tt> sind von der OpenOffice
 Distribution übernommen, sie stehen unter der GNU LGPL Lizenz.
 
 == Installation ==
 
-=== ReportLab 2.4 ===
+=== ReportLab 3.0 ===
 
-wordaxe Release 1.0.1 wurde mit Python 2.6 und mit ReportLab 2.3 und 2.4 getestet,
-sollte jedoch problemlos auch mit Python 2.4 oder 2.5 funktionieren, da keine neuen 
-Features von Python 2.5 verwendet werden.
+wordaxe Release 1.1.0 wurde mit Python 2.7 und ReportLab 3.0 getestet.
 
-ReportLab 2.4 kann von <a href="http://www.reportlab.com">www.reportlab.com</a>
+ReportLab 3.0 kann von <a href="http://www.reportlab.com">www.reportlab.com</a>
 heruntergeladen und installiert werden (hier wird nicht beschrieben, wie das geht).
 
-Die Version wordaxe 0.3.0 funktioniert auch mit dem etwas älteren ReportLab 2.2 oder 2.1.
+<b>Vermutlich</b> funktioniert das Ganze auch mit Python 3.3, das wurde aber bisher nicht getestet.
 
-Hinweise zu noch älteren ReportLab-Versionen:
-
-Möglicherweise funktioniert wordaxe Release 0.3.0 auch mit ReportLab 2.0.
-Ansonsten kann in diesem Fall auch Release 0.2.2 verwendet werden,
-was aber bei der Installation etwas schwieriger ist (man musste da noch
-einige Dateien in der ReportLab-Installation überschreiben und die
-Installationsanleitung war nicht korrekt).
-
-Für ReportLab 1.19 sei auf Release 0.1.1 verwiesen (nicht empfohlen).
-Bei einer Umstellung von ReportLab 1.x auf 2.x ist (unabhängig von wordaxe)
-zu beachten, dass bestehender Code evtl. angepasst werden muss, da als
-"paragraph encoding" immer UTF8 benutzt werden muss.
+Für ältere Versionen von ReportLab oder Python siehe wordaxe Version 1.0.1 oder ältere wordaxe-Versionen.
 
 === Installation wordaxe Schritt für Schritt ===
-1. Das ZIP-Archiv wordaxe-1.0.1.zip von der SourceForge Seite
+1. Das ZIP-Archiv wordaxe-1.1.0.zip von der SourceForge Seite
    (siehe <a href="#bezug">Bezug</a>) herunterladen.
 
-2. Das ZIP-Archiv wordaxe-1.0.1.zip im Wurzelverzeichnis C:\ entpacken
-   (innerhalb des Archivs liegen alle Dateien in einem Verzeichnis "wordaxe-1.0.1").
+2. Das ZIP-Archiv wordaxe-1.1.0.zip im Wurzelverzeichnis C:\ entpacken
+   (innerhalb des Archivs liegen alle Dateien in einem Verzeichnis "wordaxe-1.1.0").
    Dadurch wird die folgende Verzeichnisstruktur angelegt:
 
 Falls bereits eine ältere Version von wordaxe installiert war
@@ -79,7 +67,7 @@ Datei unbedingt eine <b>Sicherheitskopie</b> angelegt werden!
 
 {{{
 C:
-    wordaxe-1.0.1
+    wordaxe-1.1.0
         docs
         htdocs
             css
@@ -97,30 +85,21 @@ C:
 3a. Auf der Kommandozeile ausführen:
 
 {{{
-cd /d c:\wordaxe-1.0.1
+cd /d c:\wordaxe-1.1.0
 setup.py install
 }}}
    
 3b. Alternativ:
-   Für ReportLab 2.2 oder älter: eine Sicherheitskopie der Datei reportlab\pdfbase\rl_codecs.py von der
-   ReportLab Installation anlegen; anschließend die Datei ersetzen
-   durch die mitgelieferte angepasste Version in c:\wordaxe-1.0.1\wordaxe\rl\rl_codecs.py.
-   
-   <em>Beachte:</em> Dadurch werden nur zwei Zeilen in der Datei geändert, 
-   die das "scheue Minuszeichen" SHY betreffen. 
    
    Die neue Bibliothek zum Python-Path hinzufügen, zum Beispiel durch Anlegen
    einer entsprechenden Datei wordaxe.pth im Verzeichnis c:\python26\lib\site-packages,
    die nur die folgende Textzeile enthält:
 
 {{{
-c:\wordaxe-1.0.1
+c:\wordaxe-1.1.0
 }}}
 
 4. Anschließend sicherstellen, dass "import wordaxe" keine Fehlermeldung erzeugt.
-   
-5. ReportLab funktioniert genau so wie vorher; Unterschiede können höchstens auftreten,
-   wenn innerhalb der <em>eigenen</em> Programme oder Texte das SHY-Zeichen verwendet wird.
    
 == Verwendung ==
 
@@ -203,7 +182,7 @@ Es bietet sich an, dabei außerdem die Option -v anzugeben.
 
 Beispiel:
 {{{
-c:\python26\python wordaxe\DCWHyphenator.py -v Silbentrennung
+c:\python27\python wordaxe\DCWHyphenator.py -v Silbentrennung
 }}}
 
 === DCWHyphenator ===

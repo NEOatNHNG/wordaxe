@@ -34,6 +34,22 @@ class OracleDataSource:
 
 from xml.etree.ElementTree import Element, SubElement, ElementTree
 from xml.sax import saxutils
+
+def toUnicode(val):
+        if type(val) == list:
+            return [toUnicode(x) for x in val]
+        if type(val) == tuple:
+            return tuple(*[toUnicode(x) for x in val])
+        if type(val) == dict:
+            d = dict()
+            for k,v in val.items():
+                d[k] = toUnicode(val)
+            return d
+        if type(val) == unicode:
+            return val
+        if type(val) == str:
+            return val.decode("iso-8859-1")
+        return unicode(val)
         
 class DBRecord(object):
     
@@ -50,7 +66,35 @@ class DBRecord(object):
             else:
                 name = info
             setattr(self, name, value)
-            
+
+    @classmethod
+    def columns(cls):
+        retlist = []
+        for coldef in cls.meta:
+            if type(coldef) is tuple:
+                column, title = coldef
+            else:
+                column, title = coldef, coldef.title()
+            retlist.append(column)
+        return retlist
+
+    @classmethod
+    def headers(cls):
+        retlist = []
+        for coldef in cls.meta:
+            if type(coldef) is tuple:
+                column, title = coldef
+            else:
+                column, title = coldef, coldef.title()
+            retlist.append(title)
+        return retlist
+        
+    def values(self):
+        return [getattr(self,x) for x in self.columns()]        
+
+    def genParagraphList(self, style):
+        return [Paragraph(toUnicode(value), style) for value in self.values()]
+        
     def dump(self, indent=0, recursion_level=99):
         buf = []
         buf.append(" " * indent)
@@ -75,7 +119,7 @@ class DBRecord(object):
                     buf.append(child.dump(indent + 4, recursion_level - 1))
         buf.append(")\n")
         return "".join(buf)
-        
+
     def __str__(self):
         return self.dump(indent=0, recursion_level=99)
         
@@ -142,7 +186,8 @@ class DataModel(object):
         
 # Imports for Layout
 from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import Paragraph, SimpleDocTemplate
+from reportlab.platypus import SimpleDocTemplate
+from wordaxe.rl.paragraph import Paragraph
 import reportlab.lib.styles
 
 class Layout(object):

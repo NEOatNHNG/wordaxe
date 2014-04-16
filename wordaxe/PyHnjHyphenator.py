@@ -64,7 +64,7 @@ class PyHnjHyphenator(ExplicitHyphenator):
                 codes = codes+digit
                 self.patterns[pat.decode("iso-8859-1")] = codes
         else:
-            import pyHnj
+            import reportlab.lib.pyHnj as pyHnj
             self.hnj = pyHnj.Hyphen(fname)
         self.quality = quality
 

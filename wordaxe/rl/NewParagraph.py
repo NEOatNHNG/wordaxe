@@ -57,6 +57,7 @@ Ascent:
 
 """
 
+from reportlab import rl_config
 from reportlab.lib.units import cm
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
 
@@ -889,7 +890,10 @@ class Paragraph(Flowable):
             noJustifyLast = not (hasattr(self,'_JustifyLast') and self._JustifyLast)
             f = lines[0]
             #cur_y = self.height - getattr(f,'ascent',f.fontSize)
-            cur_y = sum([line.height for line in lines]) - f.ascent
+            if rl_config.paraFontSizeHeightOffset:
+                cur_y = self.height - f.fontSize
+            else:
+                cur_y = sum([line.height for line in lines]) - f.ascent
 
             # default?
             dpl = self._leftDrawParaLineX
@@ -1192,7 +1196,12 @@ class ParagraphAndImage(Flowable):
             self.P.drawOn(canv,0,0)
 
 # Monkey patch Reportlab textobject
-from reportlab.lib.rl_accel import fp_str
+
+# The location of fp_str changed between 2.3, 2.7 and 3.1
+try:
+    from reportlab.lib.rl_accel import fp_str
+except ImportError:
+    from reportlab.lib.utils import fp_str
 from reportlab.pdfbase import pdfmetrics
 
 def kerning_formatText(self, text, kerning_pairs=None):

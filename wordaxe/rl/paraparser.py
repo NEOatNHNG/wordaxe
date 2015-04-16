@@ -25,7 +25,7 @@ class NoBrParaParser(ParaParser):
     """ParaParser with support for 'nobr' Tags."""
 
     def start_nobr( self, attributes ):
-        self._push(nobr=True)
+        self._push('nobr', nobr=True)
 
     def end_nobr( self ):
-        self._pop(nobr=True)
+        self._pop('nobr')

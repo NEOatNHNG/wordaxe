@@ -51,7 +51,7 @@ class PyHyphenHyphenator(ExplicitHyphenator):
         fname = os.path.join(hyphenDir, "hyph_%s.dic" % language)
         if not dictools.is_installed(language, directory=hyphenDir):
             dictools.install(language, directory=hyphenDir)
-            print "installed dictionary for %s into %s" % (language, hyphenDir)
+            print("installed dictionary for %s into %s" % (language, hyphenDir))
         try:
             hyphenator = pyhyphen.Hyphenator
         except AttributeError:  # pyhyphen < 0.1

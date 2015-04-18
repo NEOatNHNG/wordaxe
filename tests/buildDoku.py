@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-1 -*-
 
+from __future__ import print_function
 __license__="""
    Copyright 2004-2008 Henning von Bargen (henning.vonbargen arcor.de)
    This software is dual-licenced under the Apache 2.0 and the
@@ -53,7 +54,7 @@ def run():
     ("DE", "dokumentation_de", u"wordaxe Anleitung (deutsch)"),
     ("EN", "dokumentation_en", u"wordaxe User Guide (english)"),
     ]:
-        print "Generating", fname + ".pdf"
+        print("Generating", fname + ".pdf")
         stylesheet=getSampleStyleSheet()
         for name in ["Heading1", "Heading2", "Heading3", "Code", "BodyText"]:
             style = stylesheet[name]

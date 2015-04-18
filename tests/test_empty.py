@@ -27,7 +27,7 @@ if USE_HYPHENATION:
         from wordaxe.DCWHyphenator import DCWHyphenator
         wordaxe.hyphRegistry['DE'] = DCWHyphenator('DE', 5)
     except SyntaxError:
-        print "could not import hyphenation - try to continue WITHOUT hyphenation!"
+        print("could not import hyphenation - try to continue WITHOUT hyphenation!")
 
 
 PAGESIZE = pagesizes.landscape(pagesizes.A4)
@@ -53,7 +53,7 @@ class EmptyContentTestCase(unittest.TestCase):
             "&nbsp;",
             """<para><font backColor="red"> </font></para>"""
         ]:
-            #print repr(text)
+            #print(repr(text))
             story.append(Paragraph("before", style=normal))
             story.append(Paragraph(text, style=normal))
             story.append(Paragraph("after", style=normal))

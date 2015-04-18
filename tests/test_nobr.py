@@ -29,7 +29,7 @@ if USE_HYPHENATION:
         from wordaxe.DCWHyphenator import DCWHyphenator
         wordaxe.hyphRegistry['DE'] = DCWHyphenator('DE', 5)
     except SyntaxError:
-        print "could not import hyphenation - try to continue WITHOUT hyphenation!"
+        print("could not import hyphenation - try to continue WITHOUT hyphenation!")
 
 
 PAGESIZE = pagesizes.landscape(pagesizes.A4)
@@ -50,7 +50,7 @@ class TwoColumnDocTemplate(BaseDocTemplate):
             leftPadding=0, topPadding=0, rightPadding=0, bottomPadding=0,
             showBoundary=True
         )
-        apply(BaseDocTemplate.__init__, (self, filename), kw)
+        BaseDocTemplate.__init__(self, filename, **kw)
         template = PageTemplate('template', [f1, f2])
         self.addPageTemplates(template)
 

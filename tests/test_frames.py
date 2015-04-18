@@ -29,7 +29,7 @@ if USE_HYPHENATION:
         from wordaxe.DCWHyphenator import DCWHyphenator
         wordaxe.hyphRegistry['DE'] = DCWHyphenator('DE', 5)
     except SyntaxError:
-        print "could not import wordaxe - try to continue WITHOUT hyphenation!"
+        print("could not import wordaxe - try to continue WITHOUT hyphenation!")
 
 
 testdata = u"""<para>Die seit Juni 2006 wöchentlich im Internet abrufbaren Video-Podcasts mit Bundeskanzlerin Angela Merkel (CDU) haben bisher mehr als 550.000 Euro gekostet. Das hat laut dem Magazin Focus das Bundespresseamt auf Anfrage des FDP-Bundestagsabgeordneten Volker Wissing mitgeteilt. Ein Video-Podcast werde demnach für durchschnittlich knapp 10.800 Euro produziert. Im Juni 2006 war noch von 6500 Euro Kosten je Ausgabe die Rede. Jede Woche verzeichne das BPA etwa 200.000 Zugriffe auf Merkels Internet-Ansprachen, ein Zehntel davon Downloads auf Personalcomputer. (anw/c't)</para>"""
@@ -51,7 +51,7 @@ class TwoColumnDocTemplate(BaseDocTemplate):
             leftPadding=0, topPadding=0, rightPadding=0, bottomPadding=0,
             showBoundary=True
         )
-        apply(BaseDocTemplate.__init__, (self, filename), kw)
+        BaseDocTemplate.__init__(self, filename, **kw)
         template = PageTemplate('template', [f1, f2])
         self.addPageTemplates(template)
 

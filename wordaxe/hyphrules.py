@@ -288,7 +288,7 @@ class NOT_LAST_WORD(HyphRule):
             return True
         elif when==HyphRule.AT_END:
             return hasattr(wfrag[-1],self.name)
-        raise AlgorithmError, when        
+        raise AlgorithmError(when)
 
 class SINGLE_WORD(HyphRule):
     """This word must be the only one in a compound word.

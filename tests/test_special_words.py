@@ -30,7 +30,7 @@ try:
     from wordaxe.DCWHyphenator import DCWHyphenator
     wordaxe.hyphRegistry['DE'] = DCWHyphenator('DE', 5)
 except ImportError:
-    print "could not import wordaxe - try to continue WITHOUT hyphenation!"
+    print("could not import wordaxe - try to continue WITHOUT hyphenation!")
 
 
 def myFirstPage(canvas, doc):
@@ -86,7 +86,7 @@ def doLayout (title, data, colWidths, outPDF):
     header = ["%d mm" % w for w in colWidths]
     colWidths = [w*mm for w in colWidths]
     if sum(colWidths) > pagesize[0]:
-        raise ValueError, "Overall column width too wide!"
+        raise ValueError("Overall column width too wide!")
 
     tabContent = [header]
     for txt in data:

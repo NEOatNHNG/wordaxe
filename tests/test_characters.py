@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
 import os
 import sys
 import unittest
@@ -19,7 +20,7 @@ Dr.\u00A0Who
 """.splitlines()
 
 def test_words(hyphenator):
-    if OUTPUT: print "Testing", hyphenator, "..."
+    if OUTPUT: print("Testing", hyphenator, "...")
     errors = []
     for word in words:
         if word:
@@ -27,7 +28,7 @@ def test_words(hyphenator):
                 hword = u"n/a"
                 hword = hyphenator.hyphenate(word)
                 assert hword is None or isinstance(hword, HyphenatedWord)
-                if OUTPUT: print (u"word:%s result:%s" % (word, hword)).encode("ascii", "xmlcharrefreplace")
+                if OUTPUT: print((u"word:%s result:%s" % (word, hword)).encode("ascii", "xmlcharrefreplace"))
             except:
                 errors.append(u"word:%s result:%s exception:%s" %
                               (word, hword, traceback.format_exc()))

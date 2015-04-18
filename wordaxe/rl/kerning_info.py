@@ -2,6 +2,7 @@
 # -*- coding: iso-8859-1 -*-
 # Kerning info
 
+from __future__ import print_function
 import os
 import sys
 from reportlab.pdfbase import ttfonts
@@ -51,7 +52,7 @@ def extract_kerning_table(face):
                 o += 6
             #print "pairs:", pairs
         else:
-            print "Kerning subtable format %s not supported." % format
+            print("Kerning subtable format %s not supported." % format)
         offset += length
         assert o == offset
         return pairs
@@ -122,11 +123,11 @@ if __name__ == "__main__":
     fname = r"c:\windows\fonts\arial.ttf"
     font = ttfonts.TTFont("Arial", fname)
     face = font.face
-    print kerning(font.face, 'A', 'V')
-    print kerning(font.face, 'A', 'A')
-    print kerning(font.face, 'A', 'v')
+    print(kerning(font.face, 'A', 'V'))
+    print(kerning(font.face, 'A', 'A'))
+    print(kerning(font.face, 'A', 'v'))
     for text in ["Maya", "Vase", "Kandelaber", "Kronjuwelen", "Vaya con dios"
             ]:
-        print text,
-        print "without Kerning:", font.stringWidth(text, 12),
-        print "with    Kerning:", font.stringWidth_kerning(text, 12)
+        print(text, end=' ')
+        print("without Kerning:", font.stringWidth(text, 12), end=' ')
+        print("with    Kerning:", font.stringWidth_kerning(text, 12))

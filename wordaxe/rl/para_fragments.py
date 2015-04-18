@@ -2,6 +2,7 @@
 
 # Helper classes for the new Paragraph-Implementation
 
+from __future__ import print_function
 from copy import copy
 
 import reportlab.pdfbase.pdfmetrics as pdfmetrics
@@ -231,12 +232,12 @@ class Line(object):
         if not [True for f in fragments if hasattr(f, "dynamic_width")]:
             # With the introduction of _PCT widths for images, the test doesn't really make sense 
             if not abs(self.width - sum(getattr(f,"width",0) for f in fragments[print_indx_start:print_indx_end])) <= 1e-5:
-                print "Assertion failure"
-                print "self.width=%f" % self.width
-                print "nFrags=%d" % len(fragments)
-                print "printrange=%d:%d" % (self.print_indx_start, print_indx_end)
-                print "printwidth=%f" % sum(getattr(f,"width",0) for f in fragments[print_indx_start:print_indx_end])
-                for i,f in enumerate(fragments): print i, f, getattr(f, "width")
+                print("Assertion failure")
+                print("self.width=%f" % self.width)
+                print("nFrags=%d" % len(fragments))
+                print("printrange=%d:%d" % (self.print_indx_start, print_indx_end))
+                print("printwidth=%f" % sum(getattr(f,"width",0) for f in fragments[print_indx_start:print_indx_end]))
+                for i,f in enumerate(fragments): print(i, f, getattr(f, "width"))
 
         # Compute font size
         max_size = 0

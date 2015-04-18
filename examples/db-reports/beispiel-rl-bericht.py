@@ -93,7 +93,7 @@ class MyLayout(Layout):
         #print stn.spaceBefore
         #print stn.leading
         
-        print "TODO: Why is the text so close to the top of the cells?"
+        print("TODO: Why is the text so close to the top of the cells?")
         
         # Automatische Silbentrennung für diesen Stil einschalten
         stn.language = 'DE'

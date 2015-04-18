@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-1 -*-
 
+from __future__ import print_function
 __license__="""
    Copyright 2004-2008 Henning von Bargen (henning.vonbargen arcor.de)
    This software is dual-licenced under the Apache 2.0 and the
@@ -58,10 +59,10 @@ class Stripper:
         """
         assert isinstance(word, unicode)
         prefix, base, suffix = self.strip(word)
-        if func.im_self is None:
+        if func.__self__ is None:
             result = func(hyphenator, base, *args, **kwargs)
         else:
-            assert func.im_self is hyphenator
+            assert func.__self__ is hyphenator
             result = func(base, *args, **kwargs)
         if result is None:
             return None
@@ -197,12 +198,12 @@ class BaseHyphenator(Hyphenator):
                                     ins += 1
                             htmlFile.write("<span class=%s title=%s>%s</span>\n" % (quoteattr("ok"), quoteattr(str(loesung.hyphenations)), x))
                         elif VERBOSE:
-                            print w, loesung.hyphenations
+                            print(w, loesung.hyphenations)
                     else:
                         if htmlFile:
                             htmlFile.write("<span class=%s title=%s>%s</span>\n" % (quoteattr("nicht trennbar"), quoteattr(hint), escape(w)))
                         elif VERBOSE:
-                            print w, "Nicht trennbar:", repr(loesung)
+                            print(w, "Nicht trennbar:", repr(loesung))
         if htmlFile:
             htmlFile.write("</p></body></html>")
 
@@ -238,18 +239,18 @@ class BaseHyphenator(Hyphenator):
                     if not spl: wortliste.append("\n")
             else:
                 wortliste.append(w.decode(encoding))
-        print "%r" % wortliste
+        print("%r" % wortliste)
 
         #timer = timeit.Timer(stmt="result=h.learn(wortliste)")
         #timer.timeit(runs)
         startzeit = time.clock()
         for x in range(runs):
-            print "run %d" % x
+            print("run %d" % x)
             result = self.learn(wortliste, VERBOSE=verbose, htmlFile=out)
         endezeit = time.clock()
         cntWords,cntOK,cntTooShort,unknownWords = result
 
-        print """
+        print("""
 
     Statistics:
     -----------
@@ -257,20 +258,20 @@ class BaseHyphenator(Hyphenator):
     Bytes processed   :%6d
     Short words       :%6d
     Unknown words     :%6d
-    """ % (cntWords, sum(map(len,wortliste)), cntTooShort, len(unknownWords))
+    """ % (cntWords, sum(map(len,wortliste)), cntTooShort, len(unknownWords)))
 
         secs = endezeit-startzeit
-        print "%d runs" % runs
-        print "Time   :%3.3f seconds" % secs
+        print("%d runs" % runs)
+        print("Time   :%3.3f seconds" % secs)
         if cntWords:
-            print " = %1.6f secs per 1000 words and run" % (1000* secs / (runs * cntWords))
+            print(" = %1.6f secs per 1000 words and run" % (1000* secs / (runs * cntWords)))
 
         unknownWords.sort()
-        print "unknown words (sorted):"
+        print("unknown words (sorted):")
         w_ = None
         for w in unknownWords:
             if w!=w_:
-                if len(w)>6: print "%-15.15s" % w,
+                if len(w)>6: print("%-15.15s" % w, end=' ')
                 w_ = w
 
 
@@ -304,7 +305,7 @@ class BaseHyphenator(Hyphenator):
 
 
 if __name__=="__main__":
-    print "Testing BaseHyphenator:"
+    print("Testing BaseHyphenator:")
     h = BaseHyphenator("DE",5, CamelCase=True)
     if len(sys.argv) > 1:
         h.test(outfname="ExplicitLearn.html")
@@ -313,9 +314,9 @@ if __name__=="__main__":
     for word in ["Exklusiv-Demo", "CamelCase", "18.10.2003", "1,2345", "i.e", "z.B.", "-0.1234", "reportlab-users", "no_data_found", "-12345", "12345-", "1-2345", "1234-5"]:
         hyphWord = h.hyphenate(word.decode("iso-8859-1"))
         if hyphWord is not None:
-            print "%s -- %s" % (word, hyphWord.showHyphens())
+            print("%s -- %s" % (word, hyphWord.showHyphens()))
         else:
-            print "%s -- unknown" % word
+            print("%s -- unknown" % word)
 
     hw = HyphenatedWord("Schiffahrtskapitänsbackenzahn".decode("iso-8859-1"), [])
     #                   0         1         2
@@ -329,8 +330,8 @@ if __name__=="__main__":
                        HyphenationPoint(22,4,1,u"k"+SHY,0,""), # bak-ken nach alten Regeln
                        HyphenationPoint(25,9,0,SHY,0,u""), # ken-zahn
                       ]
-    print "%s -- %s" % (hw,hw.showHyphens())
+    print("%s -- %s" % (hw,hw.showHyphens()))
     while len(hw.hyphenations):
         l,r = hw.split(hw.hyphenations[0])
-        print "%s%s" % (l,r)
+        print("%s%s" % (l,r))
         hw=r

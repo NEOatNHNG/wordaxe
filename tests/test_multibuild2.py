@@ -40,8 +40,8 @@ except:
     raise
     if __name__ == "__main__":
         url = "http://deco-cow.wiki.sourceforge.net"
-        print "Module 'wordaxe' not found. Continuing without hyphenation."
-        print "You can download 'wordaxe' from %s." % url
+        print("Module 'wordaxe' not found. Continuing without hyphenation.")
+        print("You can download 'wordaxe' from %s." % url)
 #~ HAVE_WORDAXE = False
 
 def getStyleSheet():
@@ -389,7 +389,7 @@ class TheDocTemplate(BaseDocTemplate):
     "Document template implementing the overall layout." 
     
     def __init__(self, filename, **kw): 
-        apply(BaseDocTemplate.__init__, (self, filename), kw) 
+        BaseDocTemplate.__init__(self, filename, **kw)
         m = margin = 2*cm
         pageSize = A4 
 

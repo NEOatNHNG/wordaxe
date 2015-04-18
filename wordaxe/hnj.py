@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-1 -*-
 
+from __future__ import absolute_import
 __license__="""
    Copyright 2004-2008 Henning von Bargen (henning.vonbargen arcor.de)
    This software is dual-licenced under the Apache 2.0 and the
@@ -11,7 +12,7 @@ __version__=''' $Id: __init__.py,v 1.2 2004/05/31 22:22:12 hvbargen Exp $ '''
 
 import os,sys
 
-from hyphen import *
+from .hyphen import *
 from xml.sax.saxutils import escape,quoteattr
 
 from wordaxe.BaseHyphenator import BaseHyphenator

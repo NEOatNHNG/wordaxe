@@ -31,7 +31,7 @@ def testStyles():
     pNormal.leading = 14.4
 
     pNormal.listAttrs()
-    print
+    print('')
     pPre = ParagraphStyle('Literal', pNormal)
     pPre.fontName = 'Courier'
     pPre.listAttrs()

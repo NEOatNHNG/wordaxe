@@ -12,7 +12,7 @@ from reportlab.lib.abag import ABag
 from reportlab.lib.colors import red, black, navy, white, green
 from reportlab.lib.randomtext import randomText
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER, TA_JUSTIFY
-from reportlab.rl_config import defaultPageSize
+from reportlab.rl_config import defaultPageSize # @UnresolvedImport
 
 import os.path
 import reportlab.lib.testutils

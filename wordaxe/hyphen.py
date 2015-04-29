@@ -14,7 +14,7 @@ SHY = b"\xAD".decode("iso-8859-1")
 # Unicode type compatibility for Python 2 and 3
 import sys
 if sys.version < '3':
-    unicode_type = unicode
+    unicode_type = unicode # @UndefinedVariable
 else:
     unicode_type = str
 

@@ -21,7 +21,7 @@ from reportlab.platypus import Paragraph, Preformatted
 from reportlab.lib.units import inch, cm
 from reportlab.lib.styles import PropertySet, getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
-from reportlab.rl_config import defaultPageSize
+from reportlab.rl_config import defaultPageSize # @UnresolvedImport
 from reportlab.lib.utils import haveImages, _RL_DIR, rl_isfile, open_for_read, fileName2FSEnc
 import unittest
 

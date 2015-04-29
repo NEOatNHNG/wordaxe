@@ -83,7 +83,7 @@ else:
 
 
 from reportlab.platypus.flowables import Flowable
-from reportlab.rl_config import platypus_link_underline
+from reportlab.rl_config import platypus_link_underline # @UnresolvedImport
 import re
 from copy import copy, deepcopy
 
@@ -897,7 +897,7 @@ class Paragraph(Flowable):
             noJustifyLast = not (hasattr(self,'_JustifyLast') and self._JustifyLast)
             f = lines[0]
             #cur_y = self.height - getattr(f,'ascent',f.fontSize)
-            if rl_config.paraFontSizeHeightOffset:
+            if rl_config.paraFontSizeHeightOffset: # @UndefinedVariable
                 cur_y = self.height - f.fontSize
             else:
                 cur_y = sum([line.height for line in lines]) - f.ascent

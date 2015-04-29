@@ -9,6 +9,13 @@ from reportlab.pdfbase import ttfonts
 import struct
 import bisect
 
+# Unicode type compatibility for Python 2 and 3
+if sys.version < '3':
+    unicode_type = unicode # @UndefinedVariable
+else:
+    unicode_type = str
+
+
 def extract_kerning_table(face):
     "Extract the Kerning table from a TrueType font"
     try:
@@ -107,18 +114,17 @@ def stringWidth_kerning(font, text, size, encoding='utf-8'):
     """
     see TTFont.pyStringWidth, but takes kerning into account
     """
-    if not isinstance(text,unicode):
-        text = unicode(text, encoding or 'utf-8')   # encoding defaults to utf-8
+    if not isinstance(text, unicode_type):
+        text = unicode_type(text, encoding or 'utf-8')   # encoding defaults to utf-8
     face = font.face
     g = face.charWidths.get
     dw = face.defaultWidth
     kp = kerning_pairs(face, text)
     return 0.001*size*(sum([g(ord(u),dw) for u in text]) + sum(kp))
 
+ttfonts.TTFont.stringWidth_kerning = stringWidth_kerning
 
-import new
-ttfonts.TTFont.stringWidth_kerning = new.instancemethod(stringWidth_kerning,None,ttfonts.TTFont)
-    
+
 if __name__ == "__main__":
     fname = r"c:\windows\fonts\arial.ttf"
     font = ttfonts.TTFont("Arial", fname)

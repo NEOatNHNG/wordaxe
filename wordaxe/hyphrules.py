@@ -32,7 +32,7 @@ def decodeTrennung(t):
             p += 1
     return W
 
-class HyphRule:
+class HyphRule(object):
     """Definition of a rule for hyphenation.
     """
     name = "generic hyphenation rule - do not use directly"
@@ -433,7 +433,7 @@ RULES = dict([(r.name,r) for r in rulelist])
 def NO_CHECKS(siz=6):
     return [list() for x in range(siz)]
 
-class StringWithProps:
+class StringWithProps(object):
     """A string with properties."""
     __slots__ = ["strval", "props"]
     def __init__(self,s,p):

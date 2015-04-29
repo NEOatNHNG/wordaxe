@@ -5,6 +5,13 @@
 from __future__ import print_function
 from copy import copy
 
+# Unicode type compatibility for Python 2 and 3
+import sys
+if sys.version < '3':
+    unicode_type = unicode # @UndefinedVariable
+else:
+    unicode_type = str
+
 import reportlab.pdfbase.pdfmetrics as pdfmetrics
 from reportlab.lib.abag import ABag
 
@@ -35,7 +42,7 @@ class StyledFragment(Fragment):
 class StyledText(StyledFragment):    
     "A string in some style"
     def __init__(self, text, style, kerning):
-        assert isinstance(text, unicode)
+        assert isinstance(text, unicode_type)
         super(StyledText, self).__init__(style)
         self.text = text
         self.width = self.str_width(text, style)
@@ -67,8 +74,8 @@ class StyledText(StyledFragment):
     def fromParaFrag(frag):
         "This allows to reuse the good old paraparser.py"
         text = frag.text
-        if not isinstance(text, unicode):
-            text = unicode(text, "utf-8")
+        if not isinstance(text, unicode_type):
+            text = unicode_type(text, "utf-8")
         return StyledText(text, frag) #TODO kerning?
         
 class StyledWhiteSpace(StyledFragment):
@@ -78,7 +85,7 @@ class StyledSpace(StyledWhiteSpace):
     "A spacer in some style"
     def __init__(self, style, text=u" "):
         super(StyledSpace, self).__init__(style)
-        self.text = unicode(text)
+        self.text = unicode_type(text)
         self.width = self.str_width(text, style)
 
     def __str__(self):
@@ -195,7 +202,7 @@ class StyledWord(Fragment):
         right = StyledWord(rfrags)
         #print "splitWordAt returns %s, %s" % (left, right)
         assert left.text == ltext
-        assert unicode(right.text) == rtext
+        assert unicode_type(right.text) == rtext
         right.text = rtext
         return left, right        
 
@@ -288,8 +295,8 @@ def frags_to_StyledFragments(frag_list, kerning):
             yield StyledNewLine(f)
         text = f.text
         del f.text
-        if not isinstance(text, unicode):
-            text = unicode(text, "utf-8")
+        if not isinstance(text, unicode_type):
+            text = unicode_type(text, "utf-8")
         while u" " in text:
             indxSpace = text.find(u" ")
             if indxSpace > 0:

@@ -96,7 +96,6 @@ class PyHnjHyphenator(BaseHyphenator):
         return [hyphPoints]
         
     def hyphenate(self,aWord):
-        assert isinstance(aWord, unicode)
         hword = HyphenatedWord(aWord)
         loesungen = self.zerlegeWort(aWord)
         if len(loesungen)>1:

@@ -100,7 +100,6 @@ class PyHyphenHyphenator(ExplicitHyphenator):
         return hyphPoints
 
     def hyph(self,aWord):
-        assert isinstance(aWord, unicode)
         hword = HyphenatedWord(aWord, hyphenations=self.zerlegeWort(aWord))
         # None (unknown) kann hier nicht vorkommen, da der
         # Algorithmus musterbasiert funktioniert und die Wörter

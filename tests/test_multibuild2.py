@@ -10,7 +10,11 @@ import unittest
 from tests.utils import makeSuiteForClasses, outputfile, printLocation
 
 import time
-from cStringIO import StringIO
+
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 from reportlab.lib.units import cm, mm
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT, TA_JUSTIFY

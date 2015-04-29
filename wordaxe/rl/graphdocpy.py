@@ -18,7 +18,6 @@ __version__ = '0.8'
 import sys
 sys.path.insert(0, '.')
 import os, re, types, string, getopt, pickle, copy, time, pprint, traceback
-from string import find, join, split, replace, expandtabs, rstrip
 import reportlab
 from reportlab import rl_config
 
@@ -84,8 +83,8 @@ def mainPageFrame(canvas, doc):
         canvas.drawString(4 * inch, cm, "%d" % pageNumber)
         if hasattr(canvas, 'headerLine'): # hackish
             # HVB: Changed für Hyphenation support
-            # headerline = string.join(canvas.headerLine, ' \xc2\x8d ')
-            headerline = string.join(canvas.headerLine, ' \xc2\x8d '.decode('utf8'))
+            headersym = ' \xc2\x8d '.decode('utf8')
+            headerline = headersym.join(canvas.headerLine)
             canvas.drawString(2*cm, A4[1]-1.75*cm, headerline)
 
     canvas.setFont('Times-Roman', 8)
@@ -316,8 +315,7 @@ class GraphPdfDocBuilder0(PdfDocBuilder0):
 
         map = aClass._attrMap
         if map:
-            map = map.items()
-            map.sort()
+            map = sorted(map.items())
         else:
             map = []
         for name, typ in map:
@@ -364,8 +362,8 @@ class GraphPdfDocBuilder0(PdfDocBuilder0):
 
 
     def beginFunctions(self, names):
-        srch = string.join(names, ' ')
-        if string.find(string.join(names, ' '), ' sample') > -1:
+        srch = ' '.join(names)
+        if srch.find(' sample') > -1:
             PdfDocBuilder0.beginFunctions(self, names)
 
 
@@ -475,23 +473,21 @@ class GraphPdfDocBuilder0(PdfDocBuilder0):
         """Dump all properties of a widget."""
 
         props = widget.getProperties()
-        keys = props.keys()
-        keys.sort()
         lines = []
-        for key in keys:
+        for key in sorted(props.keys()):
             value = props[key]
 
             f = getStringIO()
             pprint.pprint(value, f)
             value = f.getvalue()[:-1]
-            valueLines = string.split(value, '\n')
+            valueLines = value.splitlines()
             for i in range(1, len(valueLines)):
                 valueLines[i] = ' '*(len(key)+3) + valueLines[i]
-            value = string.join(valueLines, '\n')
+            value = '\n'.join(valueLines)
 
             lines.append('%s = %s' % (key, value))
 
-        text = join(lines, '\n')
+        text = '\n'.join(lines)
         self.story.append(Paragraph("<i>Properties of Example Widget</i>", self.bt))
         self.story.append(Paragraph("", self.bt))
         self.story.append(Preformatted(text, self.code))
@@ -560,7 +556,7 @@ class GraphHtmlDocBuilder0(HtmlDocBuilder0):
 
 
     def beginFunctions(self, names):
-        if string.find(string.join(names, ' '), ' sample') > -1:
+        if ' '.join(names).find(' sample') > -1:
             HtmlDocBuilder0.beginFunctions(self, names)
 
 
@@ -658,23 +654,21 @@ class GraphHtmlDocBuilder0(HtmlDocBuilder0):
         """Dump all properties of a widget."""
 
         props = widget.getProperties()
-        keys = props.keys()
-        keys.sort()
         lines = []
-        for key in keys:
+        for key in sorted(props.keys()):
             value = props[key]
 
             # Method 3
             f = getStringIO()
             pprint.pprint(value, f)
             value = f.getvalue()[:-1]
-            valueLines = string.split(value, '\n')
+            valueLines = value.splitlines()
             for i in range(1, len(valueLines)):
                 valueLines[i] = ' '*(len(key)+3) + valueLines[i]
-            value = string.join(valueLines, '\n')
+            value = '\n'.join(valueLines)
 
             lines.append('%s = %s' % (key, value))
-        text = join(lines, '\n')
+        text = '\n'.join(lines)
         self.outLines.append('<H3>Properties of Example Widget</H3>')
         self.outLines.append('<PRE>%s</PRE>' % text)
         self.outLines.append('')
@@ -727,8 +721,8 @@ class PlatypusDocBuilder0(DocBuilder0):
         bt = self.bt
         story = self.story
         if bases:
-            bases = map(lambda b:b.__name__, bases) # hack
-            story.append(Paragraph('%s(%s)' % (name, join(bases, ', ')), bt))
+            bases = [b.__name__ for b in bases] # hack
+            story.append(Paragraph('%s(%s)' % (name, ', '.join(bases)), bt))
         else:
             story.append(Paragraph(name, bt))
 
@@ -853,29 +847,6 @@ def documentModule0(pathOrName, builder, opts={}):
     os.chdir(cwd)
 
 
-def _packageWalkCallback(arg, dirPath, files):
-    "A callback function used when waking over a package tree."
-    (builder, opts) = arg
-    #must CD into a directory to document the module correctly
-    cwd = os.getcwd()
-    os.chdir(dirPath)
-
-
-    # Skip __init__ files.
-    files = filter(lambda f:f != '__init__.py', files)
-
-    files = filter(lambda f:f[-3:] == '.py', files)
-    for f in files:
-        path = os.path.join(dirPath, f)
-##        if not opts.get('isSilent', 0):
-##            print path
-        builder.indentLevel = builder.indentLevel + 1
-        #documentModule0(path, builder)
-        documentModule0(f, builder)
-        builder.indentLevel = builder.indentLevel - 1
-    #CD back out
-    os.chdir(cwd)
-
 def documentPackage0(pathOrName, builder, opts={}):
     """Generate documentation for one Python package in some format.
 
@@ -897,14 +868,28 @@ def documentPackage0(pathOrName, builder, opts={}):
         package = __import__(name)
         # Some special care needed for dotted names.
         if '.' in name:
-            subname = 'package' + name[find(name, '.'):]
+            subname = 'package' + name[name.find('.'):]
             package = eval(subname)
         path = os.path.dirname(package.__file__)
 
     cwd = os.getcwd()
     os.chdir(path)
     builder.beginPackage(name)
-    os.path.walk(path, _packageWalkCallback, (builder, opts))
+    for dirpath, subdirs, files in os.walk(path):
+        #must CD into a directory to document the module correctly
+        os.chdir(dirpath)
+
+        # Skip __init__ files.
+        files = filter(lambda f:f != '__init__.py', files)
+
+        files = filter(lambda f:f[-3:] == '.py', files)
+        for f in files:
+            builder.indentLevel = builder.indentLevel + 1
+            documentModule0(f, builder)
+            builder.indentLevel = builder.indentLevel - 1
+
+        #CD back out
+        os.chdir(path)
     builder.endPackage(name)
     os.chdir(cwd)
 
@@ -977,7 +962,7 @@ def main():
 
 def makeSuite():
     "standard test harness support - run self as separate process"
-    from reportlab.test.utils import ScriptThatMakesFileTest
+    from reportlab.lib.testutils import ScriptThatMakesFileTest
     return ScriptThatMakesFileTest('tools/docco',
                                    'graphdocpy.py',
                                    'reportlab.graphics.pdf')

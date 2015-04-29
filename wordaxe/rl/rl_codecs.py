@@ -1,6 +1,6 @@
 #codecs support
 __all__=['RL_Codecs']
-class RL_Codecs:
+class RL_Codecs(object):
     __rl_codecs_data = {
         'winansi':({
             0x007f: 0x2022, # BULLET
@@ -988,7 +988,7 @@ class RL_Codecs:
     def _256_exception_codec(codec):
         (exceptions,rexceptions) = codec
         import codecs
-        decoding_map = codecs.make_identity_dict(xrange(32,256))
+        decoding_map = codecs.make_identity_dict(range(32,256))
         decoding_map.update(exceptions)
         encoding_map = codecs.make_encoding_map(decoding_map)
         if rexceptions: encoding_map.update(rexceptions)

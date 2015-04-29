@@ -74,6 +74,13 @@ except ImportError:
         l = len(p)
         return tuple(p) + tuple([ p[i-2] for i in range(l, 4) ])
 
+# Unicode type compatibility for Python 2 and 3
+import sys
+if sys.version < '3':
+    unicode_type = unicode # @UndefinedVariable
+else:
+    unicode_type = str
+
 
 from reportlab.platypus.flowables import Flowable
 from reportlab.rl_config import platypus_link_underline
@@ -295,7 +302,7 @@ def _drawBullet(canvas, offset, cur_y, bulletText, style):
     tx2 = canvas.beginText(style.bulletIndent, cur_y+getattr(style,"bulletOffsetY",0))
     tx2.setFont(style.bulletFontName, style.bulletFontSize)
     tx2.setFillColor(hasattr(style,'bulletColor') and style.bulletColor or style.textColor)
-    if isinstance(bulletText,basestring):
+    if isinstance(bulletText, (str, unicode_type)):
         tx2.textOut(bulletText)
     else:
         for f in bulletText:
@@ -314,7 +321,7 @@ def _handleBulletWidth(bulletText, style, max_widths):
     '''work out bullet width and adjust max_widths[0] if neccessary
     '''
     if bulletText:
-        if isinstance(bulletText,basestring):
+        if isinstance(bulletText, (str, unicode_type)):
             bulletWidth = pdfmetrics.stringWidth( bulletText, style.bulletFontName, style.bulletFontSize)
         else:
             #it's a list of fragments
@@ -329,7 +336,7 @@ def _handleBulletWidth(bulletText, style, max_widths):
 
 _scheme_re = re.compile('^[a-zA-Z][-+a-zA-Z0-9]+$')
 def _doLink(tx,link,rect):
-    if isinstance(link,unicode):
+    if isinstance(link, unicode_type):
         link = link.encode('utf8')
     parts = link.split(':',1)
     scheme = len(parts)==2 and parts[0].lower() or ''
@@ -415,11 +422,11 @@ def textTransformFrags(frags,style):
     if tt:
         tt=tt.lower()
         if tt=='lowercase':
-            tt = unicode.lower
+            tt = unicode_type.lower
         elif tt=='uppercase':
-            tt = unicode.upper
+            tt = unicode_type.upper
         elif  tt=='capitalize':
-            tt = unicode.title
+            tt = unicode_type.title
         elif tt=='none':
             return
         else:
@@ -428,7 +435,7 @@ def textTransformFrags(frags,style):
         if n==1:
             #single fragment the easy case
             frags[0].text = tt(frags[0].text)
-        elif tt is unicode.title:
+        elif tt is unicode_type.title:
             pb = True
             for f in frags:
                 t = f.text
@@ -479,10 +486,9 @@ class Paragraph(Flowable):
                 self.frags = frags
         else:
             #print id(self), "init with text"
-            assert isinstance(text, basestring)
             # parse text
-            if not isinstance(text, unicode):
-                text = unicode(text, encoding)
+            if not isinstance(text, unicode_type):
+                text = unicode_type(text, encoding)
             if textCleaner: text = textCleaner(text)
             self.frags = list(self.parse(text, style, bulletText))
         self.text = text
@@ -765,7 +771,7 @@ class Paragraph(Flowable):
                     l = max(leading,1.2*style.fontSize)
                 elif autoLeading=='min':
                     l = 1.2*style.fontSize
-                s = int(availHeight/l)
+                s = availHeight//l
                 height = s*l
 
             # Widows/orphans control
@@ -942,7 +948,7 @@ class Paragraph(Flowable):
             _do_post_text(tx)
 
             #now the middle of the paragraph, aligned with the left margin which is our origin.
-            for i in xrange(1, nLines):
+            for i in range(1, nLines):
                 f = lines[i]
                 dpl( tx, _offsets[i], f, noJustifyLast and i==lim)
                 _do_post_text(tx)
@@ -991,11 +997,11 @@ class Paragraph(Flowable):
             tx.setWordSpace(0)
         setXPos(tx,-offset)
 
-    class OVERFLOW:
+    class OVERFLOW(object):
          pass
-    class SQUEEZE:
+    class SQUEEZE(object):
          pass
-    class HYPHENATE:
+    class HYPHENATE(object):
          pass
 
     def rateHyph(self, base_penalty, frags, word, space_remaining):
@@ -1005,7 +1011,7 @@ class Paragraph(Flowable):
         # All the factors used here are just a wild guess
         spaces_width = sum([frag.width for frag in frags if isinstance(frag, StyledSpace)])
         if spaces_width:
-            stretch = space_remaining/spaces_width
+            stretch = float(space_remaining)/spaces_width
             if stretch<0:
                 stretch_penalty = stretch*stretch*stretch*stretch*5000
             else:
@@ -1017,7 +1023,7 @@ class Paragraph(Flowable):
                 sum_len = sum([x[0] for x in lst])
                 sum_width=sum([x[1] for x in lst])
                 if sum_len > 0:
-                    avg_char_width = sum_width / sum_len
+                    avg_char_width = float(sum_width) / sum_len
                     stretch_penalty = space_remaining/avg_char_width*20
                 else:
                     stretch_penalty = space_remaining*60
@@ -1158,7 +1164,7 @@ class ParagraphAndImage(Flowable):
         intermediate_widths = later_widths - xpad - wI
         first_line_width = intermediate_widths - style.firstLineIndent
         P.width = 0
-        nIW = int((hI+ypad)/leading)
+        nIW = (hI+ypad) // leading
 
         if 'avail' in P._cache:
             ph = P.height
@@ -1245,7 +1251,7 @@ def kerning_formatText(self, text, kerning_pairs=None):
     else:
         #convert to T1  coding
         fc = font
-        if not isinstance(text,unicode):
+        if not isinstance(text, unicode_type):
             try:
                 text = text.decode('utf8')
             except UnicodeDecodeError as e:
@@ -1266,13 +1272,12 @@ def kerning_textOut(self, text, TStar=0, kerning_pairs=None):
     self._code.append('%s%s' % (self._formatText(text, kerning_pairs), (TStar and ' T*' or '')))
 
 from reportlab.pdfgen.textobject import PDFTextObject
-import new
-PDFTextObject._textOut = new.instancemethod(kerning_textOut, None, PDFTextObject)
-PDFTextObject._formatText = new.instancemethod(kerning_formatText, None, PDFTextObject)
+PDFTextObject._textOut = kerning_textOut
+PDFTextObject._formatText = kerning_formatText
 
 # from here on, only test code...
 
-class HVBDBG:
+class HVBDBG(object):
     @staticmethod
     def s(obj):
         if type(obj) == list:

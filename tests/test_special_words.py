@@ -114,7 +114,7 @@ class PlaintextTestCase(unittest.TestCase):
         saetze = [("Urinstinkte " * 20).strip(),
                   ("Analphabeten haben es schwer. Analphabetismus ist eine Krankheit. ") * 10,
                  ]
-        testdata = map(lambda t:'<para>%s</para>' % t, saetze)
+        testdata = ['<para>%s</para>' % t for t in saetze]
         doLayout ("Hyphenation for plain text paragraphs", testdata, colWidths, outPDF)
 
 if __name__ == "__main__":

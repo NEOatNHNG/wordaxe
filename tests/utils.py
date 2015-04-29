@@ -3,8 +3,8 @@
 """Utilities for testing Python packages.
 """
 __version__='''$Id: utils.py 3269 2008-09-03 17:22:41Z rgbecker $'''
-import sys, os, string, fnmatch, copy, re
-from ConfigParser import ConfigParser
+import sys, os, fnmatch, copy, re
+from configparser import ConfigParser
 import unittest
 
 # Helper functions.
@@ -39,7 +39,8 @@ def canWriteTestOutputHere():
             os.makedirs(_OUTDIR)
         except:
             pass
-        map(sys.argv.remove,D)
+        for d in D:
+            sys.argv.remove(d)
         _TEST_DIR_IS_WRITABLE = isWritable(_OUTDIR)
     else:
         from reportlab.lib.utils import isSourceDistro
@@ -92,7 +93,6 @@ def getCVSEntries(folder, files=1, folders=0):
     """
 
     join = os.path.join
-    split = string.split
 
     # If CVS subfolder doesn't exist return empty list.
     try:
@@ -105,7 +105,7 @@ def getCVSEntries(folder, files=1, folders=0):
     for line in f.readlines():
         if folders and line[0] == 'D' \
            or files and line[0] != 'D':
-            entry = split(line, '/')[1]
+            entry = line.split('/')[1]
             if entry:
                 allEntries.append(join(folder, entry))
 
@@ -125,7 +125,7 @@ class ExtConfigParser(ConfigParser):
 
         # This seems to allow for newlines inside values
         # of the config file, but be careful!!
-        val = string.replace(value, '\n', '')
+        val = value.replace('\n', '')
 
         if self.pat.match(val):
             return eval(val)
@@ -136,7 +136,7 @@ class ExtConfigParser(ConfigParser):
 # This class as suggested by /F with an additional hook
 # to be able to filter filenames.
 
-class GlobDirectoryWalker:
+class GlobDirectoryWalker(object):
     "A forward iterator that traverses files in a directory tree."
 
     def __init__(self, directory, pattern='*'):
@@ -153,7 +153,7 @@ class GlobDirectoryWalker:
             self.directory = directory[len(__loader__.archive)+len(os.sep):]
             pfx = self.directory+os.sep
             n = len(pfx)
-            self.files = map(lambda x, n=n: x[n:],filter(lambda x,pfx=pfx: x.startswith(pfx),__loader__._files.keys()))
+            self.files = list(map(lambda x, n=n: x[n:],filter(lambda x,pfx=pfx: x.startswith(pfx),__loader__._files.keys())))
             self.stack = []
 
     def __getitem__(self, index):
@@ -202,7 +202,7 @@ class RestrictedGlobDirectoryWalker(GlobDirectoryWalker):
         "Filters all items from files matching patterns to ignore."
 
         indicesToDelete = []
-        for i in xrange(len(files)):
+        for i in range(len(files)):
             f = files[i]
             for p in self.ignoredPatterns:
                 if fnmatch.fnmatch(f, p):
@@ -229,7 +229,7 @@ class CVSGlobDirectoryWalker(GlobDirectoryWalker):
         cvsFiles = getCVSEntries(folder)
         if cvsFiles:
             indicesToDelete = []
-            for i in xrange(len(files)):
+            for i in range(len(files)):
                 f = files[i]
                 if join(folder, f) not in cvsFiles:
                     indicesToDelete.append(i)

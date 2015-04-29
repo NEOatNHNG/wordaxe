@@ -614,7 +614,7 @@ phonemic and morphological analysis.'''
     def testAutoPageTemplate(self):
         from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, PageBegin
         from reportlab.lib.units import inch
-        class onPage:
+        class onPage(object):
             def __init__(self,label):
                 self.label = label
             def __call__(self,canv,doc):

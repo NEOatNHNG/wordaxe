@@ -99,11 +99,11 @@ class HyphenatedWord(unicode_type):
 
     __slots__ = ["hyphenations",]
     
-    def __new__(klass, word, hyphenations=None, encoding="utf-8", errors='strict'):
+    def __new__(cls, word, hyphenations=None, encoding="utf-8", errors='strict'):
         if isinstance(word, unicode_type):
-            o = unicode_type.__new__(klass, word)
+            o = unicode_type.__new__(cls, word)
         else:
-            o = unicode_type.__new__(klass, word, encoding, errors)
+            o = unicode_type.__new__(cls, word, encoding, errors)
         if hyphenations is not None:
             o.hyphenations = hyphenations
         elif hasattr(word, "hyphenations"):

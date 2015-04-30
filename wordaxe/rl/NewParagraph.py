@@ -686,10 +686,10 @@ class Paragraph(Flowable):
             assert lines
             unused = lines.pop().fragments
             if frags_remaining:
-                next = frags_remaining[0]
-                src = getattr(next, "_source", None)
+                next_frag = frags_remaining[0]
+                src = getattr(next_frag, "_source", None)
                 if src is not None:
-                    # next is the right part of a hyphenation
+                    # next_frag is the right part of a hyphenation
                     left = unused[-1]
                     assert getattr(left,"_source") == src
                     unused[-1] = src

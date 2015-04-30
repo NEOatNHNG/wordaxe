@@ -10,11 +10,7 @@ import unittest
 from tests.utils import makeSuiteForClasses, outputfile, printLocation
 
 import time
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from io import StringIO
+from io import BytesIO
 
 from reportlab.lib.units import cm, mm
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT, TA_JUSTIFY
@@ -473,7 +469,7 @@ class TheDocTemplate(BaseDocTemplate):
 def flowables2pdf(story, Layout):
     "Render a Platypus story into PDF and return its PDF code."
     
-    f = StringIO()
+    f = BytesIO()
     doc = Layout(f).multiBuild(story)
     f.seek(0)
     #~ pdfCode = f.read()

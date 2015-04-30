@@ -3,10 +3,7 @@
 """Test for compatibility with multibuilds made by rst2pdf."""
 
 import unittest
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from io import StringIO
+from io import BytesIO
 
 from tests.utils import makeSuiteForClasses, printLocation
 
@@ -73,17 +70,17 @@ class MultiBuildTestCase(unittest.TestCase):
 
         rst2pdf.styles['heading1'].spaceBefore = 36
 
-        buffer = StringIO()
+        buffer = BytesIO()
 
         rst2pdf.createPdf(text, output=buffer)
 
         pdf = buffer.getvalue()
         buffer.close()
 
-        assert 'ReportLab generated PDF document' in pdf
-        assert 'Rst2Pdf MultiBuild Test Case For Wordaxe' in pdf
-        assert 'Test Section' in pdf
-        assert blah in pdf
+        assert b'ReportLab generated PDF document' in pdf
+        assert b'Rst2Pdf MultiBuild Test Case For Wordaxe' in pdf
+        assert b'Test Section' in pdf
+        assert blah.encode() in pdf
 
 
 def makeSuite():

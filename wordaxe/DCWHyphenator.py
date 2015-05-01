@@ -14,6 +14,12 @@ import copy
 import operator
 import codecs
 
+# Unicode type compatibility for Python 2 and 3
+if sys.version < '3':
+    unicode_type = unicode # @UndefinedVariable
+else:
+    unicode_type = str
+
 from wordaxe.hyphen import SHY,HyphenationPoint,HyphenatedWord
 import time
 from wordaxe.BaseHyphenator import Stripper, BaseHyphenator
@@ -224,6 +230,7 @@ class DCWHyphenator(ExplicitHyphenator):
         for name in ["roots", "prefixes", "suffixes"]:
             abschnitt = getattr(self, name)
             zeilen = getattr(DEhyph, name)
+            assert isinstance(zeilen, unicode_type)
             for zeile in zeilen.splitlines():
                 # Leerzeilen und Kommentare überspringen
                 zeile = zeile.strip()
@@ -561,6 +568,8 @@ class DCWHyphenator(ExplicitHyphenator):
         #print "dudentrennung: %s" % wort
         if not quality: quality = self.qNeben
 
+        assert isinstance(wort, unicode_type)
+
         # Jede Silbe muss mindestens einen Vokal enthalten
         if len(wort) <= 2:
             return []
@@ -614,6 +623,7 @@ class DCWHyphenator(ExplicitHyphenator):
     def zerlegeWort(self,zusgWort,maxLevel=20):
 
         #Wort erstmal normalisieren
+        assert isinstance(zusgWort,unicode_type)
         zusgWort = zusgWort.lower().replace(u'Ä',u'ä').replace(u'Ö',u'ö').replace(u'Ü',u'ü')
         lenword = len(zusgWort)
         #print zusgWort
@@ -701,6 +711,7 @@ class DCWHyphenator(ExplicitHyphenator):
         
     def hyph(self,word):
         log.debug ("DCW hyphenate %r", word)
+        assert isinstance(word, unicode_type)
         loesungen = self.zerlegeWort(word)
         if len(loesungen) > 1:
             # Trennung ist nicht eindeutig, z.B. bei WachsTube oder WachStube.

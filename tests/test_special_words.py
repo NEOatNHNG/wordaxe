@@ -94,7 +94,7 @@ def doLayout (title, data, colWidths, outPDF):
         # Note: we have to create copies by calling makeParagraphs for each cell.
         # We cannot just create one Paragraph and reference it several times.
         for col in colWidths:
-            row.append(makeParagraphs(txt.decode("iso-8859-1").encode("utf8"),cellStyle))
+            row.append(makeParagraphs(txt,cellStyle))
         tabContent.append(row)
     table = LongTable(tabContent, colWidths=colWidths, style=tablestyle, repeatRows=1)
     story.append(table)
@@ -111,10 +111,10 @@ class PlaintextTestCase(unittest.TestCase):
         colWidths = [29,44,59,74]
 
         # Some test data in German.
-        saetze = [("Urinstinkte " * 20).strip(),
-                  ("Analphabeten haben es schwer. Analphabetismus ist eine Krankheit. ") * 10,
+        saetze = [(u"Urinstinkte " * 20).strip(),
+                  (u"Analphabeten haben es schwer. Analphabetismus ist eine Krankheit. ") * 10,
                  ]
-        testdata = ['<para>%s</para>' % t for t in saetze]
+        testdata = [u'<para>%s</para>' % t for t in saetze]
         doLayout ("Hyphenation for plain text paragraphs", testdata, colWidths, outPDF)
 
 if __name__ == "__main__":

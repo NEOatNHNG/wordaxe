@@ -19,7 +19,18 @@ setup(
     url = "http://deco-cow.sourceforge.net",
     download_url = "http://sourceforge.net/project/platformdownload.php?group_id=105867",
     packages = ["wordaxe", "wordaxe/rl", "wordaxe/plugins", "wordaxe/dict"],
-    package_data = {"wordaxe": ["dict/*.dic" ]}
+    package_data = {"wordaxe": ["dict/*.dic" ]},
+    classifiers = [
+        "License :: OSI Approved :: Apache Software License",
+        "License :: OSI Approved :: BSD License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.3",
+        "Programming Language :: Python :: 3.4",
+        "Topic :: Text Processing",
+        ],
 )
 
 

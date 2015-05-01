@@ -1228,13 +1228,13 @@ def kerning_formatText(self, text, kerning_pairs=None):
                 # Take kerning into account
                 # TODO performance tuning possible?
                 R.append("[")
-                buf = t[0]
+                buf = t[0:1]
                 for i in range(len(t)-1):
                     if kerning_pairs[i]:
                         R.append(" (%s)" % canv._escape(buf))
                         R.append(" %s" % fp_str(-kerning_pairs[i])) # TODO scaling!
-                        buf = ""
-                    buf += t[i+1]
+                        buf = type(t)()
+                    buf += t[i+1:i+2]
                 if buf:
                     R.append(" (%s)" % canv._escape(buf))
                 R.append("] TJ")

@@ -46,7 +46,7 @@ class KifTestCase(unittest.TestCase):
         # von tagesschau.de kopiert und eingesetzt, 
         # geht ohne, aber nicht mit Trennung 
         # erzeugt bei Trennung gleichen Traceback [1]
-        text = u"""<para>Ungefähr ein Jahr ist es her, dass CDU-Ministerpräsident Jürgen Rüttgers sich anschickte, die SPD links zu überholen. Denn auf seine Initiative hin beschlossen die Christdemokraten, die Bezugsdauer für ältere ALG-I-Empfänger zu Lasten von Jüngeren zu verlängern. So war das in der Berliner Koalition zwar nicht gedacht - aber Rüttgers setzte auf dem Parteitag von Dresden den Beschluss für eine längere Zahldauer trotzdem durch. Umgesetzt allerdings wurde der von der Großen Koalition nie.</para>""".encode("utf8")
+        text = u"""<para>Ungefähr ein Jahr ist es her, dass CDU-Ministerpräsident Jürgen Rüttgers sich anschickte, die SPD links zu überholen. Denn auf seine Initiative hin beschlossen die Christdemokraten, die Bezugsdauer für ältere ALG-I-Empfänger zu Lasten von Jüngeren zu verlängern. So war das in der Berliner Koalition zwar nicht gedacht - aber Rüttgers setzte auf dem Parteitag von Dresden den Beschluss für eine längere Zahldauer trotzdem durch. Umgesetzt allerdings wurde der von der Großen Koalition nie.</para>"""
         
         p = Paragraph(text, sth)
         story = [p]

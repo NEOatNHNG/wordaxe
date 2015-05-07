@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #Copyright ReportLab Europe Ltd. 2000-2012
 #see license.txt for license details
 """Tests for the reportlab.platypus.paragraphs module.
@@ -656,6 +657,16 @@ phonemic and morphological analysis.'''
         a(Paragraph('should be on page template autoFollow 2', normal))
         doc = MyDocTemplate(outputfile('test_platypus_paragraphs_AutoNextPageTemplate.pdf'))
         doc.build(story)
+
+class UmlautLinksTestCase(unittest.TestCase):
+    '''Test if links which contain umlauts work properly'''
+    def testUmlautLinks(self):
+        bt = getSampleStyleSheet()['BodyText']
+        story = [
+            Paragraph(u'Es folgt ein Link zu http://dömäin.example.com: <a href="http://dömäin.example.com">Link</a>', bt)
+            ]
+        doc = MyDocTemplate(outputfile('test_platypus_umlautlinks.pdf'))
+        doc.multiBuild(story)
 
 #noruntests
 def makeSuite():

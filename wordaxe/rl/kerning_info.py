@@ -83,7 +83,7 @@ def kerning(face, a, b):
         setattr(face, "kerning_table", kerning_table)
     gl_a = glyf(face, a)
     gl_b = glyf(face, b)
-    i = bisect.bisect(kerning_table, (gl_a, gl_b, None))
+    i = bisect.bisect(kerning_table, (gl_a, gl_b))
     if i == len(kerning_table):
         return 0.
     l, r, k = kerning_table[i]

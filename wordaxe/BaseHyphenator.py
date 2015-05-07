@@ -58,7 +58,7 @@ class Stripper(object):
         Afterwards, these are added again.
         """
         prefix, base, suffix = self.strip(word)
-        if func.__self__ is None:
+        if not hasattr(func, '__self__') or func.__self__ is None:
             result = func(hyphenator, base, *args, **kwargs)
         else:
             assert func.__self__ is hyphenator

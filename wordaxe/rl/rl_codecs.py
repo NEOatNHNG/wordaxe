@@ -985,7 +985,8 @@ class RL_Codecs:
     def __init__(self):
         raise NotImplementedError
 
-    def _256_exception_codec((exceptions,rexceptions)):
+    def _256_exception_codec(codec):
+        (exceptions,rexceptions) = codec
         import codecs
         decoding_map = codecs.make_identity_dict(xrange(32,256))
         decoding_map.update(exceptions)

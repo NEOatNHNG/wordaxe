@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: iso-8859-1 -*-
 #Copyright ReportLab Europe Ltd. 2000-2004
 #see license.txt for license details
 #history http://www.reportlab.co.uk/cgi-bin/viewcvs.cgi/public/reportlab/trunk/reportlab/tools/docco/graphdocpy.py
@@ -102,7 +103,7 @@ class MyTemplate(BaseDocTemplate):
     def __init__(self, filename, **kw):
         frame1 = Frame(2.5*cm, 2.5*cm, 15*cm, 25*cm, id='F1')
         self.allowSplitting = 0
-        apply(BaseDocTemplate.__init__, (self, filename), kw)
+        BaseDocTemplate.__init__(self, filename, **kw)
         self.addPageTemplates(PageTemplate('normal', [frame1], mainPageFrame))
 
     def afterFlowable(self, flowable):
@@ -148,7 +149,7 @@ class MyTemplate(BaseDocTemplate):
                 except:
                     if VERBOSE:
                         # AR hacking in exception handlers
-                        print 'caught exception in MyTemplate.afterFlowable with heading text %s' % f.text
+                        print('caught exception in MyTemplate.afterFlowable with heading text %s' % f.text)
                         traceback.print_exc()
                     else:
                         pass
@@ -277,7 +278,7 @@ class GraphPdfDocBuilder0(PdfDocBuilder0):
         "Append a graphic demo of a Widget or Drawing at the end of a class."
 
         if VERBOSE:
-            print 'GraphPdfDocBuilder.beginClass(%s...)' % name
+            print('GraphPdfDocBuilder.beginClass(%s...)' % name)
 
         aClass = eval('self.skeleton.moduleSpace.' + name)
         if issubclass(aClass, Widget):
@@ -343,7 +344,7 @@ class GraphPdfDocBuilder0(PdfDocBuilder0):
         elif issubclass(aClass, Widget):
             try:
                 widget = aClass()
-            except AssertionError, err:
+            except AssertionError as err:
                 if _abstractclasserr_re.match(str(err)): return
                 raise
             self.story.append(Spacer(0*cm, 0.5*cm))
@@ -383,7 +384,7 @@ class GraphPdfDocBuilder0(PdfDocBuilder0):
             return
 
         if VERBOSE:
-            print 'GraphPdfDocBuilder.endFunction(%s...)' % name
+            print('GraphPdfDocBuilder.endFunction(%s...)' % name)
         PdfDocBuilder0.endFunction(self, name, doc, sig)
         aFunc = eval('self.skeleton.moduleSpace.' + name)
         drawing = aFunc()
@@ -431,7 +432,7 @@ class GraphPdfDocBuilder0(PdfDocBuilder0):
             self.story.append(Spacer(6,6))
         except:
             if VERBOSE:
-                print 'caught exception in _showDrawingDemo'
+                print('caught exception in _showDrawingDemo')
                 traceback.print_exc()
             else:
                 pass
@@ -453,7 +454,7 @@ class GraphPdfDocBuilder0(PdfDocBuilder0):
             self.story.append(Spacer(6,6))
         except:
             if VERBOSE:
-                print 'caught exception in _showWidgetDemo'
+                print('caught exception in _showWidgetDemo')
                 traceback.print_exc()
             else:
                 pass
@@ -610,7 +611,7 @@ class GraphHtmlDocBuilder0(HtmlDocBuilder0):
             self.outLines.append(makeHtmlInlineImage(path))
         except:
             if VERBOSE:
-                print 'caught exception in GraphHTMLDocBuilder._showDrawingDemo'
+                print('caught exception in GraphHTMLDocBuilder._showDrawingDemo')
                 traceback.print_exc()
             else:
                 pass
@@ -635,7 +636,7 @@ class GraphHtmlDocBuilder0(HtmlDocBuilder0):
         except:
             if VERBOSE:
 
-                print 'caught exception in GraphHTMLDocBuilder._showWidgetDemo'
+                print('caught exception in GraphHTMLDocBuilder._showWidgetDemo')
                 traceback.print_exc()
             else:
                 pass
@@ -836,7 +837,7 @@ def documentModule0(pathOrName, builder, opts={}):
     try:
         module = __import__(modname)
     except:
-        print 'Failed to import %s.' % modname
+        print('Failed to import %s.' % modname)
         os.chdir(cwd)
         return
 
@@ -852,8 +853,9 @@ def documentModule0(pathOrName, builder, opts={}):
     os.chdir(cwd)
 
 
-def _packageWalkCallback((builder, opts), dirPath, files):
+def _packageWalkCallback(arg, dirPath, files):
     "A callback function used when waking over a package tree."
+    (builder, opts) = arg
     #must CD into a directory to document the module correctly
     cwd = os.getcwd()
     os.chdir(dirPath)
@@ -914,7 +916,7 @@ def makeGraphicsReference(outfilename):
     builder.begin(name='reportlab.graphics', typ='package')
     documentPackage0('reportlab.graphics', builder, {'isSilent': 0})
     builder.end(outfilename)
-    print 'made graphics reference in %s' % outfilename
+    print('made graphics reference in %s' % outfilename)
 
 def main():
     "Handle command-line options and trigger corresponding action."
@@ -929,7 +931,7 @@ def main():
 
     # On -h print usage and exit immediately.
     if hasOpt('-h'):
-        print printUsage.__doc__
+        print(printUsage.__doc__)
         sys.exit(0)
 
     # On -s set silent mode.
@@ -951,19 +953,19 @@ def main():
     if hasOpt('-m'):
         nameOrPath = optsDict['-m']
         if not isSilent:
-            print "Generating documentation for module %s..." % nameOrPath
+            print("Generating documentation for module %s..." % nameOrPath)
         builder.begin(name=nameOrPath, typ='module')
         documentModule0(nameOrPath, builder, options)
     elif hasOpt('-p'):
         nameOrPath = optsDict['-p']
         if not isSilent:
-            print "Generating documentation for package %s..." % nameOrPath
+            print("Generating documentation for package %s..." % nameOrPath)
         builder.begin(name=nameOrPath, typ='package')
         documentPackage0(nameOrPath, builder, options)
     builder.end()
 
     if not isSilent:
-        print "Saved %s." % builder.outPath
+        print("Saved %s." % builder.outPath)
 
     #if doing the usual, put a copy in docs
     if builder.outPath == 'reportlab.graphics.pdf':
@@ -971,7 +973,7 @@ def main():
         dst = os.path.join(os.path.dirname(reportlab.__file__),'docs','graphics_reference.pdf')
         shutil.copyfile('reportlab.graphics.pdf', dst)
         if not isSilent:
-            print 'copied to '+dst
+            print('copied to '+dst)
 
 def makeSuite():
     "standard test harness support - run self as separate process"

@@ -63,7 +63,7 @@ class HyphenationPoint(object):
     def __str__(self):
         return 'HyphP(%d,%d)' % (self.indx,self.quality)
     def __repr__(self):
-        return 'HyphenationPoint(%d,%d,%d,%s,%d,%s)' % (self.indx,self.quality,self.nl,`self.sl`,self.nr,`self.sr`)
+        return 'HyphenationPoint(%d,%d,%d,%s,%d,%s)' % (self.indx,self.quality,self.nl,repr(self.sl),self.nr,repr(self.sr))
 
 def _lshift(hyphenations, amt):
     "Moves the hyphenation points left"
@@ -141,7 +141,7 @@ class HyphenatedWord(unicode):
         if type(hp) is int:
             left = self[:hp] + SHY
             hyph = _lshift (self.hyphenations, hp)
-            print hyph
+            print(hyph)
             right = self.__class__(self[hp:], hyphenations=hyph)
         else:
             shift = hp.indx-hp.nr+len(hp.sr)
@@ -286,7 +286,7 @@ class Hyphenator:
         if type(nLength)==int and nLength>2 and nLength<100:
             self.minWordLength = nLength
         else:
-            raise ValueError, nLength
+            raise ValueError(nLength)
             
     def __repr__(self):
         #return "%s(%s,%d,%s)" % (str(self.__class__),self.language,self.minWordLength,self.codec)

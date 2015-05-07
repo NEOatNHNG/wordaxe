@@ -71,7 +71,7 @@ def printLocation(depth=1):
     if sys._getframe(depth).f_locals.get('__name__')=='__main__':
         outDir = outputfile('')
         if outDir!=_OUTDIR:
-            print 'Logs and output files written to folder "%s"' % outDir
+            print('Logs and output files written to folder "%s"' % outDir)
 
 def makeSuiteForClasses(*classes):
     "Return a test suite with tests loaded from provided classes."
@@ -121,7 +121,7 @@ class ExtConfigParser(ConfigParser):
     def getstringlist(self, section, option):
         "Coerce option to a list of strings or return unchanged if that fails."
 
-        value = apply(ConfigParser.get, (self, section, option))
+        value = ConfigParser.get(self, section, option)
 
         # This seems to allow for newlines inside values
         # of the config file, but be careful!!
@@ -186,7 +186,7 @@ class RestrictedGlobDirectoryWalker(GlobDirectoryWalker):
     "An restricted directory tree iterator."
 
     def __init__(self, directory, pattern='*', ignore=None):
-        apply(GlobDirectoryWalker.__init__, (self, directory, pattern))
+        GlobDirectoryWalker.__init__(self, directory, pattern)
 
         if ignore == None:
             ignore = []
@@ -313,7 +313,7 @@ class ScriptThatMakesFileTest(unittest.TestCase):
         p = os.popen(fmt % (sys.executable,self.scriptName),'r')
         out = p.read()
         if self.verbose:
-            print out
+            print(out)
         status = p.close()
         assert os.path.isfile(self.outFileName), "File %s not created!" % self.outFileName
 

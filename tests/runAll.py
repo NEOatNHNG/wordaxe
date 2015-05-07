@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 """Runs all test files in current folder."""
+from __future__ import print_function
 
 import os
 import sys
@@ -62,7 +63,7 @@ def clean():
             if fn.endswith(n):
                 break
         else:
-            print "removing", fn
+            print("removing", fn)
             os.remove(fn)
 
 

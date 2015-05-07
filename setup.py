@@ -54,12 +54,12 @@ if setupCommand == "install":
             new = "wordaxe/rl/rl_codecs.py"
             if fileHash(src) != fileHash(new):
                 bak = src + ".bak"
-                print "backing up %s -> %s" % (src, bak)
+                print("backing up %s -> %s" % (src, bak))
                 copy2(src, bak)
-                print "copying %s -> %s" % (new, src)
+                print("copying %s -> %s" % (new, src))
                 copy2(new, src)
             else:
-                print "no update of '%s' needed" % src
+                print("no update of '%s' needed" % src)
     except ImportError:
-        print "Note: ReportLab is not properly installed."
+        print("Note: ReportLab is not properly installed.")
 

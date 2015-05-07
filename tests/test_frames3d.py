@@ -32,7 +32,7 @@ class TwoColumnDocTemplate(BaseDocTemplate):
             leftPadding=0, topPadding=0, rightPadding=0, bottomPadding=0,
             showBoundary=True
         )
-        apply(BaseDocTemplate.__init__, (self, filename), kw)
+        BaseDocTemplate.__init__(self, filename, **kw)
         template = PageTemplate('template', [f1, f2])
         self.addPageTemplates(template)
 

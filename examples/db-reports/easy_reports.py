@@ -18,7 +18,7 @@ class OracleDataSource:
         self.dsn = dsn
 
     def connect(self):
-        print "Connecting as %s@%s" % (self.username, self.dsn) 
+        print("Connecting as %s@%s" % (self.username, self.dsn))
         connstr = "%s/%s@%s" % (self.username, self.password, self.dsn)
         self.conn = cx_Oracle.connect(connstr)
         
@@ -266,11 +266,11 @@ class Report(object):
         
     def run(self):
         datamodel = self.__class__.DataModel(self.datasource)
-        print "generating data model..."
+        print("generating data model...")
         self.data = datamodel.generate()
         for (format, fname) in self.destinations:
-            print "generating %s output..." % format
+            print("generating %s output..." % format)
             layout = self.__class__.Layout(self, format, fname)
             layout.generate(self.data)
             layout.save()
-        print "done."
+        print("done.")

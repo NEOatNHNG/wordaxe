@@ -4,7 +4,7 @@
 # tests some paragraph styles
 
 import unittest
-from utils import makeSuiteForClasses, outputfile, printLocation
+from tests.utils import makeSuiteForClasses, outputfile, printLocation
 
 from reportlab.platypus import Paragraph, SimpleDocTemplate, XBox, Indenter, XPreformatted
 from reportlab.lib.styles import ParagraphStyle
@@ -24,7 +24,7 @@ try:
     from wordaxe.DCWHyphenator import DCWHyphenator
     wordaxe.hyphRegistry['DE'] = DCWHyphenator('DE', 5)
 except ImportError:
-    print "could not import wordaxe - try to continue WITHOUT hyphenation!"
+    print("could not import wordaxe - try to continue WITHOUT hyphenation!")
 
 def myFirstPage(canvas, doc):
     canvas.saveState()

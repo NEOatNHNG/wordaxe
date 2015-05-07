@@ -1,3 +1,4 @@
+from __future__ import print_function
 #Copyright ReportLab Europe Ltd. 2000-2004
 #see license.txt for license details
 #history http://www.reportlab.co.uk/cgi-bin/viewcvs.cgi/public/reportlab/trunk/reportlab/platypus/xpreformatted.py
@@ -14,34 +15,34 @@ class XPreformatted(_orig_preformatted):
 
 if __name__=='__main__':    #NORUNTESTS
     def dumpXPreformattedLines(P):
-        print '\n############dumpXPreforemattedLines(%s)' % str(P)
+        print('\n############dumpXPreforemattedLines(%s)' % str(P))
         lines = P.blPara.lines
         n =len(lines)
         for l in range(n):
             line = lines[l]
             words = line.words
             nwords = len(words)
-            print 'line%d: %d(%d)\n  ' % (l,nwords,line.wordCount),
+            print('line%d: %d(%d)\n  ' % (l,nwords,line.wordCount), end=' ')
             for w in range(nwords):
-                print "%d:'%s'"%(w,words[w].text),
-            print
+                print("%d:'%s'"%(w,words[w].text), end=' ')
+            print()
 
     def dumpXPreformattedFrags(P):
-        print '\n############dumpXPreforemattedFrags(%s)' % str(P)
+        print('\n############dumpXPreforemattedFrags(%s)' % str(P))
         frags = P.frags
         n =len(frags)
         for l in range(n):
-            print "frag%d: '%s'" % (l, frags[l].text)
+            print("frag%d: '%s'" % (l, frags[l].text))
 
         l = 0
         for L in _getFragLines(frags):
             n=0
             for W in _getFragWords(L):
-                print "frag%d.%d: size=%d" % (l, n, W[0]),
+                print("frag%d.%d: size=%d" % (l, n, W[0]), end=' ')
                 n = n + 1
                 for w in W[1:]:
-                    print "'%s'" % w[1],
-                print
+                    print("'%s'" % w[1], end=' ')
+                print()
             l = l + 1
 
     def try_it(text,style,dedent,aW,aH):

@@ -22,8 +22,8 @@ __author__ = "Henning von Bargen"
             errors = "\n".join(errs)
             #self.assertEqual (errors, "")
             if errors:
-                print "WordlistTestCase: The following words are not hyphenated as they should:"
-                print errors
+                print("WordlistTestCase: The following words are not hyphenated as they should:")
+                print(errors)
 
         def test(self):
             from wordaxe.PyHnjHyphenator import PyHnjHyphenator
@@ -42,8 +42,8 @@ class DCWWordlistTestCase(unittest.TestCase):
         errors = "\n".join(errs)
         #self.assertEqual (errors, "")
         if errors:
-            print "DCWWordlistTestCase: The following words are not hyphenated as they should:"
-            print errors
+            print("DCWWordlistTestCase: The following words are not hyphenated as they should:")
+            print(errors)
 
     def test(self):
         from wordaxe.DCWHyphenator import DCWHyphenator
@@ -61,8 +61,8 @@ class PyHyphenWordlistTestCase(unittest.TestCase):
         errors = "\n".join(errs)
         #self.assertEqual (errors, "")
         if errors:
-            print "PyHyphenWordlistTestCase: The following words are not hyphenated as they should:"
-            print errors
+            print("PyHyphenWordlistTestCase: The following words are not hyphenated as they should:")
+            print(errors)
 
     def test(self):
         from wordaxe.plugins.PyHyphenHyphenator import PyHyphenHyphenator

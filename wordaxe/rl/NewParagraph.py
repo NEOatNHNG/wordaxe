@@ -3,6 +3,7 @@
 
 # A new paragraph implementation
 
+from __future__ import absolute_import
 __doc__ = """
 A new Paragraph implementation.
 
@@ -558,7 +559,7 @@ class Paragraph(Flowable):
             for w in max_widths: yield w
             while True: yield w
         width_iter = iter_widths()
-        max_width = width_iter.next()
+        max_width = next(width_iter)
 
         frags_remaining = self.frags[:]
         while frags_remaining:
@@ -621,7 +622,7 @@ class Paragraph(Flowable):
                     lines.append(line)
                     lineFrags = []
                     width = 0
-                    max_width = width_iter.next()
+                    max_width = next(width_iter)
                     sumHeight += lineHeight
                     #print sumHeight
                 elif act == "IGNORE":
@@ -1247,7 +1248,7 @@ def kerning_formatText(self, text, kerning_pairs=None):
         if not isinstance(text,unicode):
             try:
                 text = text.decode('utf8')
-            except UnicodeDecodeError,e:
+            except UnicodeDecodeError as e:
                 i,j = e.args[2:4]
                 raise UnicodeDecodeError(*(e.args[:4]+('%s\n%s-->%s<--%s' % (e.args[4],text[max(i-10,0):i],text[i:j],text[j:j+10]),)))
 
@@ -1289,7 +1290,7 @@ if __name__ == "__main__":
 
 
     # Test
-    import styles
+    from . import styles
     styleSheet = styles.getSampleStyleSheet()
     style = styleSheet["Normal"]
     #text = "Der blau<b>e </b><br />Klaus"
@@ -1334,7 +1335,7 @@ if __name__ == "__main__":
                 leftPadding=0, topPadding=0, rightPadding=0, bottomPadding=0,
                 showBoundary=True
             )
-            apply(BaseDocTemplate.__init__, (self, filename), kw)
+            BaseDocTemplate.__init__(self, filename, **kw)
             template = PageTemplate('template', [f1, f2])
             self.addPageTemplates(template)
 

@@ -48,7 +48,7 @@ def toUnicode(val):
         if type(val) == dict:
             d = dict()
             for k,v in val.items():
-                d[k] = toUnicode(val)
+                d[k] = toUnicode(v)
             return d
         if type(val) == unicode_type:
             return val

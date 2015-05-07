@@ -3,7 +3,10 @@
 """Test for compatibility with multibuilds made by rst2pdf."""
 
 import unittest
-from StringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 from tests.utils import makeSuiteForClasses, printLocation
 

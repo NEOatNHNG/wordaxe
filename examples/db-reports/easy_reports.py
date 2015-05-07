@@ -5,12 +5,17 @@
 # 
 # Henning von Bargen, Mai 2010
 
-from types import StringTypes
+# Unicode type compatibility for Python 2 and 3
+import sys
+if sys.version < '3':
+    unicode_type = unicode
+else:
+    unicode_type = str
 
 # Imports for OracleDataSource
 import cx_Oracle 
 
-class OracleDataSource:
+class OracleDataSource(object):
 
     def __init__(self, username, password, dsn):
         self.username = username
@@ -45,11 +50,11 @@ def toUnicode(val):
             for k,v in val.items():
                 d[k] = toUnicode(val)
             return d
-        if type(val) == unicode:
+        if type(val) == unicode_type:
             return val
         if type(val) == str:
-            return val.decode("iso-8859-1")
-        return unicode(val)
+            return val.decode("iso-8859-1") # only for Python 2
+        return unicode_type(val)
         
 class DBRecord(object):
     
@@ -158,7 +163,7 @@ class DBRecord(object):
             subelem = SubElement(elem, column)
             value = getattr(self, column)
             if value is not None:
-                if not isinstance(value, StringTypes):
+                if not isinstance(value, (str, unicode_type)):
                     value = str(value)
                 subelem.text = saxutils.escape(value)
         if recursion_level > 0:

@@ -9,7 +9,15 @@ __license__="""
 __version__=''' $Id: __init__.py,v 1.2 2004/05/31 22:22:12 hvbargen Exp $ '''
 
 from copy import copy
-SHY = "\xAD".decode("iso-8859-1")
+SHY = b"\xAD".decode("iso-8859-1")
+
+# Unicode type compatibility for Python 2 and 3
+import sys
+if sys.version < '3':
+    unicode_type = unicode
+else:
+    unicode_type = str
+
 
 class HyphenationPoint(object):
     """
@@ -57,9 +65,9 @@ class HyphenationPoint(object):
         self.indx = indx
         self.quality = quality
         self.nl = nl
-        self.sl = unicode(sl)
+        self.sl = unicode_type(sl)
         self.nr = nr
-        self.sr = unicode(sr)
+        self.sr = unicode_type(sr)
     def __str__(self):
         return 'HyphP(%d,%d)' % (self.indx,self.quality)
     def __repr__(self):
@@ -77,7 +85,7 @@ def _lshift(hyphenations, amt):
                 hyph.append(HyphenationPoint(h.indx-amt,h.quality,h.nl,h.sl,h.nr,h.sr))
     return hyph
 
-class HyphenatedWord(unicode):
+class HyphenatedWord(unicode_type):
     """
     A hyphenated word.
     
@@ -92,10 +100,10 @@ class HyphenatedWord(unicode):
     __slots__ = ["hyphenations",]
     
     def __new__(klass, word, hyphenations=None, encoding="utf-8", errors='strict'):
-        if isinstance(word, unicode):
-            o = unicode.__new__(klass, word)
+        if isinstance(word, unicode_type):
+            o = unicode_type.__new__(klass, word)
         else:
-            o = unicode.__new__(klass, word, encoding, errors)
+            o = unicode_type.__new__(klass, word, encoding, errors)
         if hyphenations is not None:
             o.hyphenations = hyphenations
         elif hasattr(word, "hyphenations"):
@@ -115,19 +123,19 @@ class HyphenatedWord(unicode):
         Like unicode.__add__, but assumes that the other element
         is either unicode or an utf-8 encoded string.
         """
-        if not isinstance(other,unicode):
-            other = unicode(other, "utf-8")
-        return unicode(unicode.__add__(self, other))
+        if not isinstance(other,unicode_type):
+            other = unicode_type(other, "utf-8")
+        return unicode_type(unicode_type.__add__(self, other))
 
     def __radd__(self, other):
         """(other) -> instance of this class
         Like unicode.__add__, but assumes that the other element
         is either unicode or an utf-8 encoded string.
         """
-        if isinstance(other, basestring):
-            if not isinstance(other,unicode):
-                other = unicode(other, "utf-8")
-            return unicode(unicode.__add__(other, self))
+        if isinstance(other, unicode_type) or isinstance(other, str):
+            if not isinstance(other,unicode_type):
+                other = unicode_type(other, "utf-8")
+            return unicode_type(unicode_type.__add__(other, self))
         else:
             return NotImplemented
 
@@ -148,17 +156,16 @@ class HyphenatedWord(unicode):
             left = self[:hp.indx-hp.nl] + hp.sl
             hyph = _lshift (self.hyphenations, shift)
             right = self.__class__(hp.sr+self[hp.indx+hp.nr:], hyphenations=hyph)
-        assert isinstance(left, unicode)
         assert isinstance(right, self.__class__)
         return (left,right)
         
     def prepend(self, string):
         "Allows adding prefix chars (such as '('), returning a new HyphenatedWord"
-        return self.__class__(unicode(string) + self, hyphenations=_lshift(self.hyphenations,-len(string)))
+        return self.__class__(unicode_type(string) + self, hyphenations=_lshift(self.hyphenations,-len(string)))
 
     def append(self, string):
         "Allows adding suffix chars (such as ')'), returning a new HyphenatedWord"
-        return self.__class__(self + unicode(string), hyphenations=self.hyphenations)
+        return self.__class__(self + unicode_type(string), hyphenations=self.hyphenations)
             
     def showHyphens(self):
         "Returns the possible hyphenations as a string list, for debugging purposes."
@@ -201,7 +208,7 @@ class HyphenatedWord(unicode):
                 offset += len(w)
         return HyphenatedWord(word, hyphenations=hps)
 
-class Hyphenator:
+class Hyphenator(object):
     """
     Hyphenator serves as the base class for all hyphenation implementation classes.
     
@@ -261,7 +268,6 @@ class Hyphenator:
         """
         self.language = language
         self.minWordLength = 4
-        assert isinstance(shy, unicode)
         self.shy = shy
         self.options = options
         
@@ -312,7 +318,6 @@ class Hyphenator:
         Finds possible hyphenation points for a aWord, returning a HyphenatedWord
         or None if the hyphenator doesn't know the word.
         """
-        assert isinstance(aWord,unicode)
         hword = self.i_hyphenate(aWord)
         self.postHyphenate(hword)
         return hword

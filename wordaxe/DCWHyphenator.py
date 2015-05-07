@@ -22,7 +22,7 @@ from wordaxe.ExplicitHyphenator import ExplicitHyphenator
 from wordaxe.hyphrules import HyphRule, RULES, AlgorithmError
 
 from wordaxe.hyphrules import NO_CHECKS,StringWithProps,Prefix,Root,Suffix
-from wordaxe.hyphrules import TRENNUNG,NO_SUFFIX,KEEP_TOGETHER
+from wordaxe.hyphrules import TRENNUNG,NO_SUFFIX,NEED_SUFFIX,KEEP_TOGETHER
 import wordaxe.dict.DEhyph as DEhyph
 
 DEBUG=0
@@ -34,7 +34,7 @@ log.setLevel(logging.INFO)
 if DEBUG:
     log.setLevel(logging.DEBUG)
 
-class WordFrag:
+class WordFrag(object):
     """Helper class for a (partially) parsed WordFrag.
        A WordFrag is made up from prefix_chars, prefix, root, suffix, and suffix_chars,
        i.e. the german word "(unveränderbarkeit)!" 
@@ -224,7 +224,6 @@ class DCWHyphenator(ExplicitHyphenator):
         for name in ["roots", "prefixes", "suffixes"]:
             abschnitt = getattr(self, name)
             zeilen = getattr(DEhyph, name)
-            assert isinstance(zeilen, unicode)
             for zeile in zeilen.splitlines():
                 # Leerzeilen und Kommentare überspringen
                 zeile = zeile.strip()
@@ -307,7 +306,7 @@ class DCWHyphenator(ExplicitHyphenator):
         def mergeChecks(c1,c2):
             """Create a new list of checks from c1 and c2
             """
-            return map(operator.__add__,c1,c2)
+            return list(map(operator.__add__,c1,c2))
         
         def do_check_frag(when,cword,frag,checks):
             """Run the PRE_WORD or PRE_NEXT_WORD checks before appending frag to cword.
@@ -561,8 +560,6 @@ class DCWHyphenator(ExplicitHyphenator):
         """
         #print "dudentrennung: %s" % wort
         if not quality: quality = self.qNeben
-        
-        assert isinstance(wort, unicode)
 
         # Jede Silbe muss mindestens einen Vokal enthalten
         if len(wort) <= 2:
@@ -617,7 +614,6 @@ class DCWHyphenator(ExplicitHyphenator):
     def zerlegeWort(self,zusgWort,maxLevel=20):
 
         #Wort erstmal normalisieren
-        assert isinstance(zusgWort,unicode)
         zusgWort = zusgWort.lower().replace(u'Ä',u'ä').replace(u'Ö',u'ö').replace(u'Ü',u'ü')
         lenword = len(zusgWort)
         #print zusgWort
@@ -705,7 +701,6 @@ class DCWHyphenator(ExplicitHyphenator):
         
     def hyph(self,word):
         log.debug ("DCW hyphenate %r", word)
-        assert isinstance(word, unicode)
         loesungen = self.zerlegeWort(word)
         if len(loesungen) > 1:
             # Trennung ist nicht eindeutig, z.B. bei WachsTube oder WachStube.

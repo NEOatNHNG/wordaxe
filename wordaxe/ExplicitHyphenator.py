@@ -15,6 +15,13 @@ from wordaxe.hyphen import SHY, HyphenatedWord
 from wordaxe.BaseHyphenator import BaseHyphenator
 from wordaxe.hyphrules import decodeTrennung
 
+# Unicode type compatibility for Python 2 and 3
+import sys
+if sys.version < '3':
+    unicode_type = unicode # @UndefinedVariable
+else:
+    unicode_type = str
+
 class ExplicitHyphenator(BaseHyphenator):
     """
     Allow to explicitly specify how a word should be hyphenated.
@@ -65,11 +72,11 @@ class ExplicitHyphenator(BaseHyphenator):
         # Stammdaten initialisieren
         self.sonderfaelle = []
         
-    def add_entry(self, word, trennung, encoding=unicode):
-        if not isinstance(word, unicode):
-            word = unicode(word, encoding)
-        if not isinstance(trennung, unicode):
-            trennung = unicode(trennung, encoding)
+    def add_entry(self, word, trennung, encoding='utf-8'):
+        if not isinstance(word, unicode_type):
+            word = unicode_type(word, encoding)
+        if not isinstance(trennung, unicode_type):
+            trennung = unicode_type(trennung, encoding)
         # Ignore Case @TODO Umlaute usw.!
         word = word.lower() 
         trennung = trennung.replace(u"~", u"5")
@@ -81,7 +88,7 @@ class ExplicitHyphenator(BaseHyphenator):
         else:
             self.sonderfaelle.append((lenword,{word: trennung}))
             
-    def add_entries(self, mapping, encoding=unicode):
+    def add_entries(self, mapping, encoding='utf-8'):
         for word, trennung in mapping.items():
             self.add_entry(word, trennung, encoding)
             
@@ -125,7 +132,6 @@ class ExplicitHyphenator(BaseHyphenator):
         return None
         
     def i_hyphenate(self, aWord):
-        assert isinstance(aWord, unicode)
         return self.stripper.apply_stripped(ExplicitHyphenator.hyph, self, aWord)
 
     def i_hyphenate_derived(self,aWord):
@@ -140,7 +146,6 @@ class ExplicitHyphenator(BaseHyphenator):
               test: "hohenlimburg.de", "hohenlimburg.de)"
         """
         #print "ExplicitHyphenator.i_hyphenate_derived", aWord
-        assert isinstance(aWord, unicode)
 
         # Helper function
         

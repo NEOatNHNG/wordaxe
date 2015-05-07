@@ -25,7 +25,7 @@ from xml.sax.saxutils import escape,quoteattr
 import codecs
 from wordaxe.hyphen import *
 
-class Stripper:
+class Stripper(object):
     """
     A helper class for stripping words.
     """
@@ -57,7 +57,6 @@ class Stripper:
         but strips prefix and suffix characters before.
         Afterwards, these are added again.
         """
-        assert isinstance(word, unicode)
         prefix, base, suffix = self.strip(word)
         if func.__self__ is None:
             result = func(hyphenator, base, *args, **kwargs)
@@ -137,7 +136,6 @@ class BaseHyphenator(Hyphenator):
         """
         This is the (possible recursive) hyphenation function.
         """
-        assert isinstance(aWord, unicode)
         return self.stripper.apply_stripped(BaseHyphenator.hyph, self, aWord)
 
     def learn(self,wordlist,htmlFile=None,VERBOSE=False):
@@ -284,7 +282,6 @@ class BaseHyphenator(Hyphenator):
         the expected output.
         """
         for zeile in codecs.open(fname,"rU", encoding):
-            assert isinstance(zeile,unicode)
             word, expected = zeile.strip().split()
             loesung = self.hyphenate(word)
             if loesung is None:

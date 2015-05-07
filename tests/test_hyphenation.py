@@ -110,7 +110,7 @@ class PlaintextTestCase(unittest.TestCase):
         colWidths = [29,44,59,74]
 
         # Some test data in German.
-        testdata = map(lambda t:'<para>%s</para>' % t,
+        testdata = ['<para>%s</para>' % t for t in
         ["""Die nachfolgenden S\xE4tze sind \xFCbrigens nach M\xF6glichkeit v\xF6llig sinnlos. Sie enthalten aber teilweise besonders sch\xF6n lange zusammengesetzte W\xF6rter, damit der Silbentrennungsalgorithmus auch tats\xE4chlich sichtbar \xFCberpr\xFCft werden kann.""",
          """Kapit\xE4ns\xADm\xFCtzen\xADschirm\xADband""",
          """Das ist ein kurzer Satz""",
@@ -139,7 +139,7 @@ class PlaintextTestCase(unittest.TestCase):
          """Gemeinsame Verwendung von Dateien und Ordnern. Angenommen, Sie sollen sich einen Schulaufsatz Ihres Kindes ansehen, der auf dem Computer im Kinderzimmer gespeichert ist. Wenn die Computer vernetzt sind, k\xF6nnen Sie z. B. die Datei von Ihrem Computer aus \xF6ffnen, \xE4nderungen vornehmen und die Datei dann auf dem Computer Ihres Kindes speichern.""",
          """Au\xDFerdem bestehen weitere Vorteile: Microsoft Windows XP macht das Einrichten eines Heimnetzwerks leichter denn je. Zuerst m\xFCssen Sie jedoch die Computer miteinander verbinden, indem Sie auf jedem die erforderliche Hardware installieren und mit Kabeln oder durch eine drahtlose Technologie verbinden. In diesem Artikel wird das Verfahren von Anfang bis Ende erl\xE4utert. Sie erfahren, wie Sie die f\xFCr Ihre Zwecke geeignete Netzwerktechnologie ausw\xE4hlen, die richtigen Komponenten erwerben und diese ordnungsgem\xE4\xDF installieren und miteinander verbinden.""",
          """Au\xDFerdem wird in einem Abschnitt der Schutz des Heimnetzwerks gegen Angriffe von au\xDFen durch Errichtung einer Sicherheitsbarriere erl\xE4utert, einem so genannten Firewall, der auch in Unternehmen eingesetzt wird.""",
-        ])
+        ]]
         doLayout ("Hyphenation for plain text paragraphs", testdata, colWidths, outPDF)
 
 

@@ -336,8 +336,6 @@ def _handleBulletWidth(bulletText, style, max_widths):
 
 _scheme_re = re.compile('^[a-zA-Z][-+a-zA-Z0-9]+$')
 def _doLink(tx,link,rect):
-    if isinstance(link, unicode_type):
-        link = link.encode('utf8')
     parts = link.split(':',1)
     scheme = len(parts)==2 and parts[0].lower() or ''
     if _scheme_re.match(scheme) and scheme!='document':

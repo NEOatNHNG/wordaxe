@@ -56,7 +56,7 @@ doc = SimpleDocTemplate("test_pyhyphen.pdf",
 
 # Content einlesen und parsen
 
-content = open("dokumentation_de.txt").read()
+content = open("dokumentation_de.txt", 'rb').read()
 
 story = []
 frags = []
@@ -75,8 +75,8 @@ def emit(f, o):
     del f[:]
     
 for zeile in content.splitlines():
-    # Umkodieren nach utf8
-    zeile = zeile.decode("iso-8859-1").encode("utf8")
+    # Dekodieren
+    zeile = zeile.decode("iso-8859-1")
     zstrip = zeile.strip()
     # Überschrift?
     level = 0

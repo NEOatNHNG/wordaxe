@@ -59,7 +59,7 @@ from reportlab.graphics.shapes import Drawing
 from reportlab.graphics import shapes
 from reportlab.graphics import renderPDF
 
-VERBOSE = rl_config.verbose
+VERBOSE = rl_config.verbose # @UndefinedVariable
 VERIFY = 1
 
 _abstractclasserr_re = re.compile(r'^\s*abstract\s*class\s*(\w+)\s*instantiated',re.I)

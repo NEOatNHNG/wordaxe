@@ -11,7 +11,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.lib.colors import red, black, navy, white, green
 from reportlab.lib.randomtext import randomText
-from reportlab.rl_config import defaultPageSize
+from reportlab.rl_config import defaultPageSize # @UnresolvedImport
 
 from wordaxe.rl.styles import getSampleStyleSheet, ParagraphStyle
 from wordaxe.rl.NewParagraph import Paragraph

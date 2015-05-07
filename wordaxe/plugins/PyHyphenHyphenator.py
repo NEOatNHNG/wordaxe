@@ -11,6 +11,13 @@ __version__=''' $Id: __init__.py,v 1.2 2004/05/31 22:22:12 hvbargen Exp $ '''
 
 import os.path
 
+# Unicode type compatibility for Python 2 and 3
+import sys
+if sys.version < '3':
+    unicode_type = unicode # @UndefinedVariable
+else:
+    unicode_type = str
+
 import hyphen as pyhyphen
 import hyphen.dictools as dictools
 
@@ -100,6 +107,7 @@ class PyHyphenHyphenator(ExplicitHyphenator):
         return hyphPoints
 
     def hyph(self,aWord):
+        assert isinstance(aWord, unicode_type)
         hword = HyphenatedWord(aWord, hyphenations=self.zerlegeWort(aWord))
         # None (unknown) kann hier nicht vorkommen, da der
         # Algorithmus musterbasiert funktioniert und die Wörter

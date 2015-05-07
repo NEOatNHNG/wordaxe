@@ -484,6 +484,7 @@ class Paragraph(Flowable):
                 self.frags = frags
         else:
             #print id(self), "init with text"
+            assert isinstance(text, (str, unicode_type))
             # parse text
             if not isinstance(text, unicode_type):
                 text = unicode_type(text, encoding)

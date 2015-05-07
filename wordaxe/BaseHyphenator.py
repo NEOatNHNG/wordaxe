@@ -21,6 +21,12 @@ logging.basicConfig()
 log = logging.getLogger("BaseHyphenator")
 log.setLevel(logging.INFO)
 
+# Unicode type compatibility for Python 2 and 3
+if sys.version < '3':
+    unicode_type = unicode # @UndefinedVariable
+else:
+    unicode_type = str
+
 from xml.sax.saxutils import escape,quoteattr
 import codecs
 from wordaxe.hyphen import *
@@ -57,6 +63,7 @@ class Stripper(object):
         but strips prefix and suffix characters before.
         Afterwards, these are added again.
         """
+        assert isinstance(word, unicode_type)
         prefix, base, suffix = self.strip(word)
         if not hasattr(func, '__self__') or func.__self__ is None:
             result = func(hyphenator, base, *args, **kwargs)
@@ -136,6 +143,7 @@ class BaseHyphenator(Hyphenator):
         """
         This is the (possible recursive) hyphenation function.
         """
+        assert isinstance(aWord, unicode_type)
         return self.stripper.apply_stripped(BaseHyphenator.hyph, self, aWord)
 
     def learn(self,wordlist,htmlFile=None,VERBOSE=False):
@@ -282,6 +290,7 @@ class BaseHyphenator(Hyphenator):
         the expected output.
         """
         for zeile in codecs.open(fname,"rU", encoding):
+            assert isinstance(zeile,unicode_type)
             word, expected = zeile.strip().split()
             loesung = self.hyphenate(word)
             if loesung is None:

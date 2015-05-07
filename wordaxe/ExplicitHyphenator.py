@@ -132,6 +132,7 @@ class ExplicitHyphenator(BaseHyphenator):
         return None
         
     def i_hyphenate(self, aWord):
+        assert isinstance(aWord, unicode_type)
         return self.stripper.apply_stripped(ExplicitHyphenator.hyph, self, aWord)
 
     def i_hyphenate_derived(self,aWord):
@@ -146,6 +147,7 @@ class ExplicitHyphenator(BaseHyphenator):
               test: "hohenlimburg.de", "hohenlimburg.de)"
         """
         #print "ExplicitHyphenator.i_hyphenate_derived", aWord
+        assert isinstance(aWord, unicode_type)
 
         # Helper function
         

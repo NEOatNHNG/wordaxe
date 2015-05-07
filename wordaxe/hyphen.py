@@ -156,6 +156,7 @@ class HyphenatedWord(unicode_type):
             left = self[:hp.indx-hp.nl] + hp.sl
             hyph = _lshift (self.hyphenations, shift)
             right = self.__class__(hp.sr+self[hp.indx+hp.nr:], hyphenations=hyph)
+        assert isinstance(left, unicode_type)
         assert isinstance(right, self.__class__)
         return (left,right)
         
@@ -268,6 +269,7 @@ class Hyphenator(object):
         """
         self.language = language
         self.minWordLength = 4
+        assert isinstance(shy, unicode_type)
         self.shy = shy
         self.options = options
         
@@ -318,6 +320,7 @@ class Hyphenator(object):
         Finds possible hyphenation points for a aWord, returning a HyphenatedWord
         or None if the hyphenator doesn't know the word.
         """
+        assert isinstance(aWord,unicode_type)
         hword = self.i_hyphenate(aWord)
         self.postHyphenate(hword)
         return hword
